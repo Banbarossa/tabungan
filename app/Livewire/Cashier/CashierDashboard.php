@@ -23,9 +23,7 @@ class CashierDashboard extends Component
     public $dailyLimit;
 
 
-    public function mount(){
-        $this->student = Student::findorFail(1);
-    }
+
 
     public function render()
     {
@@ -80,8 +78,13 @@ class CashierDashboard extends Component
         $service->transaction($amount,'-','tarik');
 
         $this->student->refresh();
-        $this->dispatch('modal-close','setor');
+        $this->student=null;
 
 
     }
+
+    public function cancel(){
+        $this->student=null;
+    }
+
 }
