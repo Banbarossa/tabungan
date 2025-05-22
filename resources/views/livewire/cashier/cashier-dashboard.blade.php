@@ -22,12 +22,11 @@
                 </flux:input.group>
 
             </div>
-        @elseif($qrResult)
-            <p class="text-red-500">Data tidak ditemukan.</p>
         @endif
     </div>
 </div>
 
+@script
 <script>
     document.addEventListener('livewire:initialized', () => {
         if (window.Html5QrcodeScanner) {
@@ -35,11 +34,12 @@
                 "qr-reader", { fps: 10, qrbox: 250 });
 
             scanner.render(success => {
-                document.getElementById('qrResult').value = success;
-                document.getElementById('qrResult').dispatchEvent(new Event('input'));
+                $wire.$call('getData',success)
                 scanner.clear(); // Optional: berhenti setelah scan
             }, error => {
+                console.log(error)
             });
         }
     });
 </script>
+@script

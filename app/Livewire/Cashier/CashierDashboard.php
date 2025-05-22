@@ -15,14 +15,16 @@ class CashierDashboard extends Component
     public string $qrResult = '';
     public ?Student $student = null;
 
-    public function updatedQrResult($value)
-    {
-        $id = vinclaDecode($value);
-        $this->student = Student::findorFail($id);
-    }
 
     public function render()
     {
         return view('livewire.cashier.cashier-dashboard');
+    }
+
+    public function getData($value)
+    {
+        dd($value);
+        $id = vinclaDecode($value);
+        $this->student = Student::findorFail($id);
     }
 }
