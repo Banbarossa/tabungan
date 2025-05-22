@@ -79,9 +79,9 @@
             <form action="" wire:submit='transaction'>
                 <flux:input.group>
                     <flux:input.group.prefix>Rp</flux:input.group.prefix>
-                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="tambahan"  />
+                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount"  />
                 </flux:input.group>
-                <flux:error name="tambahan" />
+                <flux:error name="amount" />
 
                 <div class="flex items-center justify-end mt-4">
                     <flux:button type="submit" variant="primary" class="w-full">

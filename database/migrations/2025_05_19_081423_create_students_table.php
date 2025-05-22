@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('absen_id')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('account_number')->nullable();
             $table->string('name');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->text('photo')->nullable();
             $table->bigInteger('saldo')->nullable()->default(0);
+            $table->bigInteger('daily_limit')->nullable()->default(15000);
             $table->boolean('send_notification')->default(false);
             $table->enum('notification_target',['whatsapp','email'])->nullable();
             $table->string('notification_account')->nullable();

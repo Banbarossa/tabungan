@@ -20,17 +20,22 @@ class TransactionService
         $this->student=$student;
     }
 
-    public function setor($amount){
+    public function transaction($amount,$operator,$type){
 
-        $latest_saldo = $this->student->saldo + $amount;
 
-        DB::transaction(function () use($amount,$latest_saldo) {
+        if($operator == '+'){
+            $latest_saldo = $this->student->saldo + $amount;
+        }else{
+            $latest_saldo = $this->student->saldo - $amount;
+        }
+
+        DB::transaction(function () use($amount,$latest_saldo,$operator,$type) {
 
             Transaction::create([
                 'student_id'=>$this->student->id,
                 'amount'=>$amount,
                 'latest_saldo'=>$latest_saldo,
-                'type'=>'setor',
+                'type'=>$type,
                 'handledby'=>Auth::user()->id,
             ]);
 

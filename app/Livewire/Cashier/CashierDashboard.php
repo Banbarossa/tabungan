@@ -3,9 +3,11 @@
 namespace App\Livewire\Cashier;
 
 use App\Models\Student;
+use App\Models\Transaction;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
+use App\Services\TransactionService;
 
 class CashierDashboard extends Component
 {
@@ -16,14 +18,70 @@ class CashierDashboard extends Component
     public ?Student $student = null;
 
 
+    public $amount;
+
+    public $dailyLimit;
+
+
+    public function mount(){
+        $this->student = Student::findorFail(1);
+    }
+
     public function render()
     {
-        return view('livewire.cashier.cashier-dashboard');
+        $history=[];
+         if($this->student){
+            $history=Transaction::where('student_id',$this->student->id)->latest()->get();
+            $todayWithDraw = Transaction::where('student_id',$this->student->id)
+                ->where('type','!=','setor')
+                ->whereDate('created_at', now())
+                ->sum('amount');
+            $this->dailyLimit =max(0, $this->student->daily_limit - $todayWithDraw);
+
+        }
+        return view('livewire.cashier.cashier-dashboard',compact('history'));
     }
 
     public function getData($value)
     {
         $id = vinclaDecode($value);
-        $this->student = Student::findorFail($id);
+        $student = Student::findorFail($id);
+        $this->student=$student;
+
+
+    }
+
+    public function transaction(){
+
+        $this->validate([
+            'amount' => ['required', 'regex:/^[0-9.]+$/'],
+        ],[
+            'amount.required'=>'Jumlah wajib diisi',
+            'amount.regex'=>'Tidak menerima selain angka dan desimal'
+        ]);
+
+        $sanitize = str_replace('.','',$this->amount);
+        $amount = (int) $sanitize;
+        if ($amount < 1000) {
+            $this->addError('amount', 'Jumlah minimal penarikan adalah 1000.');
+            return;
+        }
+
+        if($this->student->saldo < $amount){
+            $this->addError('amount', 'Saldo tidak mencukupi.');
+            return;
+        }
+        if($amount > $this->dailyLimit){
+            $this->addError('amount','Penarikan Diatas Limit Harian');
+            return;
+        }
+
+        $service = new TransactionService($this->student);
+        $service->transaction($amount,'-','tarik');
+
+        $this->student->refresh();
+        $this->dispatch('modal-close','setor');
+
+
     }
 }

@@ -13,7 +13,7 @@ Route::group(['middleware'=>['auth','can:admin']],function(){
     Route::get('dashboard',\App\Livewire\Admin\Dashboard\MasterDasboard::class)->name('dashboard');
 });
 
-Route::group(['middleware'=>['auth'],'as'=>'cashier.'],function(){
+Route::group(['middleware'=>['auth','can:cashier'],'as'=>'cashier.'],function(){
     Route::get('home',\App\Livewire\Cashier\CashierDashboard::class)->name('home');
 });
 

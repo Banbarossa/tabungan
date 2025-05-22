@@ -19,7 +19,7 @@ class SetorTransaction extends Component
 
     public $student;
 
-    public $tambahan;
+    public $amount;
 
     public function mount($code){
         $id = vinclaDecode($code);
@@ -33,18 +33,19 @@ class SetorTransaction extends Component
     }
 
     public function transaction(){
+
         $this->validate([
-            'tambahan' => ['required', 'regex:/^[0-9.]+$/'],
+            'amount' => ['required', 'regex:/^[0-9.]+$/'],
         ],[
-            'tambahan.required'=>'Jumlah wajib diisi',
-            'tambahan.regex'=>'Tidak menerima selain angka dan desimal'
+            'amount.required'=>'Jumlah wajib diisi',
+            'amount.regex'=>'Tidak menerima selain angka dan desimal'
         ]);
 
-        $sanitize = str_replace('.','',$this->tambahan);
+        $sanitize = str_replace('.','',$this->amount);
         $amount = (int) $sanitize;
 
         $service = new TransactionService($this->student);
-        $service->setor($amount);
+        $service->transaction($amount,'+','setor');
 
         $this->student->refresh();
         $this->dispatch('modal-close','setor');
