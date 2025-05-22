@@ -24,22 +24,22 @@
             </div>
         @endif
     </div>
+    @script
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            if (window.Html5QrcodeScanner) {
+                const scanner = new Html5QrcodeScanner(
+                    "qr-reader", { fps: 10, qrbox: 250 });
+
+                scanner.render(success => {
+                    $wire.$call('getData',success)
+                    scanner.clear(); // Optional: berhenti setelah scan
+                }, error => {
+                    console.log(error)
+                });
+            }
+        });
+    </script>
+    @script
 </div>
 
-@script
-<script>
-    document.addEventListener('livewire:initialized', () => {
-        if (window.Html5QrcodeScanner) {
-            const scanner = new Html5QrcodeScanner(
-                "qr-reader", { fps: 10, qrbox: 250 });
-
-            scanner.render(success => {
-                $wire.$call('getData',success)
-                scanner.clear(); // Optional: berhenti setelah scan
-            }, error => {
-                console.log(error)
-            });
-        }
-    });
-</script>
-@script
