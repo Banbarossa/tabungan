@@ -1,0 +1,109 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Student;
+use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+
+class TransactionService
+{
+    /**
+     * Create a new class instance.
+     */
+    public $student;
+
+    public function __construct(Student $student)
+    {
+        $this->student=$student;
+    }
+
+    public function setor($amount){
+
+        $latest_saldo = $this->student->saldo + $amount;
+
+        DB::transaction(function () use($amount,$latest_saldo) {
+
+            Transaction::create([
+                'student_id'=>$this->student->id,
+                'amount'=>$amount,
+                'latest_saldo'=>$latest_saldo,
+                'type'=>'setor',
+                'handledby'=>Auth::user()->id,
+            ]);
+
+            Student::find($this->student->id)->update([
+                'saldo'=>$latest_saldo,
+            ]);
+
+            DB::afterCommit(function () use ($latest_saldo) {
+                if ($this->student->send_notification) {
+                    if ($this->student->notification_target === 'whatsapp') {
+                        // $this->sendWa($latest_saldo);
+                    } elseif ($this->student->notification_target === 'email') {
+
+                    }else{
+
+                    }
+                }
+            });
+
+        });
+
+
+    }
+
+    public function sendWa($latest_saldo){
+        $nama_siswa = $this->student->name;
+
+        $saldo= format_rupiah($latest_saldo);
+
+$message = "
+Tabungan Jajan Siswa Sudah diperbaharui Admin *$nama_siswa*
+
+Nama Santri : $nama_siswa
+Saldo Saat Ini : $saldo
+
+Jazaakumullahukhairan
+
+_Pesan ini dikirim secara otomatis mohon tidak membalas_
+";
+
+        try {
+            $response = Http::withHeaders([
+                'TOKEN_WA' => 'EJKrmhmf@Q24dFbYv8GQ'
+            ])->post('https://simaq.pis.sch.id/api/send_whatsapp', [
+                'target' => $this->student->notification_account,
+                'user_id' => Auth::user()->id(),
+                'message' => $message,
+                'source' => 'jajan',
+            ]);
+
+            if ($response->successful()) {
+                return [
+                    'status' => true,
+                    'message' => 'Pesan berhasil dikirim.',
+                    'response' => $response->json()
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => 'Pengiriman gagal',
+                    'http_code' => $response->status(),
+                    'response' => $response->body()
+                ];
+            }
+        } catch (\Exception $e) {
+            return [
+                'status' => false,
+                'message' => 'Terjadi error saat mengirim pesan.',
+                'error' => $e->getMessage()
+            ];
+        }
+
+        dd($response);
+
+    }
+}
