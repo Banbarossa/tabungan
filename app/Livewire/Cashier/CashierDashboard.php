@@ -17,7 +17,8 @@ class CashierDashboard extends Component
 
     public function updatedQrResult($value)
     {
-        $this->student = Student::where('name', $value)->first();
+        $id = vinclaDecode($value);
+        $this->student = Student::findorFail($id);
     }
 
     public function render()

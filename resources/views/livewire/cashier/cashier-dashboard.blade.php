@@ -12,9 +12,15 @@
     <div class="mt-4">
         @if($student)
             <div class="p-4 bg-green-100 rounded">
-                <p><strong>Nama:</strong> {{ $student->nama }}</p>
+                <p><strong>Nama:</strong> {{ $student->name }}</p>
                 <p><strong>NIS:</strong> {{ $student->nis }}</p>
                 <p><strong>NISN:</strong> {{ $student->nisn }}</p>
+
+                <flux:input.group>
+                    <flux:input.group.prefix>Rp</flux:input.group.prefix>
+                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="tambahan"  />
+                </flux:input.group>
+
             </div>
         @elseif($qrResult)
             <p class="text-red-500">Data tidak ditemukan.</p>
