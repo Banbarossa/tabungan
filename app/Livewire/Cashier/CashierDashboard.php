@@ -23,7 +23,6 @@ class CashierDashboard extends Component
 
     public function getData($value)
     {
-        dd($value);
         $id = vinclaDecode($value);
         $this->student = Student::findorFail($id);
     }
