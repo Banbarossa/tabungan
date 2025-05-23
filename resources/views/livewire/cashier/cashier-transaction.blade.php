@@ -1,5 +1,6 @@
 <div class="mb-24">
     <x-toast on='transaction_updated'></x-toast>
+
     @if (!$student)
     <div class="text-center">
         <h1 class="text-xl font-bold mb-2">Scan QR untuk Cari Siswa</h1>
@@ -117,14 +118,16 @@
             startQrScanner();
         });
 
+         $wire.on('transaction_updated', () => {
+            setTimeout(() => {
+                startQrScanner();
+            }, 300);
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
-            if (typeof Livewire !== 'undefined') {
-                Livewire.on('transaction_updated', () => {
-                    setTimeout(() => {
-                        startQrScanner();
-                    }, 300);
-                });
-            }
+            setTimeout(() => {
+                startQrScanner();
+            }, 300);
         });
     </script>
     @endscript

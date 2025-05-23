@@ -82,8 +82,6 @@ class CashierTransaction extends Component
 
     }
 
-    public function cancel(){
-        $this->student=null;
-    }
+
 
 }
