@@ -24,6 +24,8 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
         Route::get('/',\App\Livewire\Admin\Account\MasterAccount::class);
         Route::get('/create',\App\Livewire\Admin\Account\AccountCreate::class)->name('create');
         Route::get('{code}/edit',\App\Livewire\Admin\Account\AccountCreate::class)->name('edit');
+        Route::get('id-card',[\App\Http\Controllers\StudentCardController::class,'singleCard'])->name('all-card');
+        Route::get('id-card/{code}',[\App\Http\Controllers\StudentCardController::class,'singleCard'])->name('single-card');
     });
 });
 

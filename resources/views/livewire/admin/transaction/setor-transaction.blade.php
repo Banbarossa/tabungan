@@ -27,7 +27,7 @@
                 </div>
                 <div class="absolute top-1/2 -translate-y-1/2 right-2">
                     <flux:modal.trigger name="setor">
-                        <flux:button icon="plus"></flux:button>
+                        <flux:button icon="plus" variant="primary" size="sm"> Tambah Saldo</flux:button>
                     </flux:modal.trigger>
                 </div>
             </div>

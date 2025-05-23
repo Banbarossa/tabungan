@@ -24,23 +24,26 @@
             <flux:input  icon="magnifying-glass" placeholder="Search..." wire:model.live='search'/>
         </div>
 
-        <flux:dropdown>
-            <flux:button icon:trailing="eye"></flux:button>
+        <flux:button.group>
+            <flux:dropdown>
+                <flux:button icon:trailing="eye"></flux:button>
 
-            <flux:menu>
-                <flux:menu.item>
-                    <flux:checkbox.group  label="Shown Table">
-                        <flux:checkbox label="Saldo" x-model='saldo'/>
-                        <flux:checkbox label="Nama Ibu" x-model='nama_ibu'/>
-                        <flux:checkbox label="Kirim Notif" x-model='send_notification'/>
-                        <flux:checkbox label="Kirim Via" x-model='notification_target'/>
-                        <flux:checkbox label="No Contact" x-model='notification_account'/>
-                    </flux:checkbox.group>
-                </flux:menu.item>
+                <flux:menu>
+                    <flux:menu.item>
+                        <flux:checkbox.group  label="Shown Table">
+                            <flux:checkbox label="Saldo" x-model='saldo'/>
+                            <flux:checkbox label="Nama Ibu" x-model='nama_ibu'/>
+                            <flux:checkbox label="Kirim Notif" x-model='send_notification'/>
+                            <flux:checkbox label="Kirim Via" x-model='notification_target'/>
+                            <flux:checkbox label="No Contact" x-model='notification_account'/>
+                        </flux:checkbox.group>
+                    </flux:menu.item>
 
 
-            </flux:menu>
-        </flux:dropdown>
+                </flux:menu>
+            </flux:dropdown>
+            <flux:button  icon='ticket'   target="blank" href="{{ route('account.all-card') }}"></flux:button>
+        </flux:button.group>
 
 
     </div>
@@ -112,7 +115,14 @@
                                 {{ format_rupiah($item->saldo) }}
                             </td>
                             <td class="px-6 py-4">
-                                <flux:button icon='pencil-square' variant="ghost" href="{{ route('account.edit',vinclaEncode($item->id)) }}"></flux:button>
+                                <flux:button.group>
+                                    <flux:button  size="sm" href="{{ route('account.edit',vinclaEncode($item->id)) }}">
+                                        <flux:icon.pencil-square class="size-4 "/>
+                                    </flux:button>
+                                    <flux:button    size="sm" target="blank" href="{{ route('account.single-card',vinclaEncode($item->id)) }}">
+                                        <flux:icon.ticket class="size-4"/>
+                                    </flux:button>
+                                </flux:button.group>
                             </td>
                         </tr>
 

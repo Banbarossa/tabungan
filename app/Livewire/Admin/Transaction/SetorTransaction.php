@@ -44,6 +44,11 @@ class SetorTransaction extends Component
         $sanitize = str_replace('.','',$this->amount);
         $amount = (int) $sanitize;
 
+        if ($amount < 1000) {
+            $this->addError('amount', 'Jumlah minimal Setoran adalah 1000.');
+            return;
+        }
+
         $service = new TransactionService($this->student);
         $service->transaction($amount,'+','setor');
 
