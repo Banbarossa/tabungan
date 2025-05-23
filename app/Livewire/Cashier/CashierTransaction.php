@@ -77,7 +77,7 @@ class CashierTransaction extends Component
         $service = new TransactionService($this->student);
         $service->transaction($amount,'-','tarik');
 
-        $this->student->refresh();
+        $this->student=null;
         $this->dispatch('transaction_updated');
 
     }
