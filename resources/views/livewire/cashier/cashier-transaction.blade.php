@@ -82,32 +82,25 @@
     @script
     <script>
 
-        let qrScanner;
 
-            function startQrScanner() {
-                if (!window.Html5QrcodeScanner) return;
-
-                // Hapus scanner sebelumnya jika ada
-                if (qrScanner) {
-                    qrScanner.clear().catch(e => console.warn(e));
-                    qrScanner = null;
-                }
-
-                qrScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
-                qrScanner.render(success => {
-                    $wire.getData(success);
-                    qrScanner.clear(); // stop scanning setelah satu scan
+        function startQrScanner() {
+            if (window.Html5QrcodeScanner){
+                    const scanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+                    scanner.render(success => {
+                        $wire.$call('getData',success)
+                        scanner.clear();
                 }, error => {
-                    console.log(error);
+                    console.log(error)
                 });
+            };
+
             }
 
             document.addEventListener('livewire:initialized', () => {
                 startQrScanner();
             });
 
-            // Dengarkan event Livewire untuk memulai ulang scanner
-            Livewire.on('transaction_updated', () => {
+            $wire.on('transaction_updated', () => {
                 startQrScanner();
             });
 
