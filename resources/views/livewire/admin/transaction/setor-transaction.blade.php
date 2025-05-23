@@ -34,26 +34,39 @@
             <div class="mt-4">
                 <flux:heading size="lg">Riwayat Transaksi</flux:heading>
 
-                <ul class="divide-y divide-gray-200 dark:divide-gray-700 mt-4">
-                    @forelse ($transaksi as $item)
-                        <x-list-item-advance :label="$item->type == 'setor' ? 'Setoran' :'Penarikan' ">
-                            <x-slot:icon>
-                                <div class="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center">
-                                    <flux:icon.chat-bubble-left class="size-4 text-white"/>
-
+                <div class="border p-4 rounded-lg">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700 mt-4">
+                        @forelse ($transaksi as $item)
+                            <li class="pb-3 sm:pb-4">
+                                <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                    <div class="shrink-0">
+                                        <div class="w-8 h-8 rounded-full {{  $item->type =='setor' ?'bg-green-400/70' :'bg-red-400/70' }} flex items-center justify-center" >
+                                            @if ($item->type == 'setor')
+                                            <flux:icon.banknotes class="size-4 text-zinc-50"></flux:icon.banknotes>
+                                            @else
+                                            <flux:icon.inbox-arrow-down class="size-4 text-zinc-50"></flux:icon.inbox-arrow-down>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                        {{ $item->type =='setor' ?'Setoran':'Penarikan' }}
+                                        </p>
+                                        <p class="text-xs text-gray-500 truncate dark:text-gray-400">
+                                            {{ \Carbon\Carbon::parse($item->create_at)->format('d/m/Y H:i') }}
+                                        </p>
+                                    </div>
+                                    <div class="inline-flex items-center text-base font-semibold  {{  $item->type =='setor' ?'text-green-700 dark:text-green-200' :'text-gray-900 dark:text-white' }} ">
+                                        {{ $item->type =='setor' ?'+':'-' }}{{ format_rupiah($item->amount) }}
+                                    </div>
                                 </div>
-                            </x-slot:icon>
-                            <x-slot:value>
-                                <div class="inline-flex items-center text-base font-semibold {{ $item->type =='setor'? 'text-green-800 dark:text-green-200':'text-gray-600 dark:text-white' }}  ">
-                                {{ $item->type =='setor'? '+' :'-' }} {{ format_rupiah($item->amount)}}
-                            </div>
-                            </x-slot:value>
-                        </x-list-item-advance>
-                    @empty
+                            </li>
+                        @empty
 
-                    @endforelse
+                        @endforelse
 
-                </ul>
+                    </ul>
+                </div>
             </div>
 
         </div>

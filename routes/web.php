@@ -15,6 +15,7 @@ Route::group(['middleware'=>['auth','can:admin']],function(){
 
 Route::group(['middleware'=>['auth','can:cashier'],'as'=>'cashier.'],function(){
     Route::get('home',\App\Livewire\Cashier\CashierDashboard::class)->name('home');
+    Route::get('cashier-transaction',\App\Livewire\Cashier\CashierTransaction::class)->name('transaction');
 });
 
 

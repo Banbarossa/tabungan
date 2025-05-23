@@ -22,8 +22,9 @@ class AccountCreate extends Component
     public $send_notification;
     public $notification_target;
     public $notification_account;
+    public $daily_limit;
+    public $status;
 
-    public $vincla;
 
     public function mount($code = null){
 
@@ -38,6 +39,8 @@ class AccountCreate extends Component
             $this->send_notification=$student->send_notification;
             $this->notification_target=$student->notification_target;
             $this->notification_account=$student->notification_account;
+            $this->daily_limit=$student->daily_limit;
+            $this->status=$student->status;
         }
     }
 
@@ -56,6 +59,8 @@ class AccountCreate extends Component
             'send_notification'=>'required',
             'notification_target'=>'nullable',
             'notification_account'=>'nullable',
+            'daily_limit'=>'nullable',
+            'status'=>'nullable',
         ];
     }
 
@@ -82,5 +87,7 @@ class AccountCreate extends Component
        $this->send_notification='';
        $this->notification_target='';
        $this->notification_account='';
+       $this->daily_limit='';
+       $this->status='';
     }
 }

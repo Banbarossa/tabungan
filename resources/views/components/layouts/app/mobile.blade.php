@@ -6,35 +6,22 @@
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <flux:header container class="">
 
-            {{-- <a href="{{ route('dashboard') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0" wire:navigate>
-                <x-app-logo />
-            </a> --}}
-
             <flux:navbar class="-mb-px ">
-                <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
+                <flux:navbar.item icon="ticket" :href="route('cashier.home')" :current="request()->routeIs('cashier.home')" wire:navigate>
+                    <flux:heading size="lg">Tabungan</flux:heading>
                 </flux:navbar.item>
             </flux:navbar>
 
             <flux:spacer />
 
             <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
-                <flux:tooltip :content="__('Repository')" position="bottom">
+                <flux:tooltip :content="__('Transaction')" position="bottom">
                     <flux:navbar.item
                         class="h-10 max-lg:hidden [&>div>svg]:size-5"
-                        icon="folder-git-2"
-                        href=""
+                        icon="banknotes"
+                        href="{{ route('cashier.transaction') }}"
                         target="_blank"
-                        :label="__('Repository')"
-                    />
-                </flux:tooltip>
-                <flux:tooltip :content="__('Documentation')" position="bottom">
-                    <flux:navbar.item
-                        class="h-10 max-lg:hidden [&>div>svg]:size-5"
-                        icon="book-open-text"
-                        href=""
-                        target="_blank"
-                        label="Documentation"
+                        label="Transaction"
                     />
                 </flux:tooltip>
             </flux:navbar>
@@ -87,7 +74,6 @@
                                 <span class="text-xs text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-500">Password</span>
                             </button>
                         </flux:modal.trigger>
-                        {{-- <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item> --}}
                     </flux:menu.radio.group>
 
 

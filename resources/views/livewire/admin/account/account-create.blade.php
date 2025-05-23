@@ -7,7 +7,6 @@
         </flux:breadcrumbs>
     </x-slot:breadcrumbs>
 
-    {{ $vincla }}
 
     <div class="relative h-full flex-1" >
         <form action="" wire:submit='save'>
@@ -46,7 +45,17 @@
                 />
             </div>
 
-            <div class="mt-5">
+            <div class="my-5">
+                <flux:separator text="Daily Limit" />
+            </div>
+
+            <flux:input.group >
+                <flux:input.group.prefix>Rp</flux:input.group.prefix>
+                <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="daily_limit"  />
+            </flux:input.group>
+            <flux:error name="daily_limit" />
+
+            <div class="my-5">
                 <flux:separator text="Notification" />
             </div>
 
@@ -71,12 +80,24 @@
                 class="mb-4"
                 :placeholder="__('Akun Notifikasi')"
             />
+            @if ($student)
+                <div class="my-5">
+                    <flux:separator text="Status Keaktifan" />
+                </div>
+
+                <div class="my-4">
+                    <flux:radio.group wire:model="send_notification" label="Apakah Santri Ini masih Aktif Balajar" >
+                        <flux:radio value="1" label="Aktif" />
+                        <flux:radio value="0" label="Tidak Aktif" />
+                    </flux:radio.group>
+                </div>
+            @endif
 
 
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end mt-6">
                 <flux:button type="submit" variant="primary" class="w-full">
-                    Create account
+                    {{ $student ? 'Update Account' :'Create Account' }}
                 </flux:button>
             </div>
         </form>

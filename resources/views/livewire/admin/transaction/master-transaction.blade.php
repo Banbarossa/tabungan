@@ -34,85 +34,38 @@
 
     </div>
 
-    <div
-        class="w-full rounded-lg overflow-hidden border border-zinc-300"
-    >
-        <div class="relative overflow-x-auto">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-zinc-200 dark:bg-zinc-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                            </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Name
-                        </th>
-                        <th scope="col" class="px-6 py-3" x-show='saldo'>
-                            Saldo
-                        </th>
-                        <th scope="col" class="px-6 py-3" x-show='nama_ibu'>
-                            Nama Ibu
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Position
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Status
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($students as $item)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td class="w-4 p-4">
-                                <div class="flex items-center">
-                                    <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                </div>
-                            </td>
-                            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                {{-- <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image"> --}}
-                                <div class="ps-3">
-                                    <div class="text-base font-semibold">{{$item->name}}</div>
-                                    <div class="font-normal text-gray-500">{{$item->nisn}}</div>
-                                </div>
-                            </th>
-                            <td class="px-6 py-4" x-show='saldo'>
-                                {{ $item->saldo }}
-                            </td>
-                            <td class="px-6 py-4" x-show='nama_ibu'>
-                                {{ $item->nama_ibu }}
-                            </td>
-                            <td class="px-6 py-4">
-                                React Developer
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                @can('admin')
-                                <a href="{{ route('transaction.setor',vinclaEncode($item->id)) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Setor</a>
-                                @endcan
-                            </td>
-                        </tr>
 
-                    @empty
-
-                    @endforelse
-                </tbody>
-            </table>
+    <div class="rounded-lg p-4 border max-w-lg">
+            <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+                @foreach ($students as $item)
+                <li class="pb-3 sm:pb-4">
+                    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                        <div class="shrink-0">
+                            <img class="w-8 h-8 rounded-full" src="{{ $item->photo ? $item->photo :asset('images/avatar.jpg') }}" alt="Neil image">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                {{ $item->name }}
+                            </p>
+                            <p class="text-xs text-gray-500 truncate dark:text-gray-400">
+                                {{ $item->no_id }}
+                                {{-- {{ \Carbon\Carbon::parse($item->create_at)->format('d/m/Y H:i') }} --}}
+                            </p>
+                        </div>
+                        <div class="inline-flex items-center text-base font-semibold  text-gray-900 dark:text-white">
+                            {{ format_rupiah($item->saldo) }}
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <flux:button  size="xs" icon="eye" href="{{ route('transaction.setor',vinclaEncode($item->id)) }}">Detail</flux:button>
+                    </div>
+                </li>
+                @endforeach
+            </ul>
+            <div class="my-2 px-4">
+                {{ $students->links() }}
+            </div>
         </div>
-        <div class="my-2 px-4">
-            {{ $students->links() }}
 
-        </div>
-    </div>
+
 </section>

@@ -12,7 +12,7 @@ class MasterTransaction extends Component
 {
     use WithPagination;
     #[Layout('components.layouts.app')]
-    #[Title('Dashboard')]
+    #[Title('Saldo')]
 
     public $search;
     public function render()
@@ -31,7 +31,7 @@ class MasterTransaction extends Component
         ->when($this->search,function($query){
             $query->where('name','like','%'.$this->search.'%');
         })
-        ->paginate(30);
+        ->paginate(100);
         return $students;
 
     }

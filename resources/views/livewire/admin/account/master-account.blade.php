@@ -1,20 +1,24 @@
 <section
     x-data="{
             saldo:false,
-            nama_ibu:false
+            nama_ibu:true,
+            send_notification:true,
+            notification_target:true,
+            notification_account:true,
     }">
     <x-slot:breadcrumbs>
         <flux:breadcrumbs>
             <flux:breadcrumbs.item href="{{ route('account.') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('account.') }}">Account</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>Account Create</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>Account</flux:breadcrumbs.item>
         </flux:breadcrumbs>
     </x-slot:breadcrumbs>
 
 
     <div class="flex items-center mb-6 gap-4">
-        <div>
-            <flux:button variant="primary" icon="plus" wire:navigate :href="route('account.create')">Tambah Data</flux:button>
+        <div class="fixed bottom-12 right-2 z-50 lg:static lg:bottom-auto lg:right-auto lg:z-auto">
+            <flux:button variant="primary" icon="plus" wire:navigate :href="route('account.create')">
+                <span class="hidden lg:inline">Tambah Data</span>
+            </flux:button>
         </div>
         <div>
             <flux:input  icon="magnifying-glass" placeholder="Search..." wire:model.live='search'/>
@@ -28,6 +32,9 @@
                     <flux:checkbox.group  label="Shown Table">
                         <flux:checkbox label="Saldo" x-model='saldo'/>
                         <flux:checkbox label="Nama Ibu" x-model='nama_ibu'/>
+                        <flux:checkbox label="Kirim Notif" x-model='send_notification'/>
+                        <flux:checkbox label="Kirim Via" x-model='notification_target'/>
+                        <flux:checkbox label="No Contact" x-model='notification_account'/>
                     </flux:checkbox.group>
                 </flux:menu.item>
 
@@ -54,17 +61,20 @@
                         <th scope="col" class="px-6 py-3">
                             Name
                         </th>
-                        <th scope="col" class="px-6 py-3" x-show='saldo'>
-                            Saldo
-                        </th>
-                        <th scope="col" class="px-6 py-3" x-show='nama_ibu'>
+                        <th scope="col" class="px-6 py-3" x-show="nama_ibu">
                             Nama Ibu
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Position
+                        <th scope="col" class="px-6 py-3" x-show="nama_ibu">
+                            Kirim Notif
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Status
+                        <th scope="col" class="px-6 py-3" x-show="notification_target">
+                            Pesan Via
+                        </th>
+                        <th scope="col" class="px-6 py-3" x-show="notification_account">
+                            Pesan Via
+                        </th>
+                        <th scope="col" class="px-6 py-3" x-show="saldo">
+                            Saldo
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Action
@@ -81,28 +91,28 @@
                                 </div>
                             </td>
                             <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                {{-- <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image"> --}}
                                 <div class="ps-3">
                                     <div class="text-base font-semibold">{{$item->name}}</div>
-                                    <div class="font-normal text-gray-500">{{$item->nisn}}</div>
+                                    <div class="font-normal text-gray-500">{{$item->no_id}}</div>
                                 </div>
                             </th>
-                            <td class="px-6 py-4" x-show='saldo'>
-                                {{ $item->saldo }}
-                            </td>
-                            <td class="px-6 py-4" x-show='nama_ibu'>
+                            <td class="px-6 py-4" x-show="nama_ibu">
                                 {{ $item->nama_ibu }}
                             </td>
-                            <td class="px-6 py-4">
-                                React Developer
+                            <td class="px-6 py-4" x-show="nama_ibu">
+                                 <flux:switch  :checked="$item->send_notification ? true :false" disabled/>
+                            </td>
+                            <td class="px-6 py-4" x-show="notification_target">
+                                 {{ ucWords($item->notification_target) }}
+                            </td>
+                            <td class="px-6 py-4" x-show="notification_account">
+                                 {{ ucWords($item->notification_account) }}
+                            </td>
+                            <td class="px-6 py-4 font-semibold" x-show="saldo" >
+                                {{ format_rupiah($item->saldo) }}
                             </td>
                             <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="{{ route('account.edit',vinclaEncode($item->id)) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                <flux:button icon='pencil-square' variant="ghost" href="{{ route('account.edit',vinclaEncode($item->id)) }}"></flux:button>
                             </td>
                         </tr>
 
@@ -117,4 +127,5 @@
 
         </div>
     </div>
+
 </section>
