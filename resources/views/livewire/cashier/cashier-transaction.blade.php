@@ -81,46 +81,51 @@
     @endif
     @script
     <script>
-
+        let qrScanner = null;
 
         function startQrScanner() {
-            if (window.Html5QrcodeScanner){
-                    const scanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
-                    scanner.render(success => {
-                        $wire.$call('getData',success)
-                        scanner.clear();
-                }, error => {
-                    console.log(error)
-                });
-            };
+            const qrElement = document.getElementById('qr-reader');
+            if (!qrElement) return;
 
+            if (qrScanner) {
+                qrScanner.clear()
+                    .then(() => {
+                        qrScanner = null;
+                        initScanner();
+                    })
+                    .catch(e => {
+                        console.error("Scanner clear error:", e);
+                    });
+            } else {
+                initScanner();
             }
+        }
 
-            document.addEventListener('livewire:initialized', () => {
-                startQrScanner();
-            });
+        function initScanner() {
+            if (window.Html5QrcodeScanner) {
+                qrScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+                qrScanner.render(success => {
+                    $wire.getData(success);
+                    qrScanner.clear();
+                }, error => {
+                    console.log(error);
+                });
+            }
+        }
 
-            $wire.on('transaction_updated', () => {
-                startQrScanner();
-            });
+        document.addEventListener('livewire:initialized', () => {
+            startQrScanner();
+        });
 
-        // document.addEventListener('livewire:initialized', () => {
-        //     if (window.Html5QrcodeScanner) {
-        //         const scanner = new Html5QrcodeScanner(
-        //             "qr-reader", { fps: 10, qrbox: 250 });
-
-        //         scanner.render(success => {
-        //             $wire.$call('getData',success)
-        //             scanner.clear(); // Optional: berhenti setelah scan
-        //         }, error => {
-        //             console.log(error)
-        //         });
-        //     }
-        // });
-
-        // Livewire.on('transaction_updated', () => {
-        //     startQrScanner();
-        // });
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof Livewire !== 'undefined') {
+                Livewire.on('transaction_updated', () => {
+                    setTimeout(() => {
+                        startQrScanner();
+                    }, 300);
+                });
+            }
+        });
     </script>
     @endscript
 </div>
