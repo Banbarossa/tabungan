@@ -1,5 +1,5 @@
 <div class="mb-24">
-    <x-toast on='student_updated'></x-toast>
+    <x-toast on='transaction_updated'></x-toast>
     @if (!$student)
     <div class="text-center">
         <h1 class="text-xl font-bold mb-2">Scan QR untuk Cari Siswa</h1>
@@ -81,19 +81,53 @@
     @endif
     @script
     <script>
-        document.addEventListener('livewire:initialized', () => {
-            if (window.Html5QrcodeScanner) {
-                const scanner = new Html5QrcodeScanner(
-                    "qr-reader", { fps: 10, qrbox: 250 });
 
-                scanner.render(success => {
-                    $wire.$call('getData',success)
-                    scanner.clear(); // Optional: berhenti setelah scan
+        let qrScanner;
+
+            function startQrScanner() {
+                if (!window.Html5QrcodeScanner) return;
+
+                // Hapus scanner sebelumnya jika ada
+                if (qrScanner) {
+                    qrScanner.clear().catch(e => console.warn(e));
+                    qrScanner = null;
+                }
+
+                qrScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+                qrScanner.render(success => {
+                    $wire.getData(success);
+                    qrScanner.clear(); // stop scanning setelah satu scan
                 }, error => {
-                    console.log(error)
+                    console.log(error);
                 });
             }
-        });
+
+            document.addEventListener('livewire:initialized', () => {
+                startQrScanner();
+            });
+
+            // Dengarkan event Livewire untuk memulai ulang scanner
+            Livewire.on('transaction_updated', () => {
+                startQrScanner();
+            });
+
+        // document.addEventListener('livewire:initialized', () => {
+        //     if (window.Html5QrcodeScanner) {
+        //         const scanner = new Html5QrcodeScanner(
+        //             "qr-reader", { fps: 10, qrbox: 250 });
+
+        //         scanner.render(success => {
+        //             $wire.$call('getData',success)
+        //             scanner.clear(); // Optional: berhenti setelah scan
+        //         }, error => {
+        //             console.log(error)
+        //         });
+        //     }
+        // });
+
+        // Livewire.on('transaction_updated', () => {
+        //     startQrScanner();
+        // });
     </script>
     @endscript
 </div>
