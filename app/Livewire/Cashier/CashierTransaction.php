@@ -78,7 +78,7 @@ class CashierTransaction extends Component
         $service->transaction($amount,'-','tarik');
 
         $this->student->refresh();
-        $this->redirect('cashier.transaction');
+        $this->redirect(route('cashier.transaction'));
 
     }
 
