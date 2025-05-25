@@ -18,6 +18,7 @@
                 </flux:navlist.group>
                 <flux:navlist.group :heading="__('Transaction')" class="grid">
                     <flux:navlist.item icon="banknotes" :href="route('transaction')" :current="request()->routeIs('transaction')" wire:navigate>Transaction</flux:navlist.item>
+                    <flux:navlist.item icon="tag" :href="route('daily-limit-management')" :current="request()->routeIs('daily-limit-management')" wire:navigate>Limit Harian</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

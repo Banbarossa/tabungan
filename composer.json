@@ -43,7 +43,8 @@
         },
         "files": [
             "app/Helpers/vinclahelper.php",
-            "app/Helpers/RupiahHelper.php"
+            "app/Helpers/RupiahHelper.php",
+            "app/Helpers/DayNameHelper.php"
         ]
     },
     "scripts": {

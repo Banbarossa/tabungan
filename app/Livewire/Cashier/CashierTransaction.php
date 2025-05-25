@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Cashier;
 
+use App\Models\Savinglimit;
 use App\Models\Student;
 use App\Models\Transaction;
 use Livewire\Component;
@@ -22,8 +23,14 @@ class CashierTransaction extends Component
 
     public $dailyLimit;
 
+    public $limitToday;
 
-
+    public function mount(){
+        $savingLimit = Savinglimit::where('day_name',today_name())->first();
+        if($savingLimit){
+            $this->limitToday = $savingLimit->limit_amount;
+        }
+    }
 
     public function render()
     {
@@ -34,7 +41,7 @@ class CashierTransaction extends Component
                 ->where('type','!=','setor')
                 ->whereDate('created_at', now())
                 ->sum('amount');
-            $this->dailyLimit =max(0, $this->student->daily_limit - $todayWithDraw);
+            $this->dailyLimit =max(0, $this->limitToday - $todayWithDraw);
 
         }
         return view('livewire.cashier.cashier-transaction',compact('history'));

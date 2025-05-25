@@ -19,7 +19,8 @@ class SetorTransaction extends Component
 
     public $student;
 
-    public $amount;
+    public $amount_setor;
+    public $amount_tarik;
 
     public function mount($code){
         $id = vinclaDecode($code);
@@ -32,28 +33,62 @@ class SetorTransaction extends Component
         return view('livewire.admin.transaction.setor-transaction',compact('transaksi'));
     }
 
-    public function transaction(){
+    public function setor(){
 
         $this->validate([
-            'amount' => ['required', 'regex:/^[0-9.]+$/'],
+            'amount_setor' => ['required', 'regex:/^[0-9.]+$/'],
         ],[
-            'amount.required'=>'Jumlah wajib diisi',
-            'amount.regex'=>'Tidak menerima selain angka dan desimal'
+            'amount_setor.required'=>'Jumlah wajib diisi',
+            'amount_setor.regex'=>'Tidak menerima selain angka dan desimal'
         ]);
 
-        $sanitize = str_replace('.','',$this->amount);
-        $amount = (int) $sanitize;
+        $sanitize = str_replace('.','',$this->amount_setor);
+        $amount_setor = (int) $sanitize;
 
-        if ($amount < 1000) {
-            $this->addError('amount', 'Jumlah minimal Setoran adalah 1000.');
+        if ($amount_setor < 1000) {
+            $this->addError('amount_setor', 'Jumlah minimal Setoran adalah 1000.');
             return;
         }
 
         $service = new TransactionService($this->student);
-        $service->transaction($amount,'+','setor');
+        $service->transaction($amount_setor,'+','setor');
+        $this->amount_setor ='';
+
 
         $this->student->refresh();
         $this->dispatch('modal-close','setor');
+
+
+    }
+
+    public function tarik(){
+
+        $this->validate([
+            'amount_tarik' => ['required', 'regex:/^[0-9.]+$/'],
+        ],[
+            'amount_tarik.required'=>'Jumlah wajib diisi',
+            'amount_tarik.regex'=>'Tidak menerima selain angka dan desimal'
+        ]);
+
+        $sanitize = str_replace('.','',$this->amount_tarik);
+        $amount_tarik = (int) $sanitize;
+
+        if ($amount_tarik < 1000) {
+            $this->addError('amount_tarik', 'Jumlah minimal Setoran adalah 1000.');
+            return;
+        }
+        if ($amount_tarik > $this->student->saldo) {
+            $this->addError('amount_tarik', 'Jumlah melebihi dari saldo.');
+            return;
+        }
+
+        $service = new TransactionService($this->student);
+        $service->transaction($amount_tarik,'-','tarik');
+
+        $this->amount_tarik ='';
+
+        $this->student->refresh();
+        $this->dispatch('modal-close','tarik');
 
 
     }

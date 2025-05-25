@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Kartu Tabungan</title>
     <style>
         @page { margin: 0mm; }
         body { margin: 10mm; font-family: sans-serif; }

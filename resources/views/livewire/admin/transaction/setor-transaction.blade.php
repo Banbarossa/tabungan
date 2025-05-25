@@ -25,9 +25,12 @@
                         <flux:heading size="xl">{{ format_rupiah($student->saldo)}}</flux:heading>
                     </div>
                 </div>
-                <div class="absolute top-1/2 -translate-y-1/2 right-2">
+                <div class="bg-white mt-2 p-2 rounded-lg shadow">
                     <flux:modal.trigger name="setor">
-                        <flux:button icon="plus" variant="primary" size="sm"> Tambah Saldo</flux:button>
+                        <flux:button icon="plus" variant="primary" size="sm">Setor</flux:button>
+                    </flux:modal.trigger>
+                    <flux:modal.trigger name="tarik">
+                        <flux:button icon="minus" variant="danger" size="sm">Tarik</flux:button>
                     </flux:modal.trigger>
                 </div>
             </div>
@@ -76,29 +79,67 @@
     <flux:modal name="setor" class="md:w-96" variant="flyout">
         <div class="space-y-6">
             <div>
-                <flux:heading size="lg">Update Saldo</flux:heading>
-                <flux:text class="mt-2">Input Saldo Tabungan Santri</flux:text>
+                <flux:heading size="xl">Update Saldo</flux:heading>
+                <flux:text class="truncate">Penambahan Saldo Tabungan Santri</flux:text>
             </div>
+            <img src="{{ asset('images/team.png') }}" alt="withdraw" class="h-36">
             <div class="bg-zinc-100 rounded-lg p-4 border border-zinc-300 relative">
                 <div class="flex gap-3 items-center">
-                    <div class="w-10 h-10 bg-green-500/80 flex items-center justify-center rounded-lg">
-                        <flux:icon.user></flux:icon.user>
+                    <div class="w-12 h-12 bg-green-300/80 flex items-center justify-center rounded-lg">
+                        <flux:icon.briefcase></flux:icon.briefcase>
                     </div>
                     <div>
-                        <flux:heading size="lg" class="uppercase">{{$student->name}}</flux:heading>
+                        <flux:text  class="uppercase truncate">{{$student->name}}</flux:text>
+                        <flux:heading size="xl" class="uppercase">{{format_rupiah($student->saldo)}}</flux:heading>
                     </div>
                 </div>
             </div>
-            <form action="" wire:submit='transaction'>
+            <form action="" wire:submit='setor'>
                 <flux:input.group>
                     <flux:input.group.prefix>Rp</flux:input.group.prefix>
-                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount"  />
+                    <flux:input  x-mask:dynamic="$money($input, ',', '.')" wire:model="amount_setor"  />
                 </flux:input.group>
-                <flux:error name="amount" />
+                <flux:error name="amount_setor" />
 
                 <div class="flex items-center justify-end mt-4">
                     <flux:button type="submit" variant="primary" class="w-full">
                         Tambah Saldo
+                    </flux:button>
+                </div>
+            </form>
+
+
+
+        </div>
+    </flux:modal>
+    <flux:modal name="tarik" class="md:w-96" variant="flyout">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="xl">Penarikan</flux:heading>
+                <flux:text >Penarikan Tabungan</flux:text>
+            </div>
+            <img src="{{ asset('images/withdraw.png') }}" alt="withdraw" class="h-36">
+            <div class="bg-zinc-100 rounded-lg p-4 border border-zinc-300 relative">
+                <div class="flex gap-3 items-center">
+                    <div class="w-12 h-12 bg-red-300/80 flex items-center justify-center rounded-lg">
+                        <flux:icon.ticket></flux:icon.ticket>
+                    </div>
+                    <div>
+                        <flux:text class="uppercase truncate">{{$student->name}}</flux:text>
+                        <flux:heading size="xl" class="uppercase">{{format_rupiah($student->saldo)}}</flux:heading>
+                    </div>
+                </div>
+            </div>
+            <form action="" wire:submit='tarik'>
+                <flux:input.group>
+                    <flux:input.group.prefix>Rp</flux:input.group.prefix>
+                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount_tarik"  />
+                </flux:input.group>
+                <flux:error name="amount_tarik" />
+
+                <div class="flex items-center justify-end mt-4">
+                    <flux:button type="submit" variant="primary" class="w-full">
+                        Tarik
                     </flux:button>
                 </div>
             </form>
