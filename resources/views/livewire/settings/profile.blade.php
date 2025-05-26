@@ -7,16 +7,25 @@ use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component {
+    public string $user = '';
     public string $name = '';
     public string $email = '';
 
     /**
      * Mount the component.
      */
-    public function mount(): void
+    public function mount($code = null): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        if (!$code) {
+            $this->user = Auth::user();
+            $this->name = Auth::user()->name;
+            $this->email = Auth::user()->email;
+        }else{
+            $id =vinclaDecode($code);
+            $user =User::find($id);
+            $this->name = $user->name;
+            $this->email = $user->email;
+        }
     }
 
     /**
@@ -24,7 +33,7 @@ new class extends Component {
      */
     public function updateProfileInformation(): void
     {
-        $user = Auth::user();
+        $user = $this->user;
 
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -55,7 +64,7 @@ new class extends Component {
      */
     public function resendVerificationNotification(): void
     {
-        $user = Auth::user();
+        $user = $this->user;
 
         if ($user->hasVerifiedEmail()) {
             $this->redirectIntended(default: route('dashboard', absolute: false));
@@ -70,9 +79,8 @@ new class extends Component {
 }; ?>
 
 <section class="w-full">
-    @include('partials.settings-heading')
 
-    <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
+    <x-settings.layout :heading="__('Profile')" :subheading="__('Update  name and email address')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
             <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
 
@@ -103,12 +111,12 @@ new class extends Component {
                     <flux:button variant="primary" type="submit" class="w-full">{{ __('Save') }}</flux:button>
                 </div>
 
-                <x-action-message class="me-3" on="profile-updated">
+                <x-toast class="me-3" on="profile-updated">
                     {{ __('Saved.') }}
-                </x-action-message>
+                </x-toast>
             </div>
         </form>
 
-        <livewire:settings.delete-user-form />
+        {{-- <livewire:settings.delete-user-form /> --}}
     </x-settings.layout>
 </section>

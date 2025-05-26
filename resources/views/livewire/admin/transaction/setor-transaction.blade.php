@@ -56,7 +56,7 @@
                                         {{ $item->type =='setor' ?'Setoran':'Penarikan' }}
                                         </p>
                                         <p class="text-xs text-gray-500 truncate dark:text-gray-400">
-                                            {{ \Carbon\Carbon::parse($item->create_at)->format('d/m/Y H:i') }}
+                                            {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }}
                                         </p>
                                     </div>
                                     <div class="inline-flex items-center text-base font-semibold  {{  $item->type =='setor' ?'text-green-700 dark:text-green-200' :'text-gray-900 dark:text-white' }} ">

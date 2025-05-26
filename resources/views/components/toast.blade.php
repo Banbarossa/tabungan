@@ -9,7 +9,7 @@
     x-show.transition.out.opacity.duration.1500ms="shown"
     x-transition:leave.opacity.duration.1500ms
     style="display: none; pointer-events: none"
-    class="fixed inset-0 "
+    class="fixed inset-0"
 >
     <div
         {{ $attributes->merge(['class' => 'flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 absolute top-20 ms-auto relative z-50  border bg-gray-100']) }}

@@ -30,6 +30,7 @@ class CashierTransaction extends Component
         if($savingLimit){
             $this->limitToday = $savingLimit->limit_amount;
         }
+
     }
 
     public function render()

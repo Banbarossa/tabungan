@@ -12,7 +12,12 @@ class Transaction extends Model
 
     protected $guarded=[];
 
-    public function account(){
+    public function student(){
         return $this->belongsTo(Student::class);
+    }
+
+    public function handledbyUser()
+    {
+        return $this->belongsTo(User::class,'handledby');
     }
 }

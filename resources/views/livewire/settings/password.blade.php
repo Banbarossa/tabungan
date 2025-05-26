@@ -2,23 +2,33 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public string $current_password = '';
     public string $password = '';
     public string $password_confirmation = '';
+
+    public $user;
 
     /**
      * Update the password for the currently authenticated user.
      */
+    public function mount($code = null){
+        if($code){
+            $id = vinclaDecode($code);
+            $this->user = User::find($id);
+        }else{
+            $user= Auth::user();
+        }
+    }
+
     public function updatePassword(): void
     {
         try {
             $validated = $this->validate([
-                'current_password' => ['required', 'string', 'current_password'],
                 'password' => ['required', 'string', Password::defaults(), 'confirmed'],
             ]);
         } catch (ValidationException $e) {
@@ -27,28 +37,20 @@ new class extends Component {
             throw $e;
         }
 
-        Auth::user()->update([
+        $this->user->update([
             'password' => Hash::make($validated['password']),
         ]);
 
-        $this->reset('current_password', 'password', 'password_confirmation');
+        $this->reset('password', 'password_confirmation');
 
         $this->dispatch('password-updated');
     }
 }; ?>
 
 <section class="w-full">
-    @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
         <form wire:submit="updatePassword" class="mt-6 space-y-6">
-            <flux:input
-                wire:model="current_password"
-                :label="__('Current password')"
-                type="password"
-                required
-                autocomplete="current-password"
-            />
             <flux:input
                 wire:model="password"
                 :label="__('New password')"
@@ -69,9 +71,9 @@ new class extends Component {
                     <flux:button variant="primary" type="submit" class="w-full">{{ __('Save') }}</flux:button>
                 </div>
 
-                <x-action-message class="me-3" on="password-updated">
+                <x-toast class="me-3" on="password-updated">
                     {{ __('Saved.') }}
-                </x-action-message>
+                </x-toast>
             </div>
         </form>
     </x-settings.layout>
