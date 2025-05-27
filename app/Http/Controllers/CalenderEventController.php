@@ -28,7 +28,7 @@ class CalenderEventController extends Controller
             if ($item->total_setor > 0) {
                 $events[] = [
                     'id' => 'setor-' . $item->date,
-                    'title' => 'Setor: ' . number_format($item->total_setor, 0, ',', '.'),
+                    'title' => 'Setor: ' . format_rupiah($item->total_setor),
                     'start' => $item->date,
                     'color' => 'green',
                     'url' => route('report.daily.income', ['date' => $item->date])
@@ -37,7 +37,7 @@ class CalenderEventController extends Controller
             if ($item->total_non_setor > 0) {
                 $events[] = [
                     'id' => 'nonsetor-' . $item->date,
-                    'title' => 'Pengeluaran: ' . number_format($item->total_non_setor, 0, ',', '.'),
+                    'title' => 'tarik: ' . format_rupiah($item->total_non_setor),
                     'start' => $item->date,
                     'color' => 'red',
                     'url' => route('report.daily', ['date' => $item->date])
