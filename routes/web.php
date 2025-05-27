@@ -23,6 +23,8 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
     Route::get('calendar',\App\Livewire\CalendarDetail::class)->name('calendar');
     Route::get('/calendar-events',[\App\Http\Controllers\CalenderEventController::class,'getCalendarEvents'])->name('calender-event');
     Route::get('santri-absen',[\App\Http\Controllers\GetStudentApi::class,'getDataAbsen']);
+
+
     Route::group(['as'=>'account.','prefix'=>'account'],function(){
         Route::get('/',\App\Livewire\Admin\Account\MasterAccount::class);
         Route::get('/create',\App\Livewire\Admin\Account\AccountCreate::class)->name('create');
@@ -44,9 +46,15 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
         Route::get('/cashier-report-pdf/{date}/{user_code}',[\App\Http\Controllers\DailyReportController::class,'byDateAndCashier'])->name('cashier.pdf');
         Route::get('/daily-report/{date}/{user_code}',\App\Livewire\Admin\Report\ByDateAndCashierReport::class)->name('by-date-user');
     });
+
+    Route::group(['as'=>'whatsapp.','prefix'=>'whatsapp'],function(){
+        Route::get('/history',\App\Livewire\Admin\Whatsapp\HistoryMessage::class)->name('history');
+        Route::get('/setting',\App\Livewire\Admin\Whatsapp\SettingSendingMessage::class)->name('setting');
+    });
+
+
+
 });
-
-
 
 
 Route::get('/transaction',\App\Livewire\Admin\Transaction\MasterTransaction::class)->name('transaction')->middleware(['auth','can:admin']);
@@ -55,12 +63,13 @@ Route::get('/transaction/setor/{code}',\App\Livewire\Admin\Transaction\SetorTran
 Route::get('/daily-limit',\App\Livewire\Admin\Transaction\DailyLimitManagement::class)->name('daily-limit-management')->middleware(['auth','can:admin']);
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', 'settings/profile');
 
-    Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
-    Volt::route('settings/password', 'settings.password')->name('settings.password');
-    Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::redirect('settings', 'settings/profile');
+
+//     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
+//     Volt::route('settings/password', 'settings.password')->name('settings.password');
+//     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+// });
 
 require __DIR__.'/auth.php';

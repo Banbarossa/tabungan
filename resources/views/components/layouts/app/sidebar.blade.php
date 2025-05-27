@@ -24,6 +24,10 @@
                 <flux:navlist.group :heading="__('User')" class="grid">
                     <flux:navlist.item icon="users" :href="route('user.admin')" :current="request()->routeIs('user.admin')" wire:navigate>Servicer</flux:navlist.item>
                 </flux:navlist.group>
+                <flux:navlist.group :heading="__('Whatsapp')" class="grid">
+                    <flux:navlist.item icon="chat-bubble-left-ellipsis" :href="route('whatsapp.history')" :current="request()->routeIs('whatsapp.history')" wire:navigate>Whatsapp</flux:navlist.item>
+                    <flux:navlist.item icon="cog-6-tooth" :href="route('whatsapp.setting')" :current="request()->routeIs('whatsapp.setting')" wire:navigate>Pengaturan</flux:navlist.item>
+                </flux:navlist.group>
             </flux:navlist>
 
             <!-- Desktop User Menu -->

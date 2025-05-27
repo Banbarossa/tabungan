@@ -35,7 +35,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/vinclahelper.php"
+            "app/Helpers/vinclahelper.php",
+            "app/Helpers/TemplateHelper.php"
         ]
     },
     "autoload-dev": {

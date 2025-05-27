@@ -2,14 +2,19 @@
 
 namespace App\Services;
 
+use App\Models\Settingwhatsapp;
 use App\Models\Student;
 use App\Models\Transaction;
+use App\Traits\DailyReportDataTrait;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class TransactionService
 {
+
+    use DailyReportDataTrait;
     /**
      * Create a new class instance.
      */
@@ -43,16 +48,12 @@ class TransactionService
                 'saldo'=>$latest_saldo,
             ]);
 
-            DB::afterCommit(function () use ($latest_saldo) {
-                if ($this->student->send_notification) {
-                    if ($this->student->notification_target == 'whatsapp') {
-                        $this->sendWa($latest_saldo);
-                    } elseif ($this->student->notification_target === 'email') {
+            DB::afterCommit(function () use ($latest_saldo,$operator,$amount) {
+                if(cekSendMessage($operator)){
+                    $this->sendWa($amount,$latest_saldo,$operator);
 
-                    }else{
-
-                    }
                 }
+
             });
 
         });
@@ -60,21 +61,38 @@ class TransactionService
 
     }
 
-    public function sendWa($latest_saldo){
-        $nama_siswa = $this->student->name;
+    public function sendWa($amount,$latest_saldo,$operator){
+        if(is_null($this->student->notification_account)){
+            dd('null');
+            return;
+        }
 
-        $saldo= format_rupiah($latest_saldo);
+        $tanggal = Carbon::now()->format('d-m-Y');
+        $nama_santri = $this->student->name;
+        $kelas = $this->student->kelas;
+        $jumlah = format_rupiah($amount);
+        $saldo_akhir= format_rupiah($latest_saldo);
+        $cashier= Auth::user()->name;
 
-$message = "
-Tabungan Jajan Siswa Sudah diperbaharui Admin *$nama_siswa*
 
-Nama Santri : $nama_siswa
-Saldo Saat Ini : $saldo
+        $set =Settingwhatsapp::latest()->first();
+        if($operator == '+'){
+            $template =$set->template_setor;
+        }elseif($operator == '-'){
+            $template =$set->template_tarik;
+        }
 
-Jazaakumullahukhairan
 
-_Pesan ini dikirim secara otomatis mohon tidak membalas_
-";
+        $message = renderTemplate($template, [
+            'tanggal' => $tanggal,
+            'nama_santri' => $nama_santri,
+            'kelas' => $kelas,
+            'jumlah' => $jumlah,
+            'saldo_akhir' => $saldo_akhir,
+            'cashier' => $cashier,
+        ]);
+
+
 
         try {
             $url= config('absen.simaq_url');
@@ -87,7 +105,6 @@ _Pesan ini dikirim secara otomatis mohon tidak membalas_
                 'message' => $message,
                 'source' => 'tabungan',
             ]);
-
             if ($response->successful()) {
                 return [
                     'status' => true,
