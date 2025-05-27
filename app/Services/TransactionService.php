@@ -81,7 +81,7 @@ _Pesan ini dikirim secara otomatis mohon tidak membalas_
             $token= config('absen.simaq_token');
             $response = Http::withHeaders([
                 'Authorization' => $token
-            ])->post($url/'send_whatsapp', [
+            ])->post($url.'send_whatsapp', [
                 'target' => $this->student->notification_account,
                 'musyrif_id' => Auth::user()->id,
                 'message' => $message,
