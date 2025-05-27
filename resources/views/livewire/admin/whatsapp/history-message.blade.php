@@ -16,7 +16,7 @@
                     <div class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
                         <div class="flex items-center justify-between space-x-2 rtl:space-x-reverse">
                             <div class="items-center space-x-2 rtl:space-x-reverse" >
-                                <span class="text-sm font-normal text-gray-500 dark:text-gray-800">{{ \Carbon\carbon::parse($item['created_at'])->toTimeString() }}</span>
+                                <span class="text-sm font-normal text-gray-500 dark:text-gray-800">{{ \Carbon\carbon::parse($item['created_at'])->format('H:i:s') }}</span>
                             </div>
                             <div  class="text-sm font-normal text-gray-500 dark:text-gray-800">{{ $item['target'] }}</div>
                         </div>

@@ -63,7 +63,6 @@ class TransactionService
 
     public function sendWa($amount,$latest_saldo,$operator){
         if(is_null($this->student->notification_account)){
-            dd('null');
             return;
         }
 

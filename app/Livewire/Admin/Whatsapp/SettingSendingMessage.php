@@ -68,7 +68,7 @@ class SettingSendingMessage extends Component
 INFO TRANSAKSI TABUNGAN
 PESANTREN IMAM SYAFI'I - SIBREH
 
-ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللَّٰهِ وَبَرَكَاتُهُ
+اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَا تُهُ
 
 Alhamdulillah, Setoran tabungan dengan rincian:
 Nomor    : TAB202505009820
@@ -79,7 +79,7 @@ Jumlah   : {{jumlah}}
 Berita   : Setoran tabungan santri
 telah kami proses.
 
-Saldo akhir sebesar {{saldo_akhir}}}
+Saldo akhir sebesar {{saldo_akhir}}
 
 Hormat kami,
 {{cashier}}
@@ -96,7 +96,7 @@ return $message;
 INFO TRANSAKSI TABUNGAN
 PESANTREN IMAM SYAFI'I - SIBREH
 
-ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللَّٰهِ وَبَرَكَاتُهُ
+اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَا تُهُ
 
 Alhamdulillah, penarikan tabungan dengan rincian:
 Nomor    : TAB202505009820
@@ -107,7 +107,7 @@ Jumlah   : {{jumlah}}
 Berita   : Penarikan tabungan santri
 telah kami proses.
 
-Saldo akhir sebesar {{saldo_akhir}}}
+Saldo akhir sebesar {{saldo_akhir}}
 
 Hormat kami,
 {{cashier}}
