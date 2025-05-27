@@ -8,6 +8,18 @@ use App\Models\Transaction;
 trait DailyReportDataTrait
 {
 
+    public function nativeDate($date){
+        $date = Carbon::parse($date)->toDateString();
+
+        $transactions= Transaction::with('handledbyUser','student')
+            ->whereDate('created_at',$date)
+            ->orderBy('created_at','desc')
+            ->get();
+
+            return $transactions;
+
+    }
+
 
     public function byDate($date){
 
@@ -33,6 +45,7 @@ trait DailyReportDataTrait
 
             return $summary;
     }
+
     public function byDateIncome($date){
 
         $date = Carbon::parse($date)->toDateString();

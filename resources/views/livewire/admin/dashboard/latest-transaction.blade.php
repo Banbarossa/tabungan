@@ -8,7 +8,7 @@ new class extends Component {
 
     public $transactions;
     public function mount(){
-        $this->transactions = Transaction::latest()->limit(10)->get();
+        $this->transactions = Transaction::with('student')->latest()->limit(10)->get();
 
     }
 }; ?>
@@ -33,7 +33,7 @@ new class extends Component {
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                            {{ $item->type =='setor' ?'Setoran':'Penarikan' }}
+                            {{ $item->student ? $item->student->name :'' }}
                             </p>
                             <p class="text-xs text-gray-500 truncate dark:text-gray-400">
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }}

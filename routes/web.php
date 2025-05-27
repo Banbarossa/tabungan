@@ -40,6 +40,7 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
     });
 
     Route::group(['as'=>'report.','prefix'=>'report'],function(){
+        Route::get('/common-daily-report/{date}',\App\Livewire\Admin\Report\CommonDailyReport::class)->name('common-daily');
         Route::get('/daily-report/{date}',\App\Livewire\Admin\Report\DailyReport::class)->name('daily');
         Route::get('/daily-income-report/{date}',\App\Livewire\Admin\Report\DailyIncomeReport::class)->name('daily.income');
         Route::get('/daily-report-pdf/{date}',[\App\Http\Controllers\DailyReportController::class,'exportPdf'])->name('daily.pdf');

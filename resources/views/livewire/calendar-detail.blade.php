@@ -45,10 +45,11 @@
                 },
                 dayCellDidMount: function(info) {
 
-                    // info.el.addEventListener('click', function () {
-                    //     const date = info.date.toISOString().split('T')[0];
-                    //     window.location.href = `/link/harian?tanggal=${date}`;
-                    // });
+                    info.el.addEventListener('click', function () {
+                        // const date = info.date.toISOString().split('T')[0];
+                        const date = info.date.toLocaleDateString('en-CA');
+                        window.location.href = `/report/common-daily-report/${date}`;
+                    });
                 },
                 eventClick: function(info) {
                     info.jsEvent.preventDefault();
