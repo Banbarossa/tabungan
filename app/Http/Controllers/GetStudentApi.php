@@ -49,7 +49,7 @@ class GetStudentApi extends Controller
             foreach($data as $hp){
                 $student = Student::where('absen_id',$hp['absen_student_id'])->first();
                 if($student){
-                    $student->update(['notification_account',$hp['no_hp']]);
+                    $student->update(['notification_account'=>$hp['no_hp']]);
                 }
             }
 
