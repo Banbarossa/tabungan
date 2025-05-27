@@ -20,7 +20,14 @@
                 @foreach ($summary as $date => $users)
                     <tr class="border-t">
                         <th colspan="3" class="pt-2">
-                            <a href="{{ route('report.daily',$date) }}">{{ $date }}</a>
+                            <flux:link
+                                href="{{ route('report.daily',$date) }}"
+                                color="blue"
+                                class="text-blue-500"
+                                >
+                                {{ Carbon\Carbon::parse($date)->format('d/m/Y') }}
+                            </flux:link>
+                            {{-- <a href="{{ route('report.daily',$date) }}">{{ $date }}</a> --}}
                         </th>
                     </tr>
                     @foreach ($users as $user)

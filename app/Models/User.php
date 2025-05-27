@@ -60,7 +60,10 @@ class User extends Authenticatable
             ->implode('');
     }
 
-    public function transactions(){
+    public function handledby(){
+        return $this->hasMany(Transaction::class,'handledby');
+    }
+    public function verifiedby(){
         return $this->hasMany(Transaction::class,'handledby');
     }
 }

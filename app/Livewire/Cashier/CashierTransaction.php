@@ -26,6 +26,7 @@ class CashierTransaction extends Component
     public $limitToday;
 
     public function mount(){
+
         $savingLimit = Savinglimit::where('day_name',today_name())->first();
         if($savingLimit){
             $this->limitToday = $savingLimit->limit_amount;

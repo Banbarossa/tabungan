@@ -20,6 +20,9 @@ Route::group(['middleware'=>['auth','can:cashier'],'as'=>'cashier.'],function(){
 
 
 Route::group(['middleware'=>['auth','can:admin'],],function(){
+    Route::get('calendar',\App\Livewire\CalendarDetail::class)->name('calendar');
+    Route::get('/calendar-events',[\App\Http\Controllers\CalenderEventController::class,'getCalendarEvents'])->name('calender-event');
+    Route::get('santri-absen',[\App\Http\Controllers\GetStudentApi::class,'getDataAbsen']);
     Route::group(['as'=>'account.','prefix'=>'account'],function(){
         Route::get('/',\App\Livewire\Admin\Account\MasterAccount::class);
         Route::get('/create',\App\Livewire\Admin\Account\AccountCreate::class)->name('create');
@@ -36,6 +39,9 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
 
     Route::group(['as'=>'report.','prefix'=>'report'],function(){
         Route::get('/daily-report/{date}',\App\Livewire\Admin\Report\DailyReport::class)->name('daily');
+        Route::get('/daily-income-report/{date}',\App\Livewire\Admin\Report\DailyIncomeReport::class)->name('daily.income');
+        Route::get('/daily-report-pdf/{date}',[\App\Http\Controllers\DailyReportController::class,'exportPdf'])->name('daily.pdf');
+        Route::get('/cashier-report-pdf/{date}/{user_code}',[\App\Http\Controllers\DailyReportController::class,'byDateAndCashier'])->name('cashier.pdf');
         Route::get('/daily-report/{date}/{user_code}',\App\Livewire\Admin\Report\ByDateAndCashierReport::class)->name('by-date-user');
     });
 });

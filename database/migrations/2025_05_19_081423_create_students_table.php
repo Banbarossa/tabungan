@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nisn')->nullable();
             $table->string('nis')->nullable();
             $table->string('nama_ibu')->nullable();
+            $table->string('kelas')->nullable();
             $table->boolean('status')->default(true);
             $table->text('photo')->nullable();
             $table->bigInteger('saldo')->nullable()->default(0);

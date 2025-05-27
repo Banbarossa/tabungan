@@ -17,15 +17,7 @@
         </div>
         <div class="flex items-center gap-4">
 
-            <flux:button icon="check-badge" variant="primary" wire:click="verification">Verifikasi Semua</flux:button>
-            <flux:dropdown>
-                <flux:button icon:trailing="chevron-down" icon="cloud-arrow-down">Download</flux:button>
-
-                <flux:menu>
-                    <flux:menu.item icon="document-duplicate" href="{{ route('report.daily.pdf',$date) }}" target="blank">PDF</flux:menu.item>
-                    <flux:menu.item icon="table-cells" wire:click='downloadExcel'>Excel</flux:menu.item>
-                </flux:menu>
-            </flux:dropdown>
+            <flux:button icon="table-cells" wire:click='downloadExcel'>Unduh Excel</flux:button>
         </div>
     </div>
 
@@ -48,9 +40,9 @@
                             <th scope="row" class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ format_rupiah($total['total_amount']) }}
                             </th>
-                            <th scope="row" class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{-- <th scope="row" class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Diverifikasi Oleh
-                            </th>
+                            </th> --}}
                         </tr>
                         @foreach($total['transactions'] as $index=>$tr)
                             <tr class="bg-white dark:bg-zinc-800 dark:border-gray-700 ">
@@ -58,7 +50,7 @@
                                 <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2">{{$tr->student ? $tr->student->name :''}}</td>
                                 <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2 w-auto">{{$tr->created_at}}</td>
                                 <td class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2">{{format_rupiah($tr->amount)}}</td>
-                                <td class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2">{{$tr->verifiedByUser ? $tr->verifiedByUser->name :'Belum Verikasi'}}</td>
+                                {{-- <td class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2">{{$tr->verifiedByUser ? $tr->verifiedByUser->name :'Belum Verikasi'}}</td> --}}
                             </tr>
                         @endforeach
                     @endforeach

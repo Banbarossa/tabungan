@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\Report;
 
 use Carbon\Carbon;
 use Livewire\Component;
-use App\Models\Transaction;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use App\Exports\ExportDailyReport;
@@ -12,14 +11,15 @@ use App\Traits\DailyReportDataTrait;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
-class DailyReport extends Component
+class DailyIncomeReport extends Component
 {
 
     use DailyReportDataTrait;
 
     public $date;
     #[Layout('components.layouts.app')]
-    #[Title('Laporan Penarikan')]
+    #[Title('Laporan Setoran')]
+
     public function mount($date = null){
         if($date){
             $this->date = Carbon::parse($date)->toDateString();
@@ -27,23 +27,22 @@ class DailyReport extends Component
             $this->date = Carbon::now()->toDateString();
         }
     }
+
+
     public function render()
     {
-        $summary =$this->byDate($this->date);
-
-
-        return view('livewire.admin.report.daily-report',compact('summary'));
+        $summary =$this->byDateIncome($this->date);
+        return view('livewire.admin.report.daily-income-report',compact('summary'));
     }
 
-
     public function downloadExcel(){
-        $filename='Laporan Penarikan Tabungan '.$this->date.'.xlsx';
-        $models=$this->byDate($this->date);
+        $filename='Laporan Setoran Tabungan '.$this->date.'.xlsx';
+        $models=$this->byDateIncome($this->date);
         return Excel::download(new ExportDailyReport($models,$this->date),$filename);
     }
 
     public function verification(){
-        $summary =$this->byDate($this->date);
+        $summary =$this->byDateIncome($this->date);
 
         $allTransactions = $summary->pluck('transactions')->flatten();
 
@@ -52,6 +51,4 @@ class DailyReport extends Component
         }
         $this->dispatch('data-updated');
     }
-
-
 }

@@ -20,4 +20,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class,'handledby');
     }
+
+    public function verifiedByUser()
+    {
+        return $this->belongsTo(User::class,'verifiedBy');
+    }
 }
