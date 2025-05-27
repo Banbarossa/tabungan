@@ -3,7 +3,7 @@
 <div class="space-y-4 mt-8">
     @forelse ($users as $item)
 
-        <div class="md:max-w-lg bg-white border border-gray-200 rounded-lg shadow-sm  hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 p-4">
+        <div class="md:max-w-lg bg-white border border-gray-200 rounded-lg shadow-sm  hover:bg-gray-100 dark:border-zinc-600 dark:bg-zinc-800 dark:hover:bg-zinc-700 p-4">
 
             <div class="flex flex-col items-center md:flex-row ">
                 <img class="object-cover w-8 h-8 rounded-t-lg rounded-full" src="{{ asset('images/admin-avatar.png') }}" alt="">

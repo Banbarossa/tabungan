@@ -15,7 +15,7 @@
 
         </div>
         <div class=" lg:col-span-2">
-            <div class="bg-zinc-100 rounded-lg p-4 border border-zinc-300 relative">
+            <div class="bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4 border border-zinc-300 dark:border-zinc-600 relative">
                 <div class="flex gap-3 items-center">
                     <div class="w-10 h-10 bg-indigo-500/50 flex items-center justify-center rounded-lg">
                         <flux:icon.calculator></flux:icon.calculator>
@@ -25,7 +25,7 @@
                         <flux:heading size="xl">{{ format_rupiah($student->saldo)}}</flux:heading>
                     </div>
                 </div>
-                <div class="bg-white mt-2 p-2 rounded-lg shadow">
+                <div class="bg-white dark:bg-zinc-900 mt-2 p-2 rounded-lg shadow">
                     <flux:modal.trigger name="setor">
                         <flux:button icon="plus" variant="primary" size="sm">Setor</flux:button>
                     </flux:modal.trigger>
@@ -37,7 +37,7 @@
             <div class="mt-4">
                 <flux:heading size="lg">Riwayat Transaksi</flux:heading>
 
-                <div class="border p-4 rounded-lg">
+                <div class="border dark:border-zinc-600 p-4 rounded-lg">
                     <ul class="divide-y divide-gray-200 dark:divide-gray-700 mt-4">
                         @forelse ($transaksi as $item)
                             <li class="pb-3 sm:pb-4">

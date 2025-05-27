@@ -2,7 +2,7 @@
 
 
     {{-- The Master doesn't talk, he acts. --}}
-    <div class="max-w-lg border p-4 rounded-lg bg-zinc-50">
+    <div class="max-w-lg border dark:border-zinc-600 p-4 rounded-lg bg-zinc-50 dark:bg-zinc-800">
 
         <form action="" wire:submit.prevent='save'>
             <ul class="space-y-4 mt-6">

@@ -1,4 +1,4 @@
-<div class="mx-auto bg-zinc-100 shadow-lg rounded-sm border border-gray-200">
+<div class="mx-auto bg-zinc-100 dark:bg-zinc-800 shadow-lg rounded-sm border border-gray-200 dark:border-zinc-600">
     <x-toast on='student_updated'></x-toast>
     <div class="flex flex-col h-full">
         <div class="flex-grow p-5">
@@ -13,7 +13,7 @@
                                 width="64" height="64" alt="User 01" />
                         </a>
                         <div class="mt-1 pr-1">
-                            <a class="inline-flex text-gray-800 hover:text-gray-900" href="#0">
+                            <a class="inline-flex text-gray-800 dark:text-zinc-100 hover:text-gray-900 dark:hover:text-zinc-200" href="#0">
                                 <h2 class="text-xl leading-snug justify-center font-semibold">{{ $student->name }}</h2>
                             </a>
                         </div>

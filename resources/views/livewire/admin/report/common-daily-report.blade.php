@@ -8,7 +8,7 @@
         </flux:breadcrumbs>
     </x-slot:breadcrumbs>
 
-    <div class="w-full rounded-lg overflow-hidden border border-zinc-300">
+    <div class="w-full rounded-lg overflow-hidden border border-zinc-300 dark:border-zinc-600">
         <div class="relative overflow-x-auto">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class=" text-gray-700 uppercase bg-zinc-200 dark:bg-zinc-700 dark:text-gray-400">
@@ -38,7 +38,7 @@
                         $no = 1;
                     @endphp
                     @forelse ($transactions as $item)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr class="bg-white border-b dark:bg-zinc-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td class="px-4 py-2  text-center">
                                 {{ $no++ }}
                             </td>

@@ -13,12 +13,12 @@
                     <div class="w-8 h-8 rounded-full">
                         <flux:icon.chat-bubble-left-ellipsis class="text-green-700 size-8"/>
                     </div>
-                    <div class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                    <div class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-zinc-700">
                         <div class="flex items-center justify-between space-x-2 rtl:space-x-reverse">
                             <div class="items-center space-x-2 rtl:space-x-reverse" >
-                                <span class="text-sm font-normal text-gray-500 dark:text-gray-800">{{ \Carbon\carbon::parse($item['created_at'])->format('H:i:s') }}</span>
+                                <span class="text-sm font-normal text-gray-500 dark:text-zinc-500">{{ \Carbon\carbon::parse($item['created_at'])->format('H:i:s') }}</span>
                             </div>
-                            <div  class="text-sm font-normal text-gray-500 dark:text-gray-800">{{ $item['target'] }}</div>
+                            <div  class="text-sm font-normal text-gray-500 dark:text-zinc-500">{{ $item['target'] }}</div>
                         </div>
                         <flux:separator text="Message"/>
                         <pre class="text-sm font-normal py-2.5 text-gray-500 dark:text-white leading-none text-wrap mt-2">{!! nl2br(e($item['message'])) !!}</pre>
