@@ -43,17 +43,17 @@ class TransactionService
                 'saldo'=>$latest_saldo,
             ]);
 
-            // DB::afterCommit(function () use ($latest_saldo) {
-            //     if ($this->student->send_notification) {
-            //         if ($this->student->notification_target == 'whatsapp') {
-            //             $this->sendWa($latest_saldo);
-            //         } elseif ($this->student->notification_target === 'email') {
+            DB::afterCommit(function () use ($latest_saldo) {
+                if ($this->student->send_notification) {
+                    if ($this->student->notification_target == 'whatsapp') {
+                        $this->sendWa($latest_saldo);
+                    } elseif ($this->student->notification_target === 'email') {
 
-            //         }else{
+                    }else{
 
-            //         }
-            //     }
-            // });
+                    }
+                }
+            });
 
         });
 
@@ -77,9 +77,11 @@ _Pesan ini dikirim secara otomatis mohon tidak membalas_
 ";
 
         try {
+            $url= config('absen.simaq_url');
+            $token= config('absen.simaq_token');
             $response = Http::withHeaders([
-                'Authorization' => 'EJKrmhmf@Q24dFbYv8GQ'
-            ])->post('https://simaq.pis.sch.id/api/send_whatsapp', [
+                'Authorization' => $token
+            ])->post($url/'send_whatsapp', [
                 'target' => $this->student->notification_account,
                 'musyrif_id' => Auth::user()->id,
                 'message' => $message,
