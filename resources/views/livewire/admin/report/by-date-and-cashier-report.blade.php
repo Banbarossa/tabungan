@@ -34,21 +34,21 @@
 
     <div class="flex items-center gap-4 my-4">
 
-            <flux:button icon="check-badge" variant="primary" wire:click="verification">Verifikasi Semua</flux:button>
-            <flux:dropdown>
-                <flux:button icon:trailing="chevron-down" icon="cloud-arrow-down">Download</flux:button>
+        <flux:button icon="check-badge" variant="primary" wire:click="verification">Verifikasi Semua</flux:button>
+        <flux:dropdown>
+            <flux:button icon:trailing="chevron-down" icon="cloud-arrow-down">Download</flux:button>
 
-                <flux:menu>
-                    <flux:menu.item
-                        icon="document-duplicate"
-                        href="{{ route('report.cashier.pdf',['date'=>$date,'user_code'=>vinclaEncode($user_id)]) }}"
-                        target="blank">
-                        PDF
-                    </flux:menu.item>
-                    <flux:menu.item icon="table-cells" wire:click='downloadExcel'>Excel</flux:menu.item>
-                </flux:menu>
-            </flux:dropdown>
-        </div>
+            <flux:menu>
+                <flux:menu.item
+                    icon="document-duplicate"
+                    href="{{ route('report.cashier.pdf',['date'=>$date,'user_code'=>vinclaEncode($user_id)]) }}"
+                    target="blank">
+                    PDF
+                </flux:menu.item>
+                <flux:menu.item icon="table-cells" wire:click='downloadExcel'>Excel</flux:menu.item>
+            </flux:menu>
+        </flux:dropdown>
+    </div>
 
 
 

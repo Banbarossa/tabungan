@@ -8,6 +8,10 @@
         </flux:breadcrumbs>
     </x-slot:breadcrumbs>
 
+    <div class="flex items-center gap-4 my-4 justify-end">
+        <flux:button icon="table-cells" variant="primary" wire:click="downloadExcel">Download Excel</flux:button>
+    </div>
+
     <div class="w-full rounded-lg overflow-hidden border border-zinc-300 dark:border-zinc-600">
         <div class="relative overflow-x-auto">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
