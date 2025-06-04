@@ -12,9 +12,13 @@
         </div>
     </div>
     <div class="grid lg:grid-cols-3 gap-4">
-        <livewire:cashier.dashboard.today-history/>
-        <div class="hidden lg:block lg:col-span-2 relative min-h-72 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            <x-placeholder-pattern class="absolute inset-0  size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+        <div>
+            <livewire:cashier.dashboard.today-history/>
+        </div>
+        <div class="hidden lg:block lg:col-span-2">
+            <div class=" relative  overflow-hidden ">
+                <livewire:cashier.dashboard.barcode-transaction>
+            </div>
         </div>
 
     </div>

@@ -47,6 +47,12 @@
             right: 6mm;
             width: 17mm;
         }
+        .barcode {
+            position: absolute;
+            bottom: 2mm;
+            left: 16mm;
+            right: 40mm;
+        }
         .header{
             background-color: #336666;
             padding: 2px 4px;
@@ -97,7 +103,9 @@
                                 </table>
 
                             </div>
-                            <img src="data:image/png;base64,{{ $siswa->qr }}" class="qr">
+                            {{-- <img src="data:image/png;base64,{{ $siswa->qr }}" class="qr"> --}}
+                            <img src="{{ $siswa->qr }}" alt="qr-code" class="qr">
+                            <img src="{{ $siswa->barcode }}" alt="barcode" class="barcode">
                         </div>
                     </td>
                     <td>

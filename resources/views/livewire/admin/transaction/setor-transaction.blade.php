@@ -83,7 +83,7 @@
                 <flux:text class="truncate">Penambahan Saldo Tabungan Santri</flux:text>
             </div>
             <img src="{{ asset('images/team.png') }}" alt="withdraw" class="h-36">
-            <div class="bg-zinc-100 rounded-lg p-4 border border-zinc-300 relative">
+            <div class="bg-zinc-100 dark:bg-zinc-700 rounded-lg p-4 border border-zinc-300 relative">
                 <div class="flex gap-3 items-center">
                     <div class="w-12 h-12 bg-green-300/80 flex items-center justify-center rounded-lg">
                         <flux:icon.briefcase></flux:icon.briefcase>
@@ -119,7 +119,7 @@
                 <flux:text >Penarikan Tabungan</flux:text>
             </div>
             <img src="{{ asset('images/withdraw.png') }}" alt="withdraw" class="h-36">
-            <div class="bg-zinc-100 rounded-lg p-4 border border-zinc-300 relative">
+            <div class="bg-zinc-100 dark:bg-zinc-700 rounded-lg p-4 border border-zinc-300 relative">
                 <div class="flex gap-3 items-center">
                     <div class="w-12 h-12 bg-red-300/80 flex items-center justify-center rounded-lg">
                         <flux:icon.ticket></flux:icon.ticket>

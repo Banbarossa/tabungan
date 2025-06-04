@@ -2,9 +2,9 @@
     <div>
         <flux:heading size="lg" class="">Riwayat</flux:heading>
         <flux:separator/>
-        <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700 mt-2">
+        <ul class=" space-y-2 divide-gray-200 dark:divide-gray-700 mt-2">
             @forelse ($history as $item)
-            <li >
+            <li class="border-b  border-neutral-200 dark:border-neutral-700 pb-2">
                 <div class="flex items-center space-x-4 rtl:space-x-reverse">
                     <div class="shrink-0">
                         <div class="w-8 h-8 rounded-full {{  $item->type =='setor' ?'bg-green-400/70' :'bg-red-400/70' }} flex items-center justify-center" >
@@ -32,7 +32,7 @@
                             <flux:icon.information-circle class="size-4 text-red-50 dark:text-red-50"></flux:icon.information-circle>
                         </div>
                     </div>
-                    <div class="flex-1 min-w-0 text-red-400 dark:text-red-50">
+                    <div class="flex-1 min-w-0 text-gray-500 truncate dark:text-gray-400text-sm">
                         Belum Ada Riwayat Transaksi
                     </div>
                 </div>

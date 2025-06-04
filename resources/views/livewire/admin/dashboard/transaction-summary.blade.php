@@ -3,7 +3,7 @@
     <flux:separator/>
     <div class="relative overflow-x-auto mt-4">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-zinc-800 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="py-3">
                         Tanggal
@@ -18,12 +18,12 @@
             </thead>
             <tbody>
                 @foreach ($summary as $date => $users)
-                    <tr class="border-t">
+                    <tr class="border-t border-gray-300 dark:border-zinc-500">
                         <th colspan="3" class="pt-2">
                             <flux:link
                                 href="{{ route('report.daily',$date) }}"
                                 color="blue"
-                                class="text-blue-500"
+                                class="text-blue-500 dark:text-blue-200"
                                 >
                                 {{ Carbon\Carbon::parse($date)->format('d/m/Y') }}
                             </flux:link>

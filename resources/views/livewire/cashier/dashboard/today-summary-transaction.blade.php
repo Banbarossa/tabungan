@@ -6,6 +6,6 @@
         <flux:heading size="xl" class="mb-2 text-gray-50">{{ format_rupiah($summary) }}</flux:heading>
 
         <flux:separator/>
-        <flux:button icon="plus" href="{{ route('cashier.transaction') }}" variant="primary" class="mt-4">New Transaction</flux:button>
+        <flux:button icon="plus" href="{{ route('cashier.transaction') }}" variant="primary" class="mt-4 lg:hidden">New Transaction</flux:button>
     </div>
 </div>
