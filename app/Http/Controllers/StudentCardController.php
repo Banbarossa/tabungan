@@ -26,7 +26,7 @@ class StudentCardController extends Controller
 
                 $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($code, 'QRCODE');
 
-                $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($code, 'C128');
+                $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($code, 'C128',0.8,30,[255,255,255]);
 
                 return $siswa;
             });
@@ -34,7 +34,7 @@ class StudentCardController extends Controller
             $siswas = Student::whereStatus(true)->orderBy('name')->get()->map(function($siswa) use ($dns1d, $dns2d) {
                 $code=vinclaEncode($siswa->id);
                 $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($code, 'QRCODE');
-                $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($code, 'C128');
+                $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($code, 'C128',0.8,30,[255,255,255]);
                 // $siswa->qr =base64_encode(QrCode::format('png')->size(100)->generate($code));
                 return $siswa;
             });
