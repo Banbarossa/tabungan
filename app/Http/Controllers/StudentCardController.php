@@ -35,7 +35,7 @@ class StudentCardController extends Controller
         }else{
             $siswas = Student::whereStatus(true)->orderBy('name')->get()->map(function($siswa) use ($dns1d, $dns2d) {
                 $nisn=$siswa->nisn;
-                $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($nisn, 'QRCODE');
+                $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($nisn, 'QRCODE',5,5);
                 $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($nisn, 'C128',1,50,[0,0,0]);
                 return $siswa;
             });
