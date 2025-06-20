@@ -45,7 +45,7 @@
                 />
             </div>
 
-            <div class="my-5">
+            {{-- <div class="my-5">
                 <flux:separator text="Daily Limit" />
             </div>
 
@@ -53,9 +53,9 @@
                 <flux:input.group.prefix>Rp</flux:input.group.prefix>
                 <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="daily_limit"  />
             </flux:input.group>
-            <flux:error name="daily_limit" />
+            <flux:error name="daily_limit" /> --}}
 
-            <div class="my-5">
+            {{-- <div class="my-5">
                 <flux:separator text="Notification" />
             </div>
 
@@ -71,14 +71,14 @@
                     <flux:radio value="whatsapp" label="Whatsaap" />
                     <flux:radio value="email" label="email" />
                 </flux:radio.group>
-            </div>
+            </div> --}}
 
             <flux:input
                 wire:model="notification_account"
-                :label="__('Akun Notifikasi')"
+                :label="__('No Whatsapp')"
                 type="text"
                 class="mb-4"
-                :placeholder="__('Akun Notifikasi')"
+                :placeholder="__('No Whatsapp')"
             />
             @if ($student)
                 <div class="my-5">

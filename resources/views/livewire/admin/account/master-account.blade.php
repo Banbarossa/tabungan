@@ -1,9 +1,9 @@
 <section
     x-data="{
-            saldo:false,
+            saldo:true,
             nama_ibu:true,
-            send_notification:true,
-            notification_target:true,
+            {{-- send_notification:true,
+            notification_target:true, --}}
             notification_account:true,
     }">
     <x-slot:breadcrumbs>
@@ -31,11 +31,11 @@
                 <flux:menu>
                     <flux:menu.item>
                         <flux:checkbox.group  label="Shown Table">
-                            <flux:checkbox label="Saldo" x-model='saldo'/>
                             <flux:checkbox label="Nama Ibu" x-model='nama_ibu'/>
-                            <flux:checkbox label="Kirim Notif" x-model='send_notification'/>
-                            <flux:checkbox label="Kirim Via" x-model='notification_target'/>
+                            {{-- <flux:checkbox label="Kirim Notif" x-model='send_notification'/>
+                            <flux:checkbox label="Kirim Via" x-model='notification_target'/> --}}
                             <flux:checkbox label="No Contact" x-model='notification_account'/>
+                            <flux:checkbox label="Saldo" x-model='saldo'/>
                         </flux:checkbox.group>
                     </flux:menu.item>
 
@@ -65,12 +65,12 @@
                         <th scope="col" class="px-6 py-3" x-show="nama_ibu">
                             Nama Ibu
                         </th>
-                        <th scope="col" class="px-6 py-3" x-show="nama_ibu">
+                        {{-- <th scope="col" class="px-6 py-3" x-show="nama_ibu">
                             Kirim Notif
                         </th>
                         <th scope="col" class="px-6 py-3" x-show="notification_target">
                             Pesan Via
-                        </th>
+                        </th> --}}
                         <th scope="col" class="px-6 py-3" x-show="notification_account">
                             Pesan Via
                         </th>
@@ -100,12 +100,12 @@
                             <td class="px-6 py-4" x-show="nama_ibu">
                                 {{ $item->nama_ibu }}
                             </td>
-                            <td class="px-6 py-4" x-show="nama_ibu">
+                            {{-- <td class="px-6 py-4" x-show="nama_ibu">
                                  <flux:switch  :checked="$item->send_notification ? true :false" disabled/>
                             </td>
                             <td class="px-6 py-4" x-show="notification_target">
                                  {{ ucWords($item->notification_target) }}
-                            </td>
+                            </td> --}}
                             <td class="px-6 py-4" x-show="notification_account">
                                  {{ ucWords($item->notification_account) }}
                             </td>
