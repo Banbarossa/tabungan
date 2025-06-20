@@ -15,8 +15,7 @@ class BarcodeTransaction extends Component{
     #[Layout('components.layouts.cashier')]
     #[Title('Home')]
 
-    public string $qrResult = '';
-    public ?Student $student = null;
+    public $student;
 
 
     public $amount;
@@ -25,7 +24,9 @@ class BarcodeTransaction extends Component{
 
     public $limitToday;
 
-    public $idCardCode;
+    public $search;
+
+    // public $idCardCode;
 
     public function mount(){
 
@@ -53,10 +54,10 @@ class BarcodeTransaction extends Component{
         return view('livewire.cashier.dashboard.barcode-transaction',compact('history'));
     }
 
-    public function getData()
+    public function updatedSearch()
     {
-        $id = vinclaDecode($this->idCardCode);
-        $student = Student::findorFail($id);
+
+        $student = Student::where('nisn',$this->search)->first();
         $this->student=$student;
 
 
@@ -90,9 +91,10 @@ class BarcodeTransaction extends Component{
         $service = new TransactionService($this->student);
         $service->transaction($amount,'-','tarik');
         $this->student=null;
-        $this->idCardCode='';
+        $this->search='';
 
         $this->dispatch('transaction_updated');
+        $this->redirect(route('cashier.home'));
 
     }
 }

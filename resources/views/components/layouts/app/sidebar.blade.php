@@ -14,7 +14,7 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Identitas')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navlist.item>
-                    <flux:navlist.item icon="users" :href="route('account.')" :current="request()->is('account*')" wire:navigate>Acocunt</flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('account.')" :current="request()->is('account*')" wire:navigate>Account</flux:navlist.item>
                     <flux:navlist.item icon="calendar-days" :href="route('calendar')" :current="request()->is('calendar')" >Calendar</flux:navlist.item>
                 </flux:navlist.group>
                 <flux:navlist.group :heading="__('Transaction')" class="grid">

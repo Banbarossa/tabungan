@@ -51,8 +51,7 @@ class CashierTransaction extends Component
 
     public function getData($value)
     {
-        $id = vinclaDecode($value);
-        $student = Student::findorFail($id);
+        $student = Student::where('nisn',$value)->first();
         $this->student=$student;
 
 

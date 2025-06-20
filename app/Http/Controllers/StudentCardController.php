@@ -11,35 +11,35 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class StudentCardController extends Controller
 {
-    public function singleCard($code = null){
+    public function singleCard($id = null){
 
         $dns1d = new DNS1D();
         $dns2d = new DNS2D();
         $dns1d->setStorPath(storage_path('framework/barcodes/'));
         $dns2d->setStorPath(storage_path('framework/barcodes/'));
 
-        if($code){
-            $id=vinclaDecode($code);
-                $siswas = Student::where('id',$id)->get()->map(function($siswa)use ($dns1d, $dns2d)  {
-                $code=vinclaEncode($siswa->id);
-                // $siswa->qr =base64_encode(QrCode::format('png')->size(100)->generate($code));
 
-                $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($code, 'QRCODE');
+        if($id){
+            $siswas = Student::where('id',$id)->get()->map(function($siswa)use ($dns1d, $dns2d)  {
 
-                $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($code, 'C128',0.8,30,[255,255,255]);
+            $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($siswa->nisn, 'QRCODE');
 
-                return $siswa;
+            $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($siswa->nisn, 'C39',1,50,[0,0,0]);
+
+
+
+            return $siswa;
+
+
             });
         }else{
             $siswas = Student::whereStatus(true)->orderBy('name')->get()->map(function($siswa) use ($dns1d, $dns2d) {
-                $code=vinclaEncode($siswa->id);
-                $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($code, 'QRCODE');
-                $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($code, 'C128',0.8,30,[255,255,255]);
-                // $siswa->qr =base64_encode(QrCode::format('png')->size(100)->generate($code));
+                $nisn=$siswa->nisn;
+                $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($nisn, 'QRCODE');
+                $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($nisn, 'C128',1,50,[0,0,0]);
                 return $siswa;
             });
         }
-
 
 
         $pdf = Pdf::loadView('pdf.card-id', compact('siswas'))

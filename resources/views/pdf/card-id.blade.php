@@ -50,9 +50,9 @@
         .barcode {
             position: absolute;
             bottom: 2mm;
-            left: 2mm;
-            transform: rotate(-90deg);
-            transform-origin: left top;
+            left: 18mm;
+            /* transform: rotate(-90deg);
+            transform-origin: left top; */
         }
         .header{
             background-color: #336666;
@@ -108,7 +108,7 @@
                                 alt="barcode"
                                 class="barcode"
                             >
-                            <img src="{{ $siswa->qr }}" alt="qr-code" class="qr">
+                            {{-- <img src="{{ $siswa->qr }}" alt="qr-code" class="qr"> --}}
 
                         </div>
                     </td>
@@ -118,7 +118,9 @@
                                 src="{{ public_path('images/card-bg-behind.png') }}"
                                 style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;"
                             />
-
+                            <div class="qr" style="padding: 3px 3px;background-color: #fff">
+                                <img src="{{ $siswa->qr }}" alt="qr-code" >
+                            </div>
 
                         </div>
                     </td>

@@ -70,14 +70,11 @@
                 @else
                 <div class="text-center">
                     <h1 class="text-xl font-bold mb-2">ID CARD SANTRI</h1>
-                    <form action="" wire:submit="getData">
-                        <flux:input
-                            placeholder="Kode Id Card"
-                            wire:model="idCardCode"
-                            autofocus
-                        />
-                    </form>
+                    {{-- <form action="" wire:submit="getData"> --}}
 
+                    <flux:input placeholder="Kode Id Card" wire:model.live="search" autofocus/>
+                    {{-- </form> --}}
+                        {{ $search }}
                 </div>
 
                 @endif
