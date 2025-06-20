@@ -4,7 +4,10 @@
     <title>Kartu Tabungan</title>
     <style>
         @page { margin: 0mm; }
-        body { margin: 10mm; font-family: sans-serif; }
+        body {
+            margin: 10mm;
+            font-family: 'Courier', monospace;
+        }
 
         /* .page {
             width: 210mm;
@@ -23,33 +26,42 @@
             border: solid #336666 1px;
         }
 
-        .isi {
+        .isi-depan {
             position: absolute;
-            top: 12mm;
-            left: 18mm;
+            top: 22mm;
+            left: 8mm;
             right: 5mm;
             font-size: 10pt;
-            color: #000;
-            font-family: Helvetica, sans-serif;
+            color: #484747;
+            font-family:'monospace', Courier;
+        }
+        .isi-belakang {
+            position: absolute;
+            top: 16mm;
+            left: 16mm;
+            right: 5mm;
+            font-size: 10pt;
+            color: #484747;
+            font-family:'monospace', Courier;
         }
 
         .foto {
             position: absolute;
             top: 5mm;
-            right: 5mm;
+            left: 12mm;
             width: 18mm;
             height: 24mm;
         }
 
         .qr {
             position: absolute;
-            bottom: 2mm;
-            right: 6mm;
-            width: 17mm;
+            bottom: 4mm;
+            left: 18mm;
+            width: 24mm;
         }
         .barcode {
             position: absolute;
-            bottom: 2mm;
+            top: 16mm;
             left: 18mm;
             /* transform: rotate(-90deg);
             transform-origin: left top; */
@@ -84,30 +96,27 @@
                                 src="{{ public_path('images/card-bg-front.png') }}"
                                 style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;"
                             />
-                            <div class="isi">
-                                <div class="header">
+                            <div class="isi-depan">
+                                {{-- <div class="header">
                                     <h2>Kartu Tabungan</h2>
-                                </div>
+                                </div> --}}
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td style="width: 36px;vertical-align: top">Nama</td>
-                                            <td style="width: 4px ;vertical-align: top">:</td>
-                                            <td><strong>{{ $siswa->name }}</strong></td>
+                                            <td style="font-size: 18px;letter-spacing: 1px">
+                                                <strong>{{$siswa->no_id}}</strong>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>NISN/NIS</td>
-                                            <td style="width: 4px">:</td>
-                                            <td>{{$siswa->no_id}}</td>
+                                            <td style="font-size: 18px;">
+                                                <strong>{{ $siswa->name }}</strong>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                             </div>
-                            <img src="{{ $siswa->barcode }}"
-                                alt="barcode"
-                                class="barcode"
-                            >
+
                             {{-- <img src="{{ $siswa->qr }}" alt="qr-code" class="qr"> --}}
 
                         </div>
@@ -118,9 +127,29 @@
                                 src="{{ public_path('images/card-bg-behind.png') }}"
                                 style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;"
                             />
-                            <div class="qr" style="padding: 3px 3px;background-color: #fff">
-                                <img src="{{ $siswa->qr }}" alt="qr-code" >
+                            <div class="isi-belakang">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img src="{{ $siswa->barcode }}"
+                                                    alt="barcode"
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="{{ $siswa->qr }}" alt="qr-code" >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
+
+
+                            {{-- <div class="qr" style="padding: 3px 3px;background-color: #fff">
+                                <img src="{{ $siswa->qr }}" alt="qr-code" >
+                            </div> --}}
 
                         </div>
                     </td>
