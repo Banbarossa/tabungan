@@ -20,7 +20,7 @@ class StudentCardController extends Controller
 
 
         if($id){
-            $siswas = Student::where('id',$id)->get()->map(function($siswa)use ($dns1d, $dns2d)  {
+            $siswas = Student::where('id',$id)->whereNotNull('nisn')->get()->map(function($siswa)use ($dns1d, $dns2d)  {
 
             $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($siswa->nisn, 'QRCODE');
 
