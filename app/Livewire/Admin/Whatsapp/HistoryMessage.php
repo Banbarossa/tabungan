@@ -21,6 +21,11 @@ class HistoryMessage extends Component
         ])->get($url.'get_whatsapp/tabungan');
 
         $messages=$response->json();
+        if($messages){
+            $messages=$messages;
+        }{
+            $messages=[];
+        }
 
         // dd($messages);
         return view('livewire.admin.whatsapp.history-message',compact('messages'));
