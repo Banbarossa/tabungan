@@ -117,7 +117,9 @@
                                     <flux:button  size="sm" href="{{ route('account.edit',vinclaEncode($item->id)) }}">
                                         <flux:icon.pencil-square class="size-4 "/>
                                     </flux:button>
-                                    <flux:button    size="sm" target="blank" href="{{ route('account.single-card',$item->id) }}">
+                                    <flux:button size="sm" target="blank"
+                                        href="{{  $item->nisn ? route('account.single-card', $item->id) : '' }}"
+                                    >
                                         <flux:icon.ticket class="size-4"/>
                                     </flux:button>
                                 </flux:button.group>

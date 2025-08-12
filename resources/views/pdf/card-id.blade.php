@@ -37,9 +37,9 @@
         }
         .isi-belakang {
             position: absolute;
-            top: 16mm;
+            top: 4mm;
             left: 16mm;
-            right: 5mm;
+            right: 2mm;
             font-size: 10pt;
             color: #484747;
             font-family:'monospace', Courier;
@@ -100,7 +100,7 @@
                                 {{-- <div class="header">
                                     <h2>Kartu Tabungan</h2>
                                 </div> --}}
-                                <table>
+                                <table >
                                     <tbody>
                                         <tr>
                                             <td style="font-size: 18px;letter-spacing: 1px">
@@ -128,18 +128,19 @@
                                 style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;"
                             />
                             <div class="isi-belakang">
-                                <table>
+                                <table style="width: 100%; border-collapse: separate;" >
                                     <tbody>
+                                        
                                         <tr>
-                                            <td>
-                                                <img src="{{ $siswa->barcode }}"
-                                                    alt="barcode"
-                                                >
+                                            <td style="text-align: right; padding-bottom:8px">
+                                                <img style="margin-start" src="{{ $siswa->qr }}" alt="qr-code" >
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
-                                                <img src="{{ $siswa->qr }}" alt="qr-code" >
+                                            <td style="text-align: right;">
+                                                <img src="{{ $siswa->barcode }}"
+                                                    alt="barcode"
+                                                >
                                             </td>
                                         </tr>
                                     </tbody>

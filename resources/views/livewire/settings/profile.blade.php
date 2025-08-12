@@ -8,21 +8,28 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public string $user = '';
+    public string $user_id = '';
     public string $name = '';
     public string $email = '';
+
+    public $routeActive ='';
 
     /**
      * Mount the component.
      */
     public function mount($code = null): void
     {
+        $this->routeActive=request()->fullUrl();
+
         if (!$code) {
             $this->user = Auth::user();
+            $this->user_id = Auth::user()->id;
             $this->name = Auth::user()->name;
             $this->email = Auth::user()->email;
         }else{
             $id =vinclaDecode($code);
-            $user =User::find($id);
+            $this->user =User::find($id);
+            $this->user_id = $user->id;
             $this->name = $user->name;
             $this->email = $user->email;
         }
@@ -31,9 +38,11 @@ new class extends Component {
     /**
      * Update the profile information for the currently authenticated user.
      */
-    public function updateProfileInformation(): void
+    public function updateProfileInformation()
     {
-        $user = $this->user;
+
+        $user = User::find($this->user_id);
+
 
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -44,7 +53,7 @@ new class extends Component {
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($user->id)
+                Rule::unique(User::class)->ignore($this->user_id)
             ],
         ]);
 
@@ -57,6 +66,7 @@ new class extends Component {
         $user->save();
 
         $this->dispatch('profile-updated', name: $user->name);
+        return redirect($this->routeActive);
     }
 
     /**

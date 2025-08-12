@@ -22,7 +22,7 @@ class StudentCardController extends Controller
         if($id){
             $siswas = Student::where('id',$id)->get()->map(function($siswa)use ($dns1d, $dns2d)  {
 
-            $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($siswa->nisn, 'QRCODE',3,3);
+            $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($siswa->nisn, 'QRCODE',5.5,5.5);
 
             $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($siswa->nisn, 'C39',1,50,[0,0,0]);
 
@@ -35,7 +35,7 @@ class StudentCardController extends Controller
         }else{
             $siswas = Student::whereStatus(true)->whereNotNull('nisn')->orderBy('name')->get()->map(function($siswa) use ($dns1d, $dns2d) {
                 $nisn=$siswa->nisn;
-                $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($nisn, 'QRCODE',3,3);
+                $siswa->qr = 'data:image/png;base64,' . $dns2d->getBarcodePNG($nisn, 'QRCODE',5.5,5.5);
                 $siswa->barcode = 'data:image/png;base64,' . $dns1d->getBarcodePNG($nisn, 'C128',1,50,[0,0,0]);
                 return $siswa;
             });

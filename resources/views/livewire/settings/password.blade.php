@@ -12,6 +12,7 @@ new class extends Component {
     public string $password_confirmation = '';
 
     public $user;
+    public $user_id;
 
     /**
      * Update the password for the currently authenticated user.
@@ -19,9 +20,12 @@ new class extends Component {
     public function mount($code = null){
         if($code){
             $id = vinclaDecode($code);
-            $this->user = User::find($id);
+            $user = User::find($id);
+            $this->user = $user;
+            $this->user = $user->id;
         }else{
-            $user= Auth::user();
+            $this->user= Auth::user();
+            $this->user_id= Auth::user()->id;
         }
     }
 
@@ -36,8 +40,9 @@ new class extends Component {
 
             throw $e;
         }
+        $user = User::find($this->user_id);
 
-        $this->user->update([
+        $user->update([
             'password' => Hash::make($validated['password']),
         ]);
 
@@ -57,6 +62,7 @@ new class extends Component {
                 type="password"
                 required
                 autocomplete="new-password"
+                viewable
             />
             <flux:input
                 wire:model="password_confirmation"
@@ -64,6 +70,7 @@ new class extends Component {
                 type="password"
                 required
                 autocomplete="new-password"
+                viewable
             />
 
             <div class="flex items-center gap-4">
