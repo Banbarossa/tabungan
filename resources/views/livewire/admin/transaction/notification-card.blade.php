@@ -1,4 +1,4 @@
-<div class="mx-auto bg-zinc-100 dark:bg-zinc-800 shadow-lg rounded-sm border border-gray-200 dark:border-zinc-600">
+<div class="mx-auto bg-zinc-200 dark:bg-zinc-800  rounded-lg border border-zinc-300 dark:border-zinc-600">
     <x-toast on='student_updated'></x-toast>
     <div class="flex flex-col h-full">
         <div class="flex-grow p-5">

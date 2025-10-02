@@ -5,6 +5,7 @@ namespace App\Livewire\Cashier;
 use App\Models\Savinglimit;
 use App\Models\Student;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
@@ -82,8 +83,10 @@ class CashierTransaction extends Component
             return;
         }
 
+        $date=Carbon::now()->toDateString();
+        $description ='';
         $service = new TransactionService($this->student);
-        $service->transaction($amount,'-','tarik');
+        $service->transaction($amount,'-','tarik',$date,$description);
 
         $this->dispatch('transaction_updated');
 

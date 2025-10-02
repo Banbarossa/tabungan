@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Transaction;
 
 use App\Models\Student;
+use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Transaction;
 use App\Services\TransactionService;
@@ -19,18 +20,46 @@ class SetorTransaction extends Component
 
     public $student;
 
+    public $tanggal;
+    public $description;
+
     public $amount_setor;
     public $amount_tarik;
+
+    public $headings=[];
 
     public function mount($code){
         $id = vinclaDecode($code);
         $this->student = Student::find($id);
+        $this->tanggal=Carbon::now()->toDateString();
+        $this->headings = ['Tanggal','Debit','Kredit','Cashier'];
+
+
     }
 
     public function render()
     {
-        $transaksi= Transaction::where('student_id',$this->student->id)->latest()->limit(200)->get();
-        return view('livewire.admin.transaction.setor-transaction',compact('transaksi'));
+        $transaksi= Transaction::where('student_id',$this->student->id)
+            ->latest()
+            ->limit(200)
+            ->get()
+            ->map(function($item){
+                return[
+                    'id'=>$item->id,
+                    'Tanggal'=>$item->date,
+                    'Debit'=>$item->type == 'setor' ? format_rupiah($item->amount): '',
+                    'Kredit'=>$item->type !== 'setor' ? format_rupiah($item->amount): '',
+                    'Cashier'=>$item->handledbyUser?->name,
+                ];
+            });
+
+        $breads=[
+            ['url'=>route('transaction'),'title'=>'Transaction'],
+            ['url'=>url()->current(),'title'=>'Detail'],
+        ];
+        return view('livewire.admin.transaction.setor-transaction',compact('transaksi'))->layoutData([
+            'breads'=>$breads
+        ]);
     }
 
     public function setor(){
@@ -50,8 +79,11 @@ class SetorTransaction extends Component
             return;
         }
 
+        $date = $this->tanggal;
+        $description = $this->description;
+
         $service = new TransactionService($this->student);
-        $service->transaction($amount_setor,'+','setor');
+        $service->transaction($amount_setor,'+','setor',$date,$description);
         $this->amount_setor ='';
 
 

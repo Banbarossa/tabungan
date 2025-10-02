@@ -25,32 +25,39 @@ class TransactionService
         $this->student=$student;
     }
 
-    public function transaction($amount,$operator,$type){
+    public function transaction($amount,$operator,$type,$date,$description=null){
 
-
+        $date = Carbon::parse($date)->toDateString();
+        $jumlah = Transaction::whereDate('created_at',Carbon::now()->toDateString())
+            ->withTrashed()
+            ->count();
         if($operator == '+'){
             $latest_saldo = $this->student->saldo + $amount;
         }else{
             $latest_saldo = $this->student->saldo - $amount;
         }
+        $invoice_number=Carbon::now()->format('Ymd').'-'.$jumlah+1;
 
-        DB::transaction(function () use($amount,$latest_saldo,$operator,$type) {
+        DB::transaction(function () use($amount,$latest_saldo,$operator,$type,$date,$description,$invoice_number) {
 
             Transaction::create([
+                'invoice_number'=>$invoice_number,
                 'student_id'=>$this->student->id,
                 'amount'=>$amount,
                 'latest_saldo'=>$latest_saldo,
                 'type'=>$type,
                 'handledby'=>Auth::user()->id,
+                'date'=>$date,
+                'description'=>$description??null,
             ]);
 
             Student::find($this->student->id)->update([
                 'saldo'=>$latest_saldo,
             ]);
 
-            DB::afterCommit(function () use ($latest_saldo,$operator,$amount) {
+            DB::afterCommit(function () use ($latest_saldo,$operator,$amount,$date,$description) {
                 if(cekSendMessage($operator)){
-                    $this->sendWa($amount,$latest_saldo,$operator);
+                    $this->sendWa($amount,$latest_saldo,$operator,$date,$description);
 
                 }
 
@@ -61,17 +68,18 @@ class TransactionService
 
     }
 
-    public function sendWa($amount,$latest_saldo,$operator){
+    public function sendWa($amount,$latest_saldo,$operator,$date,$description){
         if(is_null($this->student->notification_account)){
             return;
         }
 
-        $tanggal = Carbon::now()->format('d-m-Y');
+        $tanggal = Carbon::parse($date)->format('d-m-Y');
         $nama_santri = $this->student->name;
         $kelas = $this->student->kelas;
         $jumlah = format_rupiah($amount);
         $saldo_akhir= format_rupiah($latest_saldo);
         $cashier= Auth::user()->name;
+        $keterangan= $description??null;
 
 
         $set =Settingwhatsapp::latest()->first();
@@ -89,6 +97,7 @@ class TransactionService
             'jumlah' => $jumlah,
             'saldo_akhir' => $saldo_akhir,
             'cashier' => $cashier,
+            'keterangan' => $keterangan,
         ]);
 
 

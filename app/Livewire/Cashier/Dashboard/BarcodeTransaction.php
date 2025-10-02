@@ -3,6 +3,7 @@
 namespace App\Livewire\Cashier\Dashboard;
 
 use App\Models\Student;
+use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Savinglimit;
 use App\Models\Transaction;
@@ -89,7 +90,9 @@ class BarcodeTransaction extends Component{
         }
 
         $service = new TransactionService($this->student);
-        $service->transaction($amount,'-','tarik');
+        $date=Carbon::now()->toDateString();
+        $description ='';
+        $service->transaction($amount,'-','tarik',$date,$description);
         $this->student=null;
         $this->search='';
 

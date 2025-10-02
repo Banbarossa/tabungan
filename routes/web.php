@@ -22,15 +22,17 @@ Route::group(['middleware'=>['auth','can:cashier'],'as'=>'cashier.'],function(){
 Route::group(['middleware'=>['auth','can:admin'],],function(){
     Route::get('calendar',\App\Livewire\CalendarDetail::class)->name('calendar');
     Route::get('/calendar-events',[\App\Http\Controllers\CalenderEventController::class,'getCalendarEvents'])->name('calender-event');
-    Route::get('santri-absen',[\App\Http\Controllers\GetStudentApi::class,'getDataAbsen']);
+    Route::get('santri-absen',[\App\Http\Controllers\GetStudentApi::class,'getDataAbsen'])->name('import-data-absen');
+    Route::get('daily-history',\App\Livewire\Admin\Transaction\DailyHistory::class)->name('daily-history');
 
 
     Route::group(['as'=>'account.','prefix'=>'account'],function(){
-        Route::get('/',\App\Livewire\Admin\Account\MasterAccount::class);
-        Route::get('/create',\App\Livewire\Admin\Account\AccountCreate::class)->name('create');
+        Route::get('/{status}',\App\Livewire\Admin\Account\MasterAccount::class)->name('index');
+
+        Route::get('/formulir/create',\App\Livewire\Admin\Account\AccountCreate::class)->name('create');
         Route::get('{code}/edit',\App\Livewire\Admin\Account\AccountCreate::class)->name('edit');
-        Route::get('id-card',[\App\Http\Controllers\StudentCardController::class,'singleCard'])->name('all-card');
-        Route::get('id-card/{id}',[\App\Http\Controllers\StudentCardController::class,'singleCard'])->name('single-card');
+        Route::get('/pdf/id-card',[\App\Http\Controllers\StudentCardController::class,'singleCard'])->name('all-card');
+        Route::get('/pdf/id-card/{ids}',[\App\Http\Controllers\StudentCardController::class,'singleCard'])->name('single-card');
     });
 
     Route::group(['as'=>'user.','prefix'=>'user'],function(){

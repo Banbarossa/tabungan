@@ -14,12 +14,18 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Identitas')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navlist.item>
-                    <flux:navlist.item icon="users" :href="route('account.')" :current="request()->is('account*')" wire:navigate>Account</flux:navlist.item>
-                    <flux:navlist.item icon="calendar-days" :href="route('calendar')" :current="request()->is('calendar')" >Calendar</flux:navlist.item>
+                    <flux:navlist.group heading="Santri" expandable :expanded="Request::is('account*')">
+                        <flux:navlist.item href="{{route('account.index',['status'=>'aktif'])}}"  :current="Request::is('account/aktif')" wire:navigate>Aktif</flux:navlist.item>
+                        <flux:navlist.item href="{{route('account.index',['status'=>'nonaktif'])}}"  :current="Request::is('account/nonaktif')" wire:navigate>Tidak Aktif</flux:navlist.item>
+
+                    </flux:navlist.group>
+
                 </flux:navlist.group>
                 <flux:navlist.group :heading="__('Transaction')" class="grid">
                     <flux:navlist.item icon="banknotes" :href="route('transaction')" :current="request()->routeIs('transaction')" wire:navigate>Transaction</flux:navlist.item>
                     <flux:navlist.item icon="tag" :href="route('daily-limit-management')" :current="request()->routeIs('daily-limit-management')" wire:navigate>Limit Harian</flux:navlist.item>
+                    <flux:navlist.item icon="arrow-path" :href="route('daily-history')" :current="request()->routeIs('daily-history')" wire:navigate>Daily History</flux:navlist.item>
+                    <flux:navlist.item icon="calendar-days" :href="route('calendar')" :current="request()->is('calendar')" >Calendar</flux:navlist.item>
                 </flux:navlist.group>
                 <flux:navlist.group :heading="__('User')" class="grid">
                     <flux:navlist.item icon="users" :href="route('user.admin')" :current="request()->routeIs('user.admin')" wire:navigate>Servicer</flux:navlist.item>

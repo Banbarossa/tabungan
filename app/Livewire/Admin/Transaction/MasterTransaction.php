@@ -18,7 +18,10 @@ class MasterTransaction extends Component
     public function render()
     {
         $students=$this->dataStudent();
-        return view('livewire.admin.transaction.master-transaction',compact('students'));
+        $breads=[
+            ['url'=>url()->current(),'title'=>'Transaction'],
+        ];
+        return view('livewire.admin.transaction.master-transaction',compact('students'))->layoutData(['breads'=>$breads]);
     }
 
     public function updatingSearch()

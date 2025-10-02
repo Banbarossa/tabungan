@@ -19,7 +19,7 @@ class CalendarDetail extends Component
             DB::raw('SUM(CASE WHEN type = "setor" THEN amount ELSE 0 END) as total_setor'),
             DB::raw('SUM(CASE WHEN type != "setor" THEN amount ELSE 0 END) as total_non_setor')
         )
-        ->groupBy('date')
+        ->groupByRaw('DATE(created_at)')
         ->get();
 
         $events = [];

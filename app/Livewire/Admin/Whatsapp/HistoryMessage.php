@@ -14,6 +14,7 @@ class HistoryMessage extends Component
     public function render()
     {
 
+
         $url= config('absen.simaq_url');
         $token= config('absen.simaq_token');
         $response = Http::withHeaders([
@@ -27,7 +28,6 @@ class HistoryMessage extends Component
             $messages=[];
         }
 
-        // dd($messages);
         return view('livewire.admin.whatsapp.history-message',compact('messages'));
     }
 }

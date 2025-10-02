@@ -1,79 +1,96 @@
 <section>
 
 
-    <x-slot:breadcrumbs>
-        <flux:breadcrumbs>
-            <flux:breadcrumbs.item href="{{ route('dashboard') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('transaction') }}">Transaction</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>Setor</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-    </x-slot:breadcrumbs>
 
     <div class="grid lg:grid-cols-3 gap-4">
         <div class="lg:order-2">
             <livewire:admin.transaction.notification-card :student="$student"/>
 
         </div>
-        <div class=" lg:col-span-2">
-            <div class="bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4 border border-zinc-300 dark:border-zinc-600 relative">
-                <div class="flex gap-3 items-center">
-                    <div class="w-10 h-10 bg-indigo-500/50 flex items-center justify-center rounded-lg">
-                        <flux:icon.calculator></flux:icon.calculator>
-                    </div>
-                    <div>
-                        <flux:text>Saldo Saat Ini</flux:text>
-                        <flux:heading size="xl">{{ format_rupiah($student->saldo)}}</flux:heading>
-                    </div>
+        <div
+            class="lg:col-span-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg p-4 border border-zinc-300 dark:border-zinc-600 flex flex-col">
+            <div class="flex gap-3  h-full items-center flex-col">
+                <div class="p-1 bg-white flex items-center justify-center rounded-lg">
+                    <flux:icon.calculator class="size-10 text-indigo-500"></flux:icon.calculator>
                 </div>
-                <div class="bg-white dark:bg-zinc-900 mt-2 p-2 rounded-lg shadow">
-                    <flux:modal.trigger name="setor">
-                        <flux:button icon="plus" variant="primary" size="sm">Setor</flux:button>
-                    </flux:modal.trigger>
-                    <flux:modal.trigger name="tarik">
-                        <flux:button icon="minus" variant="danger" size="sm">Tarik</flux:button>
-                    </flux:modal.trigger>
+
+                <div class="text-center">
+                    <flux:text>Saldo Saat Ini</flux:text>
+                    <h1 class="text-2xl md:text-5xl font-bold font-mono">{{ format_rupiah($student->saldo)}}</h1>
                 </div>
             </div>
-            <div class="mt-4">
-                <flux:heading size="lg">Riwayat Transaksi</flux:heading>
-
-                <div class="border dark:border-zinc-600 p-4 rounded-lg">
-                    <ul class="divide-y divide-gray-200 dark:divide-gray-700 mt-4">
-                        @forelse ($transaksi as $item)
-                            <li class="pb-3 sm:pb-4">
-                                <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                                    <div class="shrink-0">
-                                        <div class="w-8 h-8 rounded-full {{  $item->type =='setor' ?'bg-green-400/70' :'bg-red-400/70' }} flex items-center justify-center" >
-                                            @if ($item->type == 'setor')
-                                            <flux:icon.banknotes class="size-4 text-zinc-50"></flux:icon.banknotes>
-                                            @else
-                                            <flux:icon.inbox-arrow-down class="size-4 text-zinc-50"></flux:icon.inbox-arrow-down>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                        {{ $item->type =='setor' ?'Setoran':'Penarikan' }}
-                                        </p>
-                                        <p class="text-xs text-gray-500 truncate dark:text-gray-400">
-                                            {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }}
-                                        </p>
-                                    </div>
-                                    <div class="inline-flex items-center text-base font-semibold  {{  $item->type =='setor' ?'text-green-700 dark:text-green-200' :'text-gray-900 dark:text-white' }} ">
-                                        {{ $item->type =='setor' ?'+':'-' }}{{ format_rupiah($item->amount) }}
-                                    </div>
-                                </div>
-                            </li>
-                        @empty
-
-                        @endforelse
-
-                    </ul>
-                </div>
+            <div class="bg-white dark:bg-zinc-900 mt-2 p-2 rounded-lg shadow">
+                <flux:modal.trigger name="setor">
+                    <flux:button icon="plus" variant="primary">Setor</flux:button>
+                </flux:modal.trigger>
+                <flux:modal.trigger name="tarik">
+                    <flux:button icon="minus" variant="danger">Tarik</flux:button>
+                </flux:modal.trigger>
             </div>
-
         </div>
     </div>
+
+    <div class="rounded-lg border mb-4 border-zinc-300 mt-5" x-data="{riwayat:true}">
+        <button class="p-4 flex gap-4 flex-wrap  w-full item->center" x-on:click="riwayat = !riwayat">
+            <flux:heading size="lg">
+                RIWAYAT TRANSAKSI
+            </flux:heading>
+            <flux:spacer/>
+            <flux:icon.arrow-right class="size-4" x-bind:class="{ 'rotate-90': riwayat }"></flux:icon.arrow-right>
+        </button>
+        <div x-cloak x-show="riwayat" x-transition>
+            <flux:separator/>
+            <div class="p-2">
+                <x-table.container>
+                    <x-table.columns>
+                        <x-table.column class="w-10">
+                            No
+                        </x-table.column>
+                        @foreach($headings as $head)
+                            <x-table.column>{{$head}}</x-table.column>
+                        @endforeach
+                        <x-table.column class="w-24">Aksi</x-table.column>
+
+                    </x-table.columns>
+                    <x-table.rows>
+                        @forelse($transaksi as $index=>$t)
+
+                            <x-table.row variant="hovered">
+                                <x-table.cell>
+                                    {{$index+1}}
+                                </x-table.cell>
+                                @foreach($headings as $head)
+                                    <x-table.cell class="truncate text-wrap">
+                                        {{$t[$head]}}
+                                    </x-table.cell>
+                                @endforeach
+                                <x-table.cell>
+                                    <flux:button.group>
+                                        <flux:button size="sm" icon="pencil-square"></flux:button>
+                                        <flux:button size="sm" wire:click="confirmDestroy({{$t['id']}})" icon="trash"></flux:button>
+                                    </flux:button.group>
+                                </x-table.cell>
+                            </x-table.row>
+                        @empty
+                            <x-table.row>
+                                <x-table.cell colspan="{{count($headings)+2}}">
+                                    <div class="flex items-center gap-2">
+                                        <flux:icon.information-circle></flux:icon.information-circle>
+                                        <span>
+                                    Tidak ada data yang ditemukan
+                                </span>
+                                    </div>
+                                </x-table.cell>
+                            </x-table.row>
+                        @endforelse
+                    </x-table.rows>
+                </x-table.container>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
     <flux:modal name="setor" class="md:w-96" variant="flyout">
@@ -89,17 +106,19 @@
                         <flux:icon.briefcase></flux:icon.briefcase>
                     </div>
                     <div>
-                        <flux:text  class="uppercase truncate">{{$student->name}}</flux:text>
+                        <flux:text class="uppercase truncate">{{$student->name}}</flux:text>
                         <flux:heading size="xl" class="uppercase">{{format_rupiah($student->saldo)}}</flux:heading>
                     </div>
                 </div>
             </div>
             <form action="" wire:submit='setor'>
+                <flux:input type="date" label="Tanggal" name="tanggal" wire:model="tanggal" class="mb-4"></flux:input>
+
                 <flux:input.group>
                     <flux:input.group.prefix>Rp</flux:input.group.prefix>
-                    <flux:input  x-mask:dynamic="$money($input, ',', '.')" wire:model="amount_setor"  />
+                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount_setor"/>
                 </flux:input.group>
-                <flux:error name="amount_setor" />
+                <flux:error name="amount_setor"/>
 
                 <div class="flex items-center justify-end mt-4">
                     <flux:button type="submit" variant="primary" class="w-full">
@@ -109,14 +128,13 @@
             </form>
 
 
-
         </div>
     </flux:modal>
     <flux:modal name="tarik" class="md:w-96" variant="flyout">
         <div class="space-y-6">
             <div>
                 <flux:heading size="xl">Penarikan</flux:heading>
-                <flux:text >Penarikan Tabungan</flux:text>
+                <flux:text>Penarikan Tabungan</flux:text>
             </div>
             <img src="{{ asset('images/withdraw.png') }}" alt="withdraw" class="h-36">
             <div class="bg-zinc-100 dark:bg-zinc-700 rounded-lg p-4 border border-zinc-300 relative">
@@ -131,11 +149,15 @@
                 </div>
             </div>
             <form action="" wire:submit='tarik'>
-                <flux:input.group>
-                    <flux:input.group.prefix>Rp</flux:input.group.prefix>
-                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount_tarik"  />
-                </flux:input.group>
-                <flux:error name="amount_tarik" />
+                <div class="mb-4">
+
+                    <flux:input.group>
+                        <flux:input.group.prefix>Rp</flux:input.group.prefix>
+                        <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount_tarik"/>
+                    </flux:input.group>
+                    <flux:error name="amount_tarik"/>
+                </div>
+                <flux:textarea name="description" label="Keterangan" wire:model="description" rows="3"/>
 
                 <div class="flex items-center justify-end mt-4">
                     <flux:button type="submit" variant="primary" class="w-full">
@@ -143,7 +165,6 @@
                     </flux:button>
                 </div>
             </form>
-
 
 
         </div>

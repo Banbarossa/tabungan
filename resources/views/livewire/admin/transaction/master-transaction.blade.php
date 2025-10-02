@@ -3,12 +3,7 @@
             saldo:true,
             nama_ibu:false
     }">
-    <x-slot:breadcrumbs>
-        <flux:breadcrumbs>
-            <flux:breadcrumbs.item href="{{ route('account.') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>Transaction</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-    </x-slot:breadcrumbs>
+
 
 
     <div class="flex items-center mb-6 gap-4">
