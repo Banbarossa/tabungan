@@ -65,14 +65,9 @@ Route::get('/transaction/setor/{code}',\App\Livewire\Admin\Transaction\SetorTran
 
 Route::get('/daily-limit',\App\Livewire\Admin\Transaction\DailyLimitManagement::class)->name('daily-limit-management')->middleware(['auth','can:admin']);
 
+Route::get('perbaiki',[\App\Http\Controllers\PerbaikiController::class,'tanggal'])->name('perbaiki');
 
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::redirect('settings', 'settings/profile');
 
-//     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
-//     Volt::route('settings/password', 'settings.password')->name('settings.password');
-//     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-// });
 
 require __DIR__.'/auth.php';

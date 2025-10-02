@@ -120,6 +120,7 @@ class SetorTransaction extends Component
         $service->transaction($amount_tarik,'-','tarik',$date,$description);
 
         $this->amount_tarik ='';
+        $this->description ='';
 
         $this->student->refresh();
         $this->dispatch('modal-close','tarik');

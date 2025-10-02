@@ -113,12 +113,16 @@
             </div>
             <form action="" wire:submit='setor'>
                 <flux:input type="date" label="Tanggal" name="tanggal" wire:model="tanggal" class="mb-4"></flux:input>
+                <div class="mb-4">
+                    <flux:input.group>
+                        <flux:input.group.prefix>Rp</flux:input.group.prefix>
+                        <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount_setor"/>
+                    </flux:input.group>
+                    <flux:error name="amount_setor"/>
 
-                <flux:input.group>
-                    <flux:input.group.prefix>Rp</flux:input.group.prefix>
-                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount_setor"/>
-                </flux:input.group>
-                <flux:error name="amount_setor"/>
+                </div>
+
+                <flux:textarea name="description" label="Keterangan" wire:model="description" rows="3"/>
 
                 <div class="flex items-center justify-end mt-4">
                     <flux:button type="submit" variant="primary" class="w-full">
