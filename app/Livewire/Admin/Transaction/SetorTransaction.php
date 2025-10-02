@@ -115,7 +115,9 @@ class SetorTransaction extends Component
         }
 
         $service = new TransactionService($this->student);
-        $service->transaction($amount_tarik,'-','tarik');
+        $date = Carbon::now()->toDateString();
+        $description = $this->description;
+        $service->transaction($amount_tarik,'-','tarik',$date,$description);
 
         $this->amount_tarik ='';
 
