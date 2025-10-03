@@ -27,4 +27,7 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class,'verifiedBy');
     }
+    public function metode(){
+        return $this->belongsTo(JenisTransaksi::class,'jenis_transaksi_id','id');
+    }
 }

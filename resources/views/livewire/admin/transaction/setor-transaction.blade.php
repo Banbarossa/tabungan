@@ -66,8 +66,7 @@
                                 @endforeach
                                 <x-table.cell>
                                     <flux:button.group>
-                                        <flux:button size="sm" icon="pencil-square"></flux:button>
-                                        <flux:button size="sm" wire:click="confirmDestroy({{$t['id']}})" icon="trash"></flux:button>
+                                        <flux:button size="sm" icon="eye" href="{{route('transaction.detail',['code'=>$code,'transaction'=>$t['id']])}}"></flux:button>
                                     </flux:button.group>
                                 </x-table.cell>
                             </x-table.row>
@@ -120,6 +119,14 @@
                     </flux:input.group>
                     <flux:error name="amount_setor"/>
 
+                </div>
+                <div class="mb-4">
+                    <flux:select name="jenis_transaksi_id" wire:model="jenis_transaksi_id" label="Metode">
+                        @foreach($methods as $method)
+                        <flux:select.option value="{{$method->id}}">{{$method->nama}}</flux:select.option>
+
+                        @endforeach
+                    </flux:select>
                 </div>
 
                 <flux:textarea name="description" label="Keterangan" wire:model="description" rows="3"/>

@@ -25,7 +25,7 @@ class TransactionService
         $this->student=$student;
     }
 
-    public function transaction($amount,$operator,$type,$date,$description=null){
+    public function transaction($amount,$operator,$type,$date,$description=null,$jenis_transaksi_id=null){
 
         $date = Carbon::parse($date)->toDateString();
         $jumlah = Transaction::whereDate('created_at',Carbon::now()->toDateString())
@@ -38,7 +38,7 @@ class TransactionService
         }
         $invoice_number=Carbon::now()->format('Ymd').'-'.$jumlah+1;
 
-        DB::transaction(function () use($amount,$latest_saldo,$operator,$type,$date,$description,$invoice_number) {
+        DB::transaction(function () use($amount,$latest_saldo,$operator,$type,$date,$description,$invoice_number,$jenis_transaksi_id) {
 
             Transaction::create([
                 'invoice_number'=>$invoice_number,
@@ -49,6 +49,7 @@ class TransactionService
                 'handledby'=>Auth::user()->id,
                 'date'=>$date,
                 'description'=>$description??null,
+                'jenis_transaksi_id'=>$jenis_transaksi_id,
             ]);
 
             Student::find($this->student->id)->update([

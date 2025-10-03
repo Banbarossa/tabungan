@@ -54,6 +54,10 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
         Route::get('/history',\App\Livewire\Admin\Whatsapp\HistoryMessage::class)->name('history');
         Route::get('/setting',\App\Livewire\Admin\Whatsapp\SettingSendingMessage::class)->name('setting');
     });
+    Route::group(['as'=>'pengaturan.','prefix'=>'pengaturan'],function(){
+        Route::get('/jenis-transaksi',\App\Livewire\Admin\Pengaturan\MainJenisTransaksi::class)->name('jenis-transaksi');
+    });
+
 
 
 
@@ -61,11 +65,12 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
 
 
 Route::get('/transaction',\App\Livewire\Admin\Transaction\MasterTransaction::class)->name('transaction')->middleware(['auth','can:admin']);
-Route::get('/transaction/setor/{code}',\App\Livewire\Admin\Transaction\SetorTransaction::class)->name('transaction.setor')->middleware(['auth','can:admin']);
+Route::get('/transaction/{code}',\App\Livewire\Admin\Transaction\SetorTransaction::class)->name('transaction.setor')->middleware(['auth','can:admin']);
+Route::get('/transaction/{code}/{transaction}',\App\Livewire\Admin\Transaction\DetailTransaction::class)->name('transaction.detail')->middleware(['auth','can:admin']);
 
 Route::get('/daily-limit',\App\Livewire\Admin\Transaction\DailyLimitManagement::class)->name('daily-limit-management')->middleware(['auth','can:admin']);
 
-Route::get('perbaiki',[\App\Http\Controllers\PerbaikiController::class,'tanggal'])->name('perbaiki');
+//Route::get('perbaiki',[\App\Http\Controllers\PerbaikiController::class,'tanggal'])->name('perbaiki');
 
 
 

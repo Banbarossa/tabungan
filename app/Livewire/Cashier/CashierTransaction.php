@@ -86,7 +86,13 @@ class CashierTransaction extends Component
         $date=Carbon::now()->toDateString();
         $description ='';
         $service = new TransactionService($this->student);
-        $service->transaction($amount,'-','tarik',$date,$description);
+        $service->transaction(
+            amount:$amount,
+            operator:'-',
+            type:'tarik',
+            date:$date,
+            description:$description
+        );
 
         $this->dispatch('transaction_updated');
 

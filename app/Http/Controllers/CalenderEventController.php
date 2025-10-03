@@ -15,11 +15,12 @@ class CalenderEventController extends Controller
 
 
         $summary = Transaction::select(
-            DB::raw('DATE(created_at) as date'),
+            DB::raw('DATE(date) as date'),
             DB::raw('SUM(CASE WHEN type = "setor" THEN amount ELSE 0 END) as total_setor'),
             DB::raw('SUM(CASE WHEN type != "setor" THEN amount ELSE 0 END) as total_non_setor')
         )
-        ->whereBetween('created_at', [$start, $end])
+        ->whereBetween('date', [$start, $end])
+            ->groupBy(DB::raw('DATE(date)'))
         ->groupBy('date')
         ->get();
 

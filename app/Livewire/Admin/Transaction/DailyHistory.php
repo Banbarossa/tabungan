@@ -49,6 +49,7 @@ class DailyHistory extends Component
                     'Nama'=>$item->student->name,
                     'Debit'=>$item->type == 'setor' ?format_rupiah($item->amount) : null,
                     'Kredit'=>$item->type !== 'setor' ?format_rupiah($item->amount) : null,
+                    'Metode'=>$item->metode?$item->metode->nama:'Tunai',
                     'Tanggal'=>$item->date,
                     'Cashier'=>$item->verifiedByUser?->name,
 
@@ -59,6 +60,7 @@ class DailyHistory extends Component
             'Nama',
             'Debit',
             'Kredit',
+            'Metode',
             'Tanggal',
             'Cashier',
         ];

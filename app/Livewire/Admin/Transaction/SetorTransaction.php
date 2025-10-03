@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Transaction;
 
+use App\Models\JenisTransaksi;
 use App\Models\Student;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -27,12 +28,19 @@ class SetorTransaction extends Component
     public $amount_tarik;
 
     public $headings=[];
+    public $jenis_transaksi_id;
+    public $methods;
+    public $code;
 
     public function mount($code){
+        $this->code = $code;
         $id = vinclaDecode($code);
         $this->student = Student::find($id);
         $this->tanggal=Carbon::now()->toDateString();
-        $this->headings = ['Tanggal','Debit','Kredit','Cashier'];
+        $this->headings = ['Tanggal','Debit','Kredit','Metode','Cashier'];
+        $methods=JenisTransaksi::orderBy('no_urut','asc')->get();
+        $this->methods=$methods;
+        $this->jenis_transaksi_id=$methods->first()?$methods->first()->id:null;
 
 
     }
@@ -46,9 +54,11 @@ class SetorTransaction extends Component
             ->map(function($item){
                 return[
                     'id'=>$item->id,
+                    'Code'=>vinclaEncode($item->id),
                     'Tanggal'=>$item->date,
                     'Debit'=>$item->type == 'setor' ? format_rupiah($item->amount): '',
                     'Kredit'=>$item->type !== 'setor' ? format_rupiah($item->amount): '',
+                    'Metode'=>$item->metode?$item->metode->nama:'Tunai',
                     'Cashier'=>$item->handledbyUser?->name,
                 ];
             });
@@ -57,7 +67,8 @@ class SetorTransaction extends Component
             ['url'=>route('transaction'),'title'=>'Transaction'],
             ['url'=>url()->current(),'title'=>'Detail'],
         ];
-        return view('livewire.admin.transaction.setor-transaction',compact('transaksi'))->layoutData([
+
+        return view('livewire.admin.transaction.setor-transaction',compact('transaksi',))->layoutData([
             'breads'=>$breads
         ]);
     }
@@ -83,8 +94,17 @@ class SetorTransaction extends Component
         $description = $this->description;
 
         $service = new TransactionService($this->student);
-        $service->transaction($amount_setor,'+','setor',$date,$description);
+
+        $service->transaction(
+            amount:$amount_setor,
+            operator:'+',
+            type:'setor',
+            date:$date,
+            description: $description,
+            jenis_transaksi_id:$this->jenis_transaksi_id,
+        );
         $this->amount_setor ='';
+
 
 
         $this->student->refresh();
@@ -117,7 +137,14 @@ class SetorTransaction extends Component
         $service = new TransactionService($this->student);
         $date = Carbon::now()->toDateString();
         $description = $this->description;
-        $service->transaction($amount_tarik,'-','tarik',$date,$description);
+        //        $amount,$operator,$type,$date,$description=null,$jenis_transaksi_id=null
+        $service->transaction(
+            amount:$amount_tarik,
+            operator:'-',
+            type:'tarik',
+            date:$date,
+            description: $description,
+        );
 
         $this->amount_tarik ='';
         $this->description ='';
