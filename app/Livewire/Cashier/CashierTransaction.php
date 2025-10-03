@@ -42,7 +42,7 @@ class CashierTransaction extends Component
             $history=Transaction::where('student_id',$this->student->id)->latest()->get();
             $todayWithDraw = Transaction::where('student_id',$this->student->id)
                 ->where('type','!=','setor')
-                ->whereDate('created_at', now())
+                ->whereDate('date', now())
                 ->sum('amount');
             $this->dailyLimit =max(0, $this->limitToday - $todayWithDraw);
 

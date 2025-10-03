@@ -17,7 +17,7 @@
         </div>
         <div class="hidden lg:block lg:col-span-2">
             <div class=" relative  overflow-hidden ">
-                <livewire:cashier.dashboard.barcode-transaction>
+                <livewire:cashier.dashboard.barcode-transaction/>
             </div>
         </div>
 

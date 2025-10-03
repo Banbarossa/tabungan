@@ -12,7 +12,7 @@ trait DailyReportDataTrait
         $date = Carbon::parse($date)->toDateString();
 
         $transactions= Transaction::with('handledbyUser','student')
-            ->whereDate('created_at',$date)
+            ->whereDate('date',$date)
             ->orderBy('created_at','desc')
             ->get();
 
@@ -27,7 +27,7 @@ trait DailyReportDataTrait
 
         $transactions= Transaction::with('handledbyUser','student')
                 ->where('type','!=','setor')
-                ->whereDate('created_at',$date)
+                ->whereDate('date',$date)
                 ->get()
                 ->groupBy('handledby');
 
@@ -52,7 +52,7 @@ trait DailyReportDataTrait
 
         $transactions= Transaction::with('handledbyUser','student')
                 ->where('type','=','setor')
-                ->whereDate('created_at',$date)
+                ->whereDate('date',$date)
                 ->get()
                 ->groupBy('handledby');
 
@@ -76,7 +76,7 @@ trait DailyReportDataTrait
         $transactions= Transaction::with('handledbyUser','student')
         ->where('handledby',$user_id)
         ->where('type','!=','setor')
-        ->whereDate('created_at',$date)
+        ->whereDate('date',$date)
         ->get();
 
         return $transactions;

@@ -14,9 +14,9 @@ class TodayHistory extends Component
     public function render()
     {
         $user = Auth::user();
-        $history = Transaction::with('student')->whereDate('created_at',now())
-        ->where('handledby',$user->id)
-        ->get();
+        $history = Transaction::with('student')->whereDate('date',now())
+            ->where('handledby',$user->id)
+            ->latest()->get();
         return view('livewire.cashier.dashboard.today-history',compact('history'));
     }
 }
