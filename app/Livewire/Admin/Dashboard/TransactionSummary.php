@@ -15,7 +15,7 @@ class TransactionSummary extends Component
             ->where('type','!=','setor')
             ->get()
             ->groupBy(function ($item) {
-                return Carbon::parse($item->created_at)->toDateString();
+                return Carbon::parse($item->date)->toDateString();
             });
 
 

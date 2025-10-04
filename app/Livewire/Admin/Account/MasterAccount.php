@@ -27,6 +27,13 @@ class MasterAccount extends Component
 
     public function mount($status = null)
     {
+        if(session()->has('saved')){
+            LivewireAlert::title(session('saved.title'))
+            ->text(session('saved.text'))
+                ->success()
+            ->position(Position::Center)
+            ->show();
+        }
 
         if (!in_array($status, ['aktif', 'nonaktif'])) {
             return 404;

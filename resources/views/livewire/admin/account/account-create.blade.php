@@ -1,12 +1,4 @@
 <div class="max-w-2xl">
-    <x-slot:breadcrumbs>
-        <flux:breadcrumbs>
-            <flux:breadcrumbs.item href="{{ route('account.') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('account.') }}">Account</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>Account Create</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-    </x-slot:breadcrumbs>
-
 
     <div class="relative h-full flex-1" >
         <form action="" wire:submit='save'>

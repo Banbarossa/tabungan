@@ -38,7 +38,7 @@ class CalenderEventController extends Controller
             if ($item->total_non_setor > 0) {
                 $events[] = [
                     'id' => 'nonsetor-' . $item->date,
-                    'title' => 'tarik: ' . format_rupiah($item->total_non_setor),
+                    'title' => 'Tarik: ' . format_rupiah($item->total_non_setor),
                     'start' => $item->date,
                     'color' => 'red',
                     'url' => route('report.daily', ['date' => $item->date])

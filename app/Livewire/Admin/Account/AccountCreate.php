@@ -24,9 +24,11 @@ class AccountCreate extends Component
     public $notification_account;
     public $daily_limit;
     public $status;
+    public $previousUrl;
 
 
     public function mount($code = null){
+        $this->previousUrl = url()->previous();
 
         if($code){
             $id= vinclaDecode($code);
@@ -47,7 +49,11 @@ class AccountCreate extends Component
 
     public function render()
     {
-        return view('livewire.admin.account.account-create');
+        $breads=[
+            ['url'=>$this->previousUrl, 'title'=> __('Santri')],
+            ['url'=>url()->current(), 'title'=> __('Formulir')],
+        ];
+        return view('livewire.admin.account.account-create')->layoutData(['breads'=>$breads]);
     }
 
     public function rules(){
@@ -74,7 +80,12 @@ class AccountCreate extends Component
             Student::create($validated);
             $this->clear();
         }
-        $this->dispatch('student_updated');
+        session()->flash('saved', [
+            'title' => __('Saved'),
+            'text' => 'Data berhasil disimpan',
+        ]);
+//        $this->dispatch('student_updated');
+        $this->redirect($this->previousUrl,true);
 
 
 
