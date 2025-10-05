@@ -1,5 +1,8 @@
 <div>
+    <div class="rounded-lg border p-4">
+
     <div wire:ignore id="calendar" ></div>
+    </div>
 
 
 

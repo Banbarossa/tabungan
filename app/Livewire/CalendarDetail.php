@@ -42,8 +42,12 @@ class CalendarDetail extends Component
             }
         }
 
+        $breads=[
+            ['url'=>url()->current(),'title'=>'Kalender'],
+        ];
 
 
-        return view('livewire.calendar-detail',compact('events'));
+
+        return view('livewire.calendar-detail',compact('events'))->layoutData(['breads'=>$breads]);
     }
 }

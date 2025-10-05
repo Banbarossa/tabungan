@@ -58,7 +58,7 @@ class SetorTransaction extends Component
                     'Tanggal'=>$item->date,
                     'Debit'=>$item->type == 'setor' ? format_rupiah($item->amount): '',
                     'Kredit'=>$item->type !== 'setor' ? format_rupiah($item->amount): '',
-                    'Metode'=>$item->metode?$item->metode->nama:'Tunai',
+                    'Metode'=>$item->metode?$item->metode->nama:'',
                     'Cashier'=>$item->handledbyUser?->name,
                 ];
             });

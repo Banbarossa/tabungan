@@ -1,9 +1,7 @@
 <div>
     <div class="mb-6">
 
-        <flux:modal.trigger name="tambah-jenis">
-            <flux:button>Tambah</flux:button>
-        </flux:modal.trigger>
+            <flux:button wire:click="create">Tambah</flux:button>
 
         <flux:modal name="tambah-jenis" class="md:w-96">
             <form wire:submit.prevent="save">
@@ -36,6 +34,9 @@
             @foreach($headings as $head)
                 <x-table.column >{{$head}}</x-table.column>
             @endforeach
+            <x-table.column class="w-16">
+                Aksi
+            </x-table.column>
 
         </x-table.columns>
         <x-table.rows>
@@ -50,6 +51,11 @@
                             {{$je[$head]}}
                         </x-table.cell>
                     @endforeach
+                    <x-table.cell>
+                        <flux:button size="sm" icon="pencil-square" wire:click="edit({{$je['id']}})">
+
+                        </flux:button>
+                    </x-table.cell>
                 </x-table.row>
             @empty
                 <x-table.row>
