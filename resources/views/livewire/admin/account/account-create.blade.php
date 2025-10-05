@@ -72,6 +72,16 @@
                 class="mb-4"
                 :placeholder="__('No Whatsapp')"
             />
+            <flux:select
+                wire:model="kelas"
+                :label="__('Kelas')"
+                class="mb-4"
+                :placeholder="__('Pilih Kelas')"
+            >
+                @foreach($daftar_kelas as $ke)
+                <flux:select.option value="{{$ke}}">Kelas {{$ke}}</flux:select.option>
+                @endforeach
+            </flux:select>
             @if ($student)
                 <div class="my-5">
                     <flux:separator text="Status Keaktifan" />

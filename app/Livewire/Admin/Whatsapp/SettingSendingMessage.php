@@ -10,7 +10,7 @@ use Livewire\Attributes\Layout;
 class SettingSendingMessage extends Component
 {
 
-
+    public $deviceStatus;
     public $template_setor;
     public $template_tarik;
     public $send_when_setor =0;

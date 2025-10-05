@@ -1,15 +1,39 @@
 <div>
 
     <x-toast on="data-updated"></x-toast>
-    <x-slot:breadcrumbs>
-        <flux:breadcrumbs>
-            <flux:breadcrumbs.item href="{{ route('dashboard') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>Setting Pesan</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-    </x-slot:breadcrumbs>
+
 
 
     <form action="" wire:submit.prevent="save">
+        <div class="border rounded-lg border-neutral-300 p-6 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2">
+                <div>
+                    <flux:input
+                        wire:model="token_wa"
+                        :label="__('Token Fontee')"
+                        type="password"
+
+                        :placeholder="__('token_fonte')"
+                        viewable
+                    />
+                </div>
+                <div>
+                    <ul>
+                        @if ($deviceStatus)
+                            <li>Device : {{ $deviceStatus->device }}</li>
+                            <li>Status : {{ $deviceStatus->device_status }}</li>
+                            <li>Expired : {{ $deviceStatus->expired }}</li>
+                            <li>Messages : {{ $deviceStatus->messages }}</li>
+                            <li>Package : {{ $deviceStatus->package }}</li>
+                            <li>Quota : {{ $deviceStatus->quota }}</li>
+                        @else
+                            <li><span class="text-red-600">Whatsapp tidak terkoneksi dengan</span> <a href="https://fonnte.com" target="_blank" rel="noopener noreferrer"><strong>FONTEE</strong></a></li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+
+        </div>
 
         <div>
             <div class="text-end">
@@ -42,4 +66,9 @@
         </div>
 
     </form>
+
+
+
+
+
 </div>

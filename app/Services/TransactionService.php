@@ -104,6 +104,17 @@ class TransactionService
 
 
         try {
+
+//            $service = new WhatsappService();
+//            $service->send(
+//                target:$this->student->notification_account,
+//                message:$message,
+//                delay: 0,
+//                user_id:Auth::user()->id,
+//                source:'tabsis',
+//
+//
+//            );
             $url= config('absen.simaq_url');
             $token= config('absen.simaq_token');
             $response = Http::withHeaders([

@@ -41,13 +41,13 @@
                 Calendar
             </flux:navlist.item>
         </flux:navlist.group>
-{{--        <flux:navlist.group :heading="__('Laporan')" class="grid">--}}
-{{--            <flux:navlist.group heading="Laporan" expandable :expanded="Request::is('account*')">--}}
-{{--                <flux:navlist.item href="{{route('account.index',['status'=>'aktif'])}}"--}}
-{{--                                   :current="Request::is('account/aktif')" wire:navigate>Harian--}}
-{{--                </flux:navlist.item>--}}
-{{--            </flux:navlist.group>--}}
-{{--        </flux:navlist.group>--}}
+        <flux:navlist.group :heading="__('Laporan')" class="grid">
+            <flux:navlist.group heading="Laporan" expandable :expanded="Request::is('laporan*')">
+                <flux:navlist.item href="{{route('laporan.filter',)}}"
+                                   :current="Request::is('laporan-filter')" wire:navigate>Harian
+                </flux:navlist.item>
+            </flux:navlist.group>
+        </flux:navlist.group>
 
         <flux:navlist.group :heading="__('User')" class="grid">
             <flux:navlist.item icon="users" :href="route('user.admin')" :current="request()->routeIs('user.admin')"

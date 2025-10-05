@@ -70,6 +70,32 @@ class StudentApi
 
     }
 
+    public function updateKelas(){
+        $url = config('absen.url');
+        $token = config('absen.token');
+
+
+        $response = Http::withHeader('Authorization',$token)
+            ->get($url);
+
+        if($response->status() == 200){
+            $data= $response->json('data');
+            foreach($data as $item){
+                Student::where('absen_id',$item['id'])->update([
+                    'kelas'=>$item['nama_rombel'],
+                ]);
+
+
+            }
+
+            return [
+                'success'=>true,
+                'message'=>'Success update data'
+            ];
+
+        }
+    }
+
 
 
 

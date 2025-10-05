@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Whatsapp;
 
+use App\Models\Message;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
@@ -15,19 +16,11 @@ class HistoryMessage extends Component
     {
 
 
-        $url= config('absen.simaq_url');
-        $token= config('absen.simaq_token');
-        $response = Http::withHeaders([
-            'Authorization' => $token
-        ])->get($url.'get_whatsapp/tabungan');
+        $messages=Message::limit(100)->get();
+        $breads=[
+            ['url'=>url()->current(),'title'=>"Riwayat"]
+        ];
 
-        $messages=$response->json();
-        if($messages){
-            $messages=$messages;
-        }{
-            $messages=[];
-        }
-
-        return view('livewire.admin.whatsapp.history-message',compact('messages'));
+        return view('livewire.admin.whatsapp.history-message',compact('messages'))->layoutData(['breads'=>$breads]);
     }
 }

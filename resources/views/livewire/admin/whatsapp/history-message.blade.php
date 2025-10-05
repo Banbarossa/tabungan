@@ -1,11 +1,12 @@
 <div>
-    <x-slot:breadcrumbs>
-        <flux:breadcrumbs>
-            <flux:breadcrumbs.item href="{{ route('dashboard') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>Riwayat Pesan</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-    </x-slot:breadcrumbs>
+    <div class="border rounded-lg border-neutral-300 p-6 mb-6">
+        <flux:heading size="lg">Tes Kirim Pesan</flux:heading>
+    <livewire:admin.whatsapp.test-message/>
 
+    </div>
+
+    <div class="border rounded-lg border-neutral-300 p-6">
+        <flux:heading size="lg">Riwayat Pesan</flux:heading>
     <ul class="space-y-4 max-w-md">
         @forelse ($messages as $item)
             <li>
@@ -33,4 +34,5 @@
             </li>
         @endforelse
     </ul>
+    </div>
 </div>

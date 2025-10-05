@@ -49,6 +49,10 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
         Route::get('/cashier-report-pdf/{date}/{user_code}',[\App\Http\Controllers\DailyReportController::class,'byDateAndCashier'])->name('cashier.pdf');
         Route::get('/daily-report/{date}/{user_code}',\App\Livewire\Admin\Report\ByDateAndCashierReport::class)->name('by-date-user');
     });
+    Route::group(['as'=>'laporan.','prefix'=>'laporan'],function(){
+        Route::get('/laporan-filter/',\App\Livewire\Admin\Laporan\FilteredLaporan::class)->name('filter');
+        Route::get('/laporan-filter-pdf/',[\App\Http\Controllers\LaporanHarianController::class,'filterPDF'])->name('filter.pdf');
+    });
 
     Route::group(['as'=>'whatsapp.','prefix'=>'whatsapp'],function(){
         Route::get('/history',\App\Livewire\Admin\Whatsapp\HistoryMessage::class)->name('history');

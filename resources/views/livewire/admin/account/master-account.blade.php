@@ -10,7 +10,8 @@
     <x-table.table-header search="true">
         <div class="flex gap-4 flex-wrap">
             <div>
-                <flux:button wire:click="importAbsen">Import Data Absen</flux:button>
+                <flux:button wire:click="importAbsen" icon="cloud-arrow-down">Import Data Absen</flux:button>
+                <flux:button wire:click="updateKelasSiswa" icon="arrow-path">Update Kelas</flux:button>
             </div>
             <flux:button.group>
                 <flux:dropdown>

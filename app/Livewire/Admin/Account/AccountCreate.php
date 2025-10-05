@@ -23,6 +23,7 @@ class AccountCreate extends Component
     public $notification_target;
     public $notification_account;
     public $daily_limit;
+    public $kelas;
     public $status;
     public $previousUrl;
 
@@ -37,6 +38,7 @@ class AccountCreate extends Component
             $this->name=$student->name;
             $this->nisn=$student->nisn;
             $this->nis=$student->nis;
+            $this->kelas=$student->kelas;
             $this->nama_ibu=$student->nama_ibu;
             $this->send_notification=$student->send_notification;
             $this->notification_target=$student->notification_target;
@@ -53,7 +55,8 @@ class AccountCreate extends Component
             ['url'=>$this->previousUrl, 'title'=> __('Santri')],
             ['url'=>url()->current(), 'title'=> __('Formulir')],
         ];
-        return view('livewire.admin.account.account-create')->layoutData(['breads'=>$breads]);
+        $daftar_kelas=Student::select('kelas')->distinct()->orderBy('kelas','asc')->get()->pluck('kelas')->toArray();
+        return view('livewire.admin.account.account-create',compact('daftar_kelas'))->layoutData(['breads'=>$breads]);
     }
 
     public function rules(){
@@ -62,6 +65,7 @@ class AccountCreate extends Component
             'nisn'=>'nullable',
             'nis'=>'nullable',
             'nama_ibu'=>'nullable',
+            'kelas'=>'nullable',
             'send_notification'=>'required',
             'notification_target'=>'nullable',
             'notification_account'=>'nullable',
@@ -94,6 +98,7 @@ class AccountCreate extends Component
        $this->name='';
        $this->nisn='';
        $this->nis='';
+       $this->kelas='';
        $this->nama_ibu='';
        $this->send_notification='';
        $this->notification_target='';

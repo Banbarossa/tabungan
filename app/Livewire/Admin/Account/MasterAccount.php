@@ -72,13 +72,13 @@ class MasterAccount extends Component
                     'nisn' => $item->nisn,
                     'Nama' => $item->name,
                     'No Id' => $item->no_id,
-                    'Nama Ibu' => $item->nama_ibu,
+                    'Kelas' => $item->kelas,
                     'Alamat' => $item->notification_account,
                     'Saldo' => format_rupiah($item->saldo),
 
                 ];
             });
-        $this->headings = ['Nama', 'No Id', 'Nama Ibu', 'Alamat', 'Saldo'];
+        $this->headings = ['Nama', 'No Id', 'Kelas', 'Alamat', 'Saldo'];
         return $students;
 
     }
@@ -123,5 +123,17 @@ class MasterAccount extends Component
 
 
         return redirect()->route('account.single-card', ['ids' => $idString]);
+    }
+
+    public function updateKelasSiswa(){
+        $service =new StudentApi();
+        $update = $service->updateKelas();
+        if ($update['status']) {
+            LivewireAlert::title('Success')
+                ->text($update['message'])
+                ->success()
+                ->position(Position::Center)
+                ->show();
+        }
     }
 }
