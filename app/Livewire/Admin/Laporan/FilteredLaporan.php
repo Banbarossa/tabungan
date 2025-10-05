@@ -18,7 +18,7 @@ class FilteredLaporan extends Component
     #[Title('Laporan')]
 
     public function mount(){
-        $this->start_date = Carbon::now()->subDays(2)->toDateString();
+        $this->start_date = Carbon::now()->toDateString();
         $this->end_date = Carbon::now()->toDateString();
     }
     public function render()
@@ -38,7 +38,7 @@ class FilteredLaporan extends Component
         $this->validate([
             'start_date' => 'required',
             'end_date' => 'required',
-            'metode' => 'required'
+            'metode' => 'nullable',
         ]);
     }
 }

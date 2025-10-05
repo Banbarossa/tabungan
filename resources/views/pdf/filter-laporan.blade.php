@@ -150,16 +150,12 @@
         </tfoot>
     </table>
 
-    <div class="footer">
-        Diunduh pada: {{ \Carbon\Carbon::now()->format('d/m/Y H:i') }} <br>
-        Halaman <span class="pagenum"></span>
-    </div>
-        <script type="text/php">
-            if ( isset($pdf) ) {
-                $pdf->page_text(20, 570, "Page: {PAGE_NUM} of {PAGE_COUNT}", 'Helvetica', 6, array(0,0,0));
-                  $date = date("d-m-Y H:i:s");
-                $pdf->page_text(700, 570, "Downloaded: {$date}", "helvetica", 8, [0,0,0]);
-            }
-        </script>
+    <script type="text/php">
+        if ( isset($pdf) ) {
+            $pdf->page_text(20, 570, "Page: {PAGE_NUM} of {PAGE_COUNT}", 'Helvetica', 8, array(0,0,0));
+              $date = date("d-m-Y H:i:s");
+            $pdf->page_text(700, 570, "Downloaded: {$date}", "helvetica", 8, [0,0,0]);
+        }
+    </script>
     </body>
     </html>

@@ -74,7 +74,7 @@ Route::get('/transaction/{code}/{transaction}',\App\Livewire\Admin\Transaction\D
 
 Route::get('/daily-limit',\App\Livewire\Admin\Transaction\DailyLimitManagement::class)->name('daily-limit-management')->middleware(['auth','can:admin']);
 
-//Route::get('perbaiki',[\App\Http\Controllers\PerbaikiController::class,'tanggal'])->name('perbaiki');
+Route::get('perbaiki',[\App\Http\Controllers\PerbaikiController::class,'tanggal'])->name('perbaiki');
 
 
 

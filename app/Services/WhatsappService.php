@@ -23,15 +23,15 @@ class WhatsappService
     public function send($target, $message, $delay = 0, $user_id, $source = 'tabsis', )
     {
         try {
-            $koneksi = $this->cekKoneksi();
-
-            if (!$koneksi || $koneksi->device_status !== 'connect') {
-                return [
-                    'success' => false,
-                    'message' => 'Perangkat tidak terhubung.',
-                    'data' => null,
-                ];
-            }
+//            $koneksi = $this->cekKoneksi();
+//
+//            if (!$koneksi || $koneksi->device_status !== 'connect') {
+//                return [
+//                    'success' => false,
+//                    'message' => 'Perangkat tidak terhubung.',
+//                    'data' => null,
+//                ];
+//            }
 
             $client = new Client();
 

@@ -1,9 +1,11 @@
 <div>
+{{--    @if($deviceStatus)--}}
     <div class="border rounded-lg border-neutral-300 p-6 mb-6">
         <flux:heading size="lg">Tes Kirim Pesan</flux:heading>
-    <livewire:admin.whatsapp.test-message/>
+        <livewire:admin.whatsapp.test-message/>
 
     </div>
+{{--    @endif--}}
 
     <div class="border rounded-lg border-neutral-300 p-6">
         <flux:heading size="lg">Riwayat Pesan</flux:heading>
@@ -22,7 +24,7 @@
                             <div  class="text-sm font-normal text-gray-500 dark:text-zinc-300">{{ $item['target'] }}</div>
                         </div>
                         <flux:separator text="Message"/>
-                        <pre class="text-sm font-normal py-2.5 text-gray-500 dark:text-white leading-none text-wrap mt-2">{!! nl2br(e($item['message'])) !!}</pre>
+                        <pre class="text-sm font-sm py-2.5 text-gray-500 dark:text-white leading-none text-wrap mt-2 ">{!! nl2br(e($item['message'])) !!}</pre>
                         <div class="text-sm font-normal text-teal-500 dark:text-gray-400 text-end">{{ $item['state'] }}</div>
                     </div>
                 </div>

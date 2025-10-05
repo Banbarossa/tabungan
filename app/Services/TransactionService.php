@@ -25,7 +25,7 @@ class TransactionService
         $this->student=$student;
     }
 
-    public function transaction($amount,$operator,$type,$date,$description=null,$jenis_transaksi_id=null){
+    public function transaction($amount,$operator,$type,$date,$description=null,$jenis_transaksi_id=1){
 
         $date = Carbon::parse($date)->toDateString();
         $jumlah = Transaction::whereDate('created_at',Carbon::now()->toDateString())
@@ -103,8 +103,8 @@ class TransactionService
 
 
 
-        try {
 
+        try {
 //            $service = new WhatsappService();
 //            $service->send(
 //                target:$this->student->notification_account,
@@ -149,4 +149,6 @@ class TransactionService
 
 
     }
+
+
 }
