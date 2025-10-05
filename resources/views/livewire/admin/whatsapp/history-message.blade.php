@@ -1,11 +1,11 @@
 <div>
-{{--    @if($deviceStatus)--}}
+    @if($deviceStatus)
     <div class="border rounded-lg border-neutral-300 p-6 mb-6">
         <flux:heading size="lg">Tes Kirim Pesan</flux:heading>
         <livewire:admin.whatsapp.test-message/>
 
     </div>
-{{--    @endif--}}
+    @endif
 
     <div class="border rounded-lg border-neutral-300 p-6">
         <flux:heading size="lg">Riwayat Pesan</flux:heading>
