@@ -61,6 +61,7 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
     Route::group(['as'=>'pengaturan.','prefix'=>'pengaturan'],function(){
         Route::get('/jenis-transaksi',\App\Livewire\Admin\Pengaturan\MainJenisTransaksi::class)->name('jenis-transaksi');
     });
+    Route::get('backup',\App\Livewire\Admin\Backup\BackupList::class)->name('backup');
 
 
 

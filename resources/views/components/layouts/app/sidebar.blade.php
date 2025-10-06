@@ -61,8 +61,13 @@
             <flux:navlist.item icon="cog-6-tooth" :href="route('whatsapp.setting')"
                                :current="request()->routeIs('whatsapp.setting')" wire:navigate>Whatsapp
             </flux:navlist.item>
-            <flux:navlist.item icon="cog-6-tooth" :href="route('pengaturan.jenis-transaksi')"
+            <flux:navlist.item icon="adjustments-horizontal" :href="route('pengaturan.jenis-transaksi')"
                                :current="request()->routeIs('pengaturan.jenis-transaksi')" wire:navigate>Jenis transaksi
+            </flux:navlist.item>
+        </flux:navlist.group>
+        <flux:navlist.group class="grid">
+            <flux:navlist.item icon="inbox-stack" :href="route('backup')" :current="request()->routeIs('backup')"
+                               wire:navigate>Backup
             </flux:navlist.item>
         </flux:navlist.group>
     </flux:navlist>
