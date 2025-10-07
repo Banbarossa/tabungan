@@ -11,8 +11,8 @@
         <x-app-logo/>
     </a>
 
-    <flux:navlist variant="outline">
-        <flux:navlist.group :heading="__('Identitas')" class="grid">
+    <flux:navlist variant="outline" class="mt-4">
+        <flux:navlist.group class="grid">
             <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
                                wire:navigate>Dashboard
             </flux:navlist.item>
@@ -25,14 +25,14 @@
                 </flux:navlist.item>
 
             </flux:navlist.group>
+            <flux:navlist.item icon="users" :href="route('user.admin')" :current="request()->routeIs('user.admin')"
+                               wire:navigate>Petugas
+            </flux:navlist.item>
 
         </flux:navlist.group>
         <flux:navlist.group :heading="__('Transaction')" class="grid">
             <flux:navlist.item icon="banknotes" :href="route('transaction')"
                                :current="request()->routeIs('transaction')" wire:navigate>Transaction
-            </flux:navlist.item>
-            <flux:navlist.item icon="tag" :href="route('daily-limit-management')"
-                               :current="request()->routeIs('daily-limit-management')" wire:navigate>Limit Harian
             </flux:navlist.item>
             <flux:navlist.item icon="arrow-path" :href="route('daily-history')"
                                :current="request()->routeIs('daily-history')" wire:navigate>Daily History
@@ -41,19 +41,22 @@
                 Calendar
             </flux:navlist.item>
         </flux:navlist.group>
-        <flux:navlist.group :heading="__('Laporan')" class="grid">
-            <flux:navlist.group heading="Laporan" expandable :expanded="Request::is('laporan*')">
-                <flux:navlist.item href="{{route('laporan.filter',)}}"
-                                   :current="Request::is('laporan-filter')" wire:navigate>Harian
-                </flux:navlist.item>
-            </flux:navlist.group>
-        </flux:navlist.group>
-
-        <flux:navlist.group :heading="__('User')" class="grid">
-            <flux:navlist.item icon="users" :href="route('user.admin')" :current="request()->routeIs('user.admin')"
-                               wire:navigate>Servicer
+        <flux:navlist.group heading="Laporan" expandable :expanded="Request::is('laporan*')">
+            <flux:navlist.item href="{{route('laporan.filter',)}}"
+                               :current="Request::is('laporan-filter')" wire:navigate>Harian
             </flux:navlist.item>
         </flux:navlist.group>
+        <flux:navlist.group heading="Limit" expandable :expanded="Request::is('limit*')">
+            <flux:navlist.item icon="tag" :href="route('limit.daily')"
+                               :current="request()->routeIs('limit.daily')" wire:navigate>Limit Harian
+            </flux:navlist.item>
+            <flux:navlist.item icon="tag" :href="route('limit.khusus')"
+                               :current="request()->routeIs('limit.khusus')" wire:navigate>Limit Khusus
+            </flux:navlist.item>
+
+        </flux:navlist.group>
+
+
         <flux:navlist.group :heading="__('Pengaturan')" class="grid">
             <flux:navlist.item icon="chat-bubble-left-ellipsis" :href="route('whatsapp.history')"
                                :current="request()->routeIs('whatsapp.history')" wire:navigate>Riwayat Pesan

@@ -12,7 +12,7 @@ class DailyLimitManagement extends Component
 {
 
     #[Layout('components.layouts.app')]
-    #[Title('Daily Limit')]
+    #[Title('Limit Harian')]
 
     public $minggu;
     public $senin;
@@ -29,8 +29,11 @@ class DailyLimitManagement extends Component
     public function render()
     {
 
+        $breads=[
+            ['url'=>url()->current(),'title'=>'Limit Harian']
+        ];
 
-        return view('livewire.admin.transaction.daily-limit-management');
+        return view('livewire.admin.transaction.daily-limit-management')->layoutData(['breads'=>$breads]);
     }
 
 

@@ -66,4 +66,8 @@ class User extends Authenticatable
     public function verifiedby(){
         return $this->hasMany(Transaction::class,'handledby');
     }
+
+    public function overrideLimit(){
+        return $this->hasOne(UserOverrideLimit::class,);
+    }
 }
