@@ -5,6 +5,9 @@ namespace App\Livewire\Admin\Transaction;
 use App\Models\JenisTransaksi;
 use App\Models\Student;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Jantinnerezo\LivewireAlert\Enums\Position;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Component;
 use App\Models\Transaction;
 use App\Services\TransactionService;
@@ -13,6 +16,7 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use function Livewire\Volt\updated;
 
 class SetorTransaction extends Component
 {
@@ -155,7 +159,77 @@ class SetorTransaction extends Component
 
     }
 
+    public function confirmDelete($id){
+        LivewireAlert::title('Delete Item')
+            ->withOptions([
+                'input' => 'textarea',
+                'inputPlaceholder' => 'Tuliskan alasan menghapus data',
+            ])
+            ->text('Anda Yakin? Menghapus data akan menyebabkan penyesuain saldo pada trasnsaksi setelahnya')
+            ->asConfirm()
+            ->onConfirm('deleteItem', ['id' => $id])
+            ->show();
+    }
+    public function deleteItem($data){
+        try {
+            DB::transaction(function () use ($data) {
+                $deleted_reason = $data['value'];
+                $item_id = $data['id'];
 
+                $tran = Transaction::findOrFail($item_id);
+
+                $next_trans = Transaction::where('student_id', $tran->student_id)
+                    ->where('id', '>', $tran->id)
+                    ->orderBy('id', 'asc')
+                    ->get();
+
+                if ($next_trans->isNotEmpty()) {
+                    foreach ($next_trans as $next) {
+                        $adjusted_saldo = $tran->type === 'setor'
+                            ? $next->latest_saldo - $tran->amount
+                            : $next->latest_saldo + $tran->amount;
+
+                        $next->update(['latest_saldo' => $adjusted_saldo]);
+                    }
+
+                    $final_saldo = $next_trans->last()->latest_saldo;
+                } else {
+                    $student = Student::find($tran->student_id);
+                    $current_saldo = $student->saldo ?? 0;
+
+                    $final_saldo = $tran->type === 'setor'
+                        ? $current_saldo - $tran->amount
+                        : $current_saldo + $tran->amount;
+                }
+
+                Student::find($tran->student_id)->update([
+                    'saldo' => $final_saldo,
+                ]);
+
+                $tran->update([
+                    'deleted_reason' => $deleted_reason,
+                    'deleted_by' => Auth::id(),
+                ]);
+
+                $tran->delete();
+            });
+
+            LivewireAlert::title('Berhasil')
+                ->text('Data berhasil dihapus')
+                ->success()
+                ->position(Position::Center)
+                ->show();
+        }catch (\Exception $e){
+            Log::error('Gagal Hapus', ['error' => $e->getMessage()]);
+            LivewireAlert::title('Gagal')
+            ->text('Data gagal dihapus')
+            ->error()
+            ->position(Position::Center)
+            ->show();
+        }
+
+
+    }
 
 
 }
