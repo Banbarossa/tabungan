@@ -25,7 +25,7 @@
                 </flux:navlist.item>
 
             </flux:navlist.group>
-            <flux:navlist.item icon="users" :href="route('user.admin')" :current="request()->routeIs('user.admin')"
+            <flux:navlist.item icon="users" :href="route('user.index',['role'=>'admin'])" :current="request()->routeIs('user.admin')"
                                wire:navigate>Petugas
             </flux:navlist.item>
 

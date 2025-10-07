@@ -28,7 +28,8 @@ new class extends Component {
             $this->email = Auth::user()->email;
         }else{
             $id =vinclaDecode($code);
-            $this->user =User::find($id);
+            $user =User::find($id);
+            $this->user =$user;
             $this->user_id = $user->id;
             $this->name = $user->name;
             $this->email = $user->email;

@@ -36,9 +36,9 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
     });
 
     Route::group(['as'=>'user.','prefix'=>'user'],function(){
-        Route::get('/admin',\App\Livewire\Admin\User\AdminManagement::class)->name('admin');
-        Route::get('/cashier',\App\Livewire\Admin\User\CashierManagement::class)->name('cashier');
-        Route::get('/detail-user/{code}',\App\Livewire\Admin\User\UserDetail::class)->name('detail');
+        Route::get('/{role}',\App\Livewire\Admin\User\AdminManagement::class)->name('index');
+//        Route::get('/cashier',\App\Livewire\Admin\User\CashierManagement::class)->name('cashier');
+        Route::get('/detail-user/{role}/{code}/',\App\Livewire\Admin\User\UserDetail::class)->name('detail');
     });
 
     Route::group(['as'=>'report.','prefix'=>'report'],function(){
