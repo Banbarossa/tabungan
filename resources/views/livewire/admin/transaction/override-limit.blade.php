@@ -29,7 +29,7 @@
                     @endforeach
                     <x-table.cell>
                             <flux:button size="sm" icon="pencil-square" href="{{route('limit.khusus.form',$d['id'])}}"/>
-                            <flux:button size="sm" icon="trash" variant="danger" href="confirmHapus({{$d['id']}})"/>
+                            <flux:button size="sm" icon="trash" variant="danger" wire:click="confirmHapus({{$d['id']}})"/>
                     </x-table.cell>
                 </x-table.row>
             @empty
