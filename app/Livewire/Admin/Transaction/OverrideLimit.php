@@ -59,7 +59,7 @@ class OverrideLimit extends Component
 
     }
 
-    public function destroy($data){
+    public function deleteItem($data){
         $itemId = $data['id'];
         UserOverrideLimit::find($itemId)->delete();
         LivewireAlert::title('Berhasil')
