@@ -4,6 +4,8 @@ namespace App\Livewire\Admin\User;
 
 use App\Models\User;
 use Couchbase\Role;
+use Jantinnerezo\LivewireAlert\Enums\Position;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
@@ -29,7 +31,7 @@ class UserDetail extends Component
     public function render()
     {
         $breads=[
-            ['url'=>route('user.index',['role']),'title'=>ucwords($this->role) ],
+            ['url'=>route('user.index',[$this->role]),'title'=>ucwords($this->role) ],
             ['url'=>url()->current(),'title'=>'Detail'],
         ];
 
@@ -41,7 +43,10 @@ class UserDetail extends Component
         $this->user->update([
             'role' => $role
         ]);
-        session('saved',['title'=>'Berhasil!','text'=>'Role user berhasil diubah!']);
-        $this->redirect(route('user.index',['role' => $this->role]));
+        LivewireAlert::title('Berhasil')
+            ->text('Data berhasil diubah')
+            ->success()
+            ->position(Position::Center)
+            ->show();
     }
 }

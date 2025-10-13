@@ -27,13 +27,6 @@ class AdminManagement extends Component
     public $headings=['Nama','Email',];
     public function mount($role='admin'){
         $this->role = $role;
-        if(session()->has('saved')){
-            LivewireAlert::title(session('saved.title'))
-                ->text(session('saved.text'))
-                ->success()
-                ->position(Position::Center)
-                ->show();
-        }
     }
 
     public function render()

@@ -5,6 +5,7 @@ namespace App\Livewire\Cashier;
 use App\Models\Savinglimit;
 use App\Models\Student;
 use App\Models\Transaction;
+use App\Models\UserOverrideLimit;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\Title;
@@ -28,9 +29,15 @@ class CashierTransaction extends Component
 
     public function mount(){
 
-        $savingLimit = Savinglimit::where('day_name',today_name())->first();
-        if($savingLimit){
-            $this->limitToday = $savingLimit->limit_amount;
+        $override_limit = UserOverrideLimit::where('user_id',auth()->user()->id)->first();
+        if($override_limit){
+            $this->limitToday = $override_limit->limit;
+        }else{
+            $savingLimit = Savinglimit::where('day_name',today_name())->first();
+            if($savingLimit){
+                $this->limitToday = $savingLimit->limit_amount;
+            }
+
         }
 
     }

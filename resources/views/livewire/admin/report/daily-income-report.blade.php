@@ -48,7 +48,7 @@
                             <tr class="bg-white dark:bg-zinc-800 dark:border-gray-700 ">
                                 <td class="border border-gray-200 dark:border-zinc-600 px-4 py-2 w-6 text-center">{{$index +1}}</td>
                                 <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2">{{$tr->student ? $tr->student->name :''}}</td>
-                                <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2 w-auto">{{$tr->created_at}}</td>
+                                <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2 w-auto">{{$tr->date}}</td>
                                 <td class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2">{{format_rupiah($tr->amount)}}</td>
                                 {{-- <td class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2">{{$tr->verifiedByUser ? $tr->verifiedByUser->name :'Belum Verikasi'}}</td> --}}
                             </tr>
