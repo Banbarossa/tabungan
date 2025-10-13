@@ -23,7 +23,7 @@ class BackupList extends Component
 
     public function loadFiles()
     {
-        $this->files = Storage::disk('local')->files('Laravel');
+        $this->files = Storage::disk('local')->files('Tabsis');
         rsort($this->files);
     }
 
