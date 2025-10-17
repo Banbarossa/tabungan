@@ -50,7 +50,7 @@ trait DailyReportDataTrait
 
         $date = Carbon::parse($date)->toDateString();
 
-        $transactions= Transaction::with('handledbyUser','student')
+        $transactions= Transaction::with('handledbyUser','student','metode')
                 ->where('type','=','setor')
                 ->whereDate('date',$date)
                 ->get()

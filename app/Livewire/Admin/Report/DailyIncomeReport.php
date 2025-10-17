@@ -32,6 +32,7 @@ class DailyIncomeReport extends Component
     public function render()
     {
         $summary =$this->byDateIncome($this->date);
+//        dd($summary);
         return view('livewire.admin.report.daily-income-report',compact('summary'));
     }
 

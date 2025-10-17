@@ -37,8 +37,14 @@
                             <th scope="row"  class="border border-gray-200 dark:border-zinc-600 uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Waktu Transaksi
                             </th>
+                            <th scope="row"  class="border border-gray-200 dark:border-zinc-600 uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                Metode
+                            </th>
                             <th scope="row" class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ format_rupiah($total['total_amount']) }}
+                            </th>
+                            <th scope="row" class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                Keterangan
                             </th>
                             {{-- <th scope="row" class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Diverifikasi Oleh
@@ -49,7 +55,9 @@
                                 <td class="border border-gray-200 dark:border-zinc-600 px-4 py-2 w-6 text-center">{{$index +1}}</td>
                                 <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2">{{$tr->student ? $tr->student->name :''}}</td>
                                 <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2 w-auto">{{$tr->date}}</td>
+                                <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2 w-auto">{{$tr->metode?->nama}}</td>
                                 <td class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2">{{format_rupiah($tr->amount)}}</td>
+                                <td class="border border-gray-200 dark:border-zinc-600 px-6 py-2">{{$tr->description}}</td>
                                 {{-- <td class="border border-gray-200 dark:border-zinc-600 text-end px-6 py-2">{{$tr->verifiedByUser ? $tr->verifiedByUser->name :'Belum Verikasi'}}</td> --}}
                             </tr>
                         @endforeach
