@@ -18,7 +18,10 @@ class AccountCreate extends Component
     public $name;
     public $nisn;
     public $nis;
+    public $nama_ayah;
+    public $no_hp_ayah;
     public $nama_ibu;
+    public $no_hp_ibu;
     public $send_notification;
     public $notification_target;
     public $notification_account;
@@ -39,6 +42,9 @@ class AccountCreate extends Component
             $this->nisn=$student->nisn;
             $this->nis=$student->nis;
             $this->kelas=$student->kelas;
+            $this->nama_ayah=$student->nama_ayah;
+            $this->no_hp_ayah=$student->no_hp_ayah;
+//            $this->no_hp_ibu=$student->no_hp_ibu;
             $this->nama_ibu=$student->nama_ibu;
             $this->send_notification=$student->send_notification;
             $this->notification_target=$student->notification_target;
@@ -64,7 +70,10 @@ class AccountCreate extends Component
             'name'=>'required',
             'nisn'=>'nullable',
             'nis'=>'nullable',
+            'nama_ayah'=>'nullable',
             'nama_ibu'=>'nullable',
+            'no_hp_ayah'=>'nullable',
+//            'no_hp_ibu'=>'nullable',
             'kelas'=>'nullable',
             'send_notification'=>'required',
             'notification_target'=>'nullable',
@@ -99,7 +108,10 @@ class AccountCreate extends Component
        $this->nisn='';
        $this->nis='';
        $this->kelas='';
+       $this->nama_ayah='';
+       $this->no_hp_ayah='';
        $this->nama_ibu='';
+       $this->no_hp_ibu='';
        $this->send_notification='';
        $this->notification_target='';
        $this->notification_account='';

@@ -13,6 +13,14 @@
                 autocomplete="name"
                 :placeholder="__('Full name')"
             />
+            <div class="grid grid-cols-2 gap-2">
+            <flux:input
+                wire:model="nama_ayah"
+                :label="__('Nama Ayah')"
+                type="text"
+                class="mb-4"
+                :placeholder="__('Nama Ayah')"
+            />
             <flux:input
                 wire:model="nama_ibu"
                 :label="__('Nama Ibu')"
@@ -20,6 +28,9 @@
                 class="mb-4"
                 :placeholder="__('Nama Ibu')"
             />
+            </div>
+
+
             <div class="grid grid-cols-2 gap-2">
                 <flux:input
                     wire:model="nisn"
@@ -64,13 +75,20 @@
                     <flux:radio value="email" label="email" />
                 </flux:radio.group>
             </div> --}}
+            <flux:input
+                wire:model="no_hp_ayah"
+                :label="__('No Hp Ayah')"
+                type="text"
+                class="mb-4"
+                :placeholder="__('No HP Ayah')"
+            />
 
             <flux:input
                 wire:model="notification_account"
-                :label="__('No Whatsapp')"
+                :label="__('No Ibu')"
                 type="text"
                 class="mb-4"
-                :placeholder="__('No Whatsapp')"
+                :placeholder="__('No Ibu')"
             />
             <flux:select
                 wire:model="kelas"
