@@ -30,13 +30,21 @@
                 </div>
                 <flux:separator text="Penarikan" />
                 <form action="" wire:submit='transaction' class="mt-8">
-                <flux:input.group>
-                    <flux:input.group.prefix>Rp</flux:input.group.prefix>
-                    <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount"  />
-                </flux:input.group>
-                <flux:error name="amount" />
+                    <div class="mb-6">
 
-                <div class="flex items-center justify-end mt-8">
+                        <flux:input.group>
+                            <flux:input.group.prefix>Rp</flux:input.group.prefix>
+                            <flux:input x-mask:dynamic="$money($input, ',', '.')" wire:model="amount"/>
+                        </flux:input.group>
+                        <flux:error name="amount"/>
+                    </div>
+
+                    <div>
+                        <flux:textarea name="description" wire:model="description" label="Keterangan" placeholder="Keterangan"></flux:textarea>
+                    </div>
+
+
+                    <div class="flex items-center justify-end mt-8">
                     <flux:button type="submit" variant="primary" class="w-full">
                         Tarik
                     </flux:button>

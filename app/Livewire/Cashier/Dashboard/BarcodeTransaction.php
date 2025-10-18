@@ -28,6 +28,8 @@ class BarcodeTransaction extends Component{
 
     public $search;
 
+    public $description;
+
     // public $idCardCode;
 
     public function mount(){
@@ -99,7 +101,7 @@ class BarcodeTransaction extends Component{
 
         $service = new TransactionService($this->student);
         $date=Carbon::now()->toDateString();
-        $description ='';
+        $description =$this->description;
         $service->transaction($amount,'-','tarik',$date,$description);
         $this->student=null;
         $this->search='';

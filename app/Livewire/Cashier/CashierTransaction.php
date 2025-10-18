@@ -27,6 +27,8 @@ class CashierTransaction extends Component
 
     public $limitToday;
 
+    public $description;
+
     public function mount(){
 
         $override_limit = UserOverrideLimit::where('user_id',auth()->user()->id)->first();
@@ -91,7 +93,7 @@ class CashierTransaction extends Component
         }
 
         $date=Carbon::now()->toDateString();
-        $description ='';
+        $description =$this->description;
         $service = new TransactionService($this->student);
         $service->transaction(
             amount:$amount,
