@@ -10,6 +10,8 @@ class NotificationCard extends Component
 
     public Student $student;
 
+
+
     public $sendnotif;
     public function render()
     {
