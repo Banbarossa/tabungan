@@ -41,7 +41,7 @@ class SetorTransaction extends Component
         $id = vinclaDecode($code);
         $this->student = Student::find($id);
         $this->tanggal=Carbon::now()->toDateString();
-        $this->headings = ['Tanggal','Debit','Kredit','Metode','Cashier'];
+        $this->headings = ['Tanggal','Metode','Cashier','Setoran','Penarikan','Saldo'];
         $methods=JenisTransaksi::orderBy('no_urut','asc')->get();
         $this->methods=$methods;
         $this->jenis_transaksi_id=$methods->first()?$methods->first()->id:null;
@@ -60,8 +60,9 @@ class SetorTransaction extends Component
                     'id'=>$item->id,
                     'Code'=>vinclaEncode($item->id),
                     'Tanggal'=>$item->date,
-                    'Debit'=>$item->type == 'setor' ? format_rupiah($item->amount): '',
-                    'Kredit'=>$item->type !== 'setor' ? format_rupiah($item->amount): '',
+                    'Setoran'=>$item->type == 'setor' ? format_rupiah($item->amount): '',
+                    'Penarikan'=>$item->type !== 'setor' ? format_rupiah($item->amount): '',
+                    'Saldo'=> format_rupiah($item->latest_saldo),
                     'Metode'=>$item->metode?$item->metode->nama:'',
                     'Cashier'=>$item->handledbyUser?->name,
                 ];
