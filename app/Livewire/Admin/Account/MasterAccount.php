@@ -73,12 +73,13 @@ class MasterAccount extends Component
                     'Nama' => $item->name,
                     'No Id' => $item->no_id,
                     'Kelas' => $item->kelas,
-                    'Alamat' => $item->notification_account,
+                    'Hp Ibu' => $item->notification_account,
+                    'Hp Ayah' => $item->no_hp_ayah,
                     'Saldo' => format_rupiah($item->saldo),
 
                 ];
             });
-        $this->headings = ['Nama', 'No Id', 'Kelas', 'Alamat', 'Saldo'];
+        $this->headings = ['Nama', 'No Id', 'Kelas', 'Hp Ibu','Hp Ayah', 'Saldo'];
         return $students;
 
     }

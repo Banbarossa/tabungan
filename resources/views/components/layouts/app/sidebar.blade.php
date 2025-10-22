@@ -57,18 +57,35 @@
         </flux:navlist.group>
 
 
+
+    </flux:navlist.group>
+
+
         <flux:navlist.group :heading="__('Pengaturan')" class="grid">
-            <flux:navlist.item icon="chat-bubble-left-ellipsis" :href="route('whatsapp.history')"
-                               :current="request()->routeIs('whatsapp.history')" wire:navigate>Riwayat Pesan
-            </flux:navlist.item>
-            <flux:navlist.item icon="cog-6-tooth" :href="route('whatsapp.setting')"
-                               :current="request()->routeIs('whatsapp.setting')" wire:navigate>Whatsapp
-            </flux:navlist.item>
+            <flux:navlist.group heading="Whatsapp" expandable :expanded="Request::is('whatsapp*')">
+                <flux:navlist.item icon="cog-6-tooth" :href="route('whatsapp.setting')"
+                                   :current="request()->routeIs('whatsapp.setting')" wire:navigate>Pengaturan
+                </flux:navlist.item>
+                <flux:navlist.item icon="paper-airplane" :href="route('whatsapp.monitoring',['status'=>'sent'])"
+                                   :current="Request::is('whatsapp/monitoring/sent')" wire:navigate>Terkirim
+                </flux:navlist.item>
+                <flux:navlist.item icon="clock" :href="route('whatsapp.monitoring',['status'=>'pending'])"
+                                   :current="Request::is('whatsapp/monitoring/pending')" wire:navigate>Belum Kirim
+                </flux:navlist.item>
+                <flux:navlist.item icon="arrow-path" :href="route('whatsapp.monitoring',['status'=>'processing'])"
+                                   :current="Request::is('whatsapp/monitoring/processing')" wire:navigate>Dalam Antrian
+                </flux:navlist.item>
+{{--            <flux:navlist.item icon="chat-bubble-left-ellipsis" :href="route('whatsapp.history')"--}}
+{{--                               :current="request()->routeIs('whatsapp.history')" wire:navigate>Riwayat Pesan--}}
+{{--            </flux:navlist.item>--}}
+{{--            <flux:navlist.item icon="cog-6-tooth" :href="route('whatsapp.setting')"--}}
+{{--                               :current="request()->routeIs('whatsapp.setting')" wire:navigate>Whatsapp--}}
+{{--            </flux:navlist.item>--}}
+        </flux:navlist.group>
+        <flux:navlist.group class="grid">
             <flux:navlist.item icon="adjustments-horizontal" :href="route('pengaturan.jenis-transaksi')"
                                :current="request()->routeIs('pengaturan.jenis-transaksi')" wire:navigate>Jenis transaksi
             </flux:navlist.item>
-        </flux:navlist.group>
-        <flux:navlist.group class="grid">
             <flux:navlist.item icon="inbox-stack" :href="route('backup')" :current="request()->routeIs('backup')"
                                wire:navigate>Backup
             </flux:navlist.item>

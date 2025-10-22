@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('message_id');
+            $table->bigInteger('message_id')->nullable();
             $table->string('source')->default('tabsis');
             $table->string('device')->nullable();
             $table->string('target')->nullable();

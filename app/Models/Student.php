@@ -48,4 +48,8 @@ class Student extends Model
         return null;
     }
 
+    public function messages(){
+        return $this->hasMany(Message::class);
+    }
+
 }

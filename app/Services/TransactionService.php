@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Jobs\ProcessPendingMessageJob;
+use App\Models\Message;
 use App\Models\Settingwhatsapp;
 use App\Models\Student;
 use App\Models\Transaction;
@@ -10,6 +12,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use function PHPUnit\Framework\isEmpty;
 
 class TransactionService
 {
@@ -60,7 +64,8 @@ class TransactionService
 
             DB::afterCommit(function () use ($latest_saldo, $operator, $amount, $date, $description) {
                 if (cekSendMessage($operator)) {
-                    $this->sendWa($amount, $latest_saldo, $operator, $date, $description);
+
+                    $this->generateMessage($amount, $latest_saldo, $operator, $date, $description);
 
                 }
 
@@ -71,11 +76,23 @@ class TransactionService
 
     }
 
-    public function sendWa($amount, $latest_saldo, $operator, $date, $description)
+    public function generateMessage($amount, $latest_saldo, $operator, $date, $description)
     {
-        if (is_null($this->student->notification_account)) {
+        $targets = [];
+        $target1 = $this->student->notification_account ?? null;
+        $target2 = $this->student->no_hp_ayah ?? null;
+
+        if ($target1) {
+            $targets[] = $target1;
+        }
+        if ($target2) {
+            $targets[] = $target2;
+        }
+
+        if (empty($targets)) {
             return;
         }
+
 
         $tanggal = Carbon::parse($date)->format('d-m-Y');
         $nama_santri = $this->student->name;
@@ -106,49 +123,67 @@ class TransactionService
 
 
         try {
-
-            $service = new WhatsappService();
-            $koneksi = $service->cekKoneksi();
-
-            if ($koneksi && $koneksi->device_status == 'connect') {
-                $service->send(
-                    target: $this->student->notification_account,
-                    message: $message,
-                    delay: 0,
-                    user_id: Auth::user()->id,
-                    source: 'tabsis',
-
-
-                );
-            } else {
-                $url = config('absen.simaq_url');
-                $token = config('absen.simaq_token');
-                $response = Http::withHeaders([
-                    'Authorization' => $token
-                ])->post($url . 'send_whatsapp', [
-                    'target' => $this->student->notification_account,
-                    'musyrif_id' => Auth::user()->id,
+            foreach ($targets as $target) {
+                Message::create([
+                    'message_id' => null,
+                    'source' => 'tabsis',
+                    'device' => '',
+                    'target' => $target,
                     'message' => $message,
-                    'source' => 'tabungan',
-                ]);
-                if ($response->successful()) {
-                    return [
-                        'status' => true,
-                        'message' => 'Pesan berhasil dikirim.',
-                        'response' => $response->json()
-                    ];
-                } else {
-                    return [
-                        'status' => false,
-                        'message' => 'Pengiriman gagal',
-                        'http_code' => $response->status(),
-                        'response' => $response->body()
-                    ];
-                }
+                    'stateid' => '',
+                    'status' => '',
+                    'state' => '',
+                    'user_id' => Auth::user()->id,
+                    'student_id' => $this->student->id,
+                    'sending_status' => 'pending',
 
+                ]);
             }
+            dispatch(new ProcessPendingMessageJob());
+
+//            $service = new WhatsappService();
+//            $koneksi = $service->cekKoneksi();
+//
+//            if ($koneksi && $koneksi->device_status == 'connect') {
+//                $service->send(
+//                    target: $this->student->notification_account,
+//                    message: $message,
+//                    delay: 0,
+//                    user_id: Auth::user()->id,
+//                    source: 'tabsis',
+//
+//
+//                );
+//            } else {
+//                $url = config('absen.simaq_url');
+//                $token = config('absen.simaq_token');
+//                $response = Http::withHeaders([
+//                    'Authorization' => $token
+//                ])->post($url . 'send_whatsapp', [
+//                    'target' => $this->student->notification_account,
+//                    'musyrif_id' => Auth::user()->id,
+//                    'message' => $message,
+//                    'source' => 'tabungan',
+//                ]);
+//                if ($response->successful()) {
+//                    return [
+//                        'status' => true,
+//                        'message' => 'Pesan berhasil dikirim.',
+//                        'response' => $response->json()
+//                    ];
+//                } else {
+//                    return [
+//                        'status' => false,
+//                        'message' => 'Pengiriman gagal',
+//                        'http_code' => $response->status(),
+//                        'response' => $response->body()
+//                    ];
+//                }
+//
+//            }
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return [
                 'status' => false,
                 'message' => 'Terjadi error saat mengirim pesan.',

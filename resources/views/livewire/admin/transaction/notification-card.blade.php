@@ -50,23 +50,33 @@
                         </x-slot:value>
                     </x-list-item-advance>
                     @if ($sendnotif)
-                    <x-list-item-advance label="Kirim Pesan Via">
-                        <x-slot:icon>
-                            <flux:icon.arrow-path class="size-4"/>
-                        </x-slot:icon>
-                        <x-slot:value>
-                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                {{ $student->notification_target }}
-                            </div>
-                        </x-slot:value>
-                    </x-list-item-advance>
-                    <x-list-item-advance label="">
+{{--                    <x-list-item-advance label="Kirim Pesan Via">--}}
+{{--                        <x-slot:icon>--}}
+{{--                            <flux:icon.arrow-path class="size-4"/>--}}
+{{--                        </x-slot:icon>--}}
+{{--                        <x-slot:value>--}}
+{{--                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">--}}
+{{--                                {{ $student->notification_target }}--}}
+{{--                            </div>--}}
+{{--                        </x-slot:value>--}}
+{{--                    </x-list-item-advance>--}}
+                    <x-list-item-advance label="Hp Ibu">
                         <x-slot:icon>
                             <flux:icon.phone class="size-4"/>
                         </x-slot:icon>
                         <x-slot:value>
                             <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                 {{ $student->notification_account }}
+                            </div>
+                        </x-slot:value>
+                    </x-list-item-advance>
+                        <x-list-item-advance label="Hp Ayah">
+                        <x-slot:icon>
+                            <flux:icon.phone class="size-4"/>
+                        </x-slot:icon>
+                        <x-slot:value>
+                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                {{ $student->no_hp_ayah }}
                             </div>
                         </x-slot:value>
                     </x-list-item-advance>

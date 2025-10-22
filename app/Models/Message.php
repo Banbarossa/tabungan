@@ -10,4 +10,8 @@ class Message extends Model
     /** @use HasFactory<\Database\Factories\MessageFactory> */
     use HasFactory;
     protected $guarded = [];
+
+    public function student(){
+        return $this->belongsTo(Student::class);
+    }
 }

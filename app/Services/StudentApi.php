@@ -46,20 +46,20 @@ class StudentApi
 
         }
 
-        $simaqresource = Http::withHeader('Authorization',$simaq_token)
-            ->get($simaq_url);
-
-        if($simaqresource->status()==200){
-            $data = $simaqresource->json();
-
-            foreach($data as $hp){
-                $student = Student::where('absen_id',$hp['absen_student_id'])->first();
-                if($student){
-                    $student->update(['notification_account'=>$hp['no_hp']]);
-                }
-            }
-
-        }
+//        $simaqresource = Http::withHeader('Authorization',$simaq_token)
+//            ->get($simaq_url);
+//
+//        if($simaqresource->status()==200){
+//            $data = $simaqresource->json();
+//
+//            foreach($data as $hp){
+//                $student = Student::where('absen_id',$hp['absen_student_id'])->first();
+//                if($student){
+//                    $student->update(['notification_account'=>$hp['no_hp']]);
+//                }
+//            }
+//
+//        }
 
         return [
             'success'=>true,

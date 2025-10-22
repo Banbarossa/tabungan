@@ -52,11 +52,14 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
     Route::group(['as'=>'laporan.','prefix'=>'laporan'],function(){
         Route::get('/laporan-filter/',\App\Livewire\Admin\Laporan\FilteredLaporan::class)->name('filter');
         Route::get('/laporan-filter-pdf/',[\App\Http\Controllers\LaporanHarianController::class,'filterPDF'])->name('filter.pdf');
+
     });
 
     Route::group(['as'=>'whatsapp.','prefix'=>'whatsapp'],function(){
         Route::get('/history',\App\Livewire\Admin\Whatsapp\HistoryMessage::class)->name('history');
         Route::get('/setting',\App\Livewire\Admin\Whatsapp\SettingSendingMessage::class)->name('setting');
+        Route::get('/monitoring/{status}',\App\Livewire\Admin\Whatsapp\MonitoringPesan::class)->name('monitoring');
+
     });
     Route::group(['as'=>'pengaturan.','prefix'=>'pengaturan'],function(){
         Route::get('/jenis-transaksi',\App\Livewire\Admin\Pengaturan\MainJenisTransaksi::class)->name('jenis-transaksi');

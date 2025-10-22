@@ -20,7 +20,70 @@ class WhatsappService
 
     }
 
-    public function send($target, $message, $delay = 0, $user_id, $source = 'tabsis', )
+    public function indirectSend($message_id)
+    {
+        try {
+            $pesan =Message::find($message_id);
+            if (!$pesan) {
+                return;
+            }
+            if($pesan && $pesan->sending_status == 'sent'){
+                return;
+            }
+
+            $client = new Client();
+
+            $response = $client->post("https://api.fonnte.com/send", [
+                'headers' => [
+                    'Authorization' => $this->token,
+                ],
+                'form_params' => [
+                    'target' => $pesan->target,
+                    'message' => $pesan->message,
+                    'delay' => 0,
+                ],
+            ]);
+
+
+            $statusCode = $response->getStatusCode();
+            $response = $response->getBody()->getContents();
+
+            $res = json_decode($response);
+
+
+            if($statusCode == 200){
+
+                foreach ($res->id as $k => $value) {
+//                    $target = $res->target[$k];
+                    $status = $res->process;
+
+                    $pesan->update([
+                        'message_id' => $value,
+                        'status' => $status,
+                        'sending_status' => 'sent',
+                    ]);
+
+                }
+                return [
+                    'success' => true,
+                    'message' => 'Pesan berhasil dikirim.',
+                    'data' => $res,
+                ];
+            }
+
+
+        } catch (\Throwable $th) {
+            Log::info('Whatsapp Gagal dikirim dengan alasan :' . $th);
+            return [
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $th->getMessage(),
+                'data' => null,
+            ];
+        }
+
+    }
+
+    public function send($target, $message, $delay = 0, $user_id, $source = 'tabsis')
     {
         try {
 
