@@ -31,6 +31,8 @@ class CashierTransaction extends Component
 
     public function mount(){
 
+//        $this->student= Student::find(1);
+
         $override_limit = UserOverrideLimit::where('user_id',auth()->user()->id)->first();
         if($override_limit){
             $this->limitToday = $override_limit->limit;
@@ -58,6 +60,8 @@ class CashierTransaction extends Component
         }
         return view('livewire.cashier.cashier-transaction',compact('history'));
     }
+
+
 
     public function getData($value)
     {

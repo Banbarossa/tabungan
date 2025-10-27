@@ -10,7 +10,7 @@ use Livewire\Attributes\On;
 class TodayHistory extends Component
 {
 
-    #[On('transaction_updated')]
+
     public function render()
     {
         $user = Auth::user();
@@ -18,5 +18,11 @@ class TodayHistory extends Component
             ->where('handledby',$user->id)
             ->latest()->get();
         return view('livewire.cashier.dashboard.today-history',compact('history'));
+    }
+
+    #[On('transaction_updated')]
+    public function refreshData()
+    {
+        $this->dispatch('$refresh');
     }
 }

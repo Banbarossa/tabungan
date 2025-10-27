@@ -16,7 +16,11 @@ Route::group(['middleware'=>['auth','can:admin']],function(){
 Route::group(['middleware'=>['auth','can:cashier'],'as'=>'cashier.'],function(){
     Route::get('home',\App\Livewire\Cashier\CashierDashboard::class)->name('home');
     Route::get('cashier-transaction',\App\Livewire\Cashier\CashierTransaction::class)->name('transaction');
+    Route::get('foto/{student}',\App\Livewire\Cashier\FotoSiswa::class)->name('foto');
+
+
 });
+
 
 
 Route::group(['middleware'=>['auth','can:admin'],],function(){
@@ -27,8 +31,8 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
 
 
     Route::group(['as'=>'account.','prefix'=>'account'],function(){
-        Route::get('/take-photo/{student}',\App\Livewire\Admin\Account\TakePhoto::class)->name('photo');
         Route::get('/{status}',\App\Livewire\Admin\Account\MasterAccount::class)->name('index');
+        Route::get('/take-photo/{student}',\App\Livewire\Admin\Account\TakePhoto::class)->name('photo');
 
         Route::get('/formulir/create',\App\Livewire\Admin\Account\AccountCreate::class)->name('create');
         Route::get('{code}/edit',\App\Livewire\Admin\Account\AccountCreate::class)->name('edit');

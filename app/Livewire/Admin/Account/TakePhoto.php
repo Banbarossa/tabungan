@@ -18,10 +18,20 @@ class TakePhoto extends Component
 {
     public Student $student;
     use WithFileUploads;
+
     public $photo;
-    public function mount(Student $student){
+    public $previous;
+
+    public function mount(Student $student, $previous = null)
+    {
         $this->student = $student;
+        if ($previous != null) {
+            $this->previous = $previous;
+        } else {
+            $this->previous = url()->previous();
+        }
     }
+
     public function render()
     {
         return view('livewire.admin.account.take-photo');
@@ -43,11 +53,11 @@ class TakePhoto extends Component
 
             $student->photo = $path;
             $student->save();
-            session()->flash('saved',[
+            session()->flash('saved', [
                 'title' => "Berhasil",
-                'text'=>"Photo Berhasil Diupload"
+                'text' => "Photo Berhasil Diupload"
             ]);
-            return redirect()->route('account.index', ['status'=>'aktif']);
+            $this->redirect($this->previous);
 
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
