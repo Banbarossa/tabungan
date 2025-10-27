@@ -27,6 +27,7 @@ Route::group(['middleware'=>['auth','can:admin'],],function(){
 
 
     Route::group(['as'=>'account.','prefix'=>'account'],function(){
+        Route::get('/take-photo/{student}',\App\Livewire\Admin\Account\TakePhoto::class)->name('photo');
         Route::get('/{status}',\App\Livewire\Admin\Account\MasterAccount::class)->name('index');
 
         Route::get('/formulir/create',\App\Livewire\Admin\Account\AccountCreate::class)->name('create');

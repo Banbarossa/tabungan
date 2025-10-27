@@ -44,6 +44,9 @@
             <x-table.column class="w-16">
                 <flux:checkbox wire:model.live="select_all"/>
             </x-table.column>
+            <x-table.column class="w-16">
+                Foto
+            </x-table.column>
             @foreach($headings as $head)
                 <x-table.column x-show="shown['{{$head}}']">{{$head}}</x-table.column>
             @endforeach
@@ -60,6 +63,13 @@
                             <flux:checkbox wire:model="ids.{{$student['id']}}"/>
                         </div>
                         @endif
+                    </x-table.cell>
+                    <x-table.cell>
+                        <a href="{{route('account.photo',['student'=>$student['id']])}}">
+                            <div>
+                                <img src=" {{$student['Photo']}}" alt="user" class="w-10 h-10 object-cover">
+                            </div>
+                        </a>
                     </x-table.cell>
                     @foreach($headings as $head)
                         <x-table.cell class="truncate text-wrap" x-show="shown['{{ $head }}']">

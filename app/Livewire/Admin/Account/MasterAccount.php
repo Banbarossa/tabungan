@@ -76,6 +76,7 @@ class MasterAccount extends Component
                     'Hp Ibu' => $item->notification_account,
                     'Hp Ayah' => $item->no_hp_ayah,
                     'Saldo' => format_rupiah($item->saldo),
+                    'Photo' => $item->avatar,
 
                 ];
             });

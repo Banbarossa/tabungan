@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 class Student extends Model
 {
@@ -15,6 +16,15 @@ class Student extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function getAvatarAttribute()
+    {
+        if ($this->photo && Storage::disk('public')->exists($this->photo)) {
+            return asset('storage/' . $this->photo);
+        }
+
+        return asset('images/avatar.jpg');
     }
 
     public function transactions(){
