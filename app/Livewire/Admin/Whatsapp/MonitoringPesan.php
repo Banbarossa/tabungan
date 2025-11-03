@@ -24,10 +24,10 @@ class MonitoringPesan extends Component
     public function mount($status)
     {
         $this->status = $status;
-        $this->dataPesan();
     }
     public function render()
     {
+        $this->dataPesan();
         $breads=[
             ['url'=>url()->current(), 'title'=> ucfirst($this->status)],
         ];
@@ -36,6 +36,7 @@ class MonitoringPesan extends Component
 
     public function dataPesan()
     {
+
         $messages= Message::where('sending_status', $this->status)
             ->when($this->status == 'pending', function ($query) {
                 return $query->whereNull('message_id');
@@ -64,6 +65,8 @@ class MonitoringPesan extends Component
         $message = Message::findOrFail($id);
 
         ProcessSingleMessageJob::dispatch($message->id);
+
+        $this->dataPesan();
 
     }
 }
