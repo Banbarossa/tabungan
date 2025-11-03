@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Whatsapp;
 
+use App\Jobs\ProcessSingleMessageJob;
 use App\Models\Message;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
@@ -49,11 +50,20 @@ class MonitoringPesan extends Component
             ->get()
             ->map(function ($item) {
             return [
+                'id_message'=>$item->id,
                 'Nama'=>$item->student?->name,
                 'Target'=>$item->target,
                 'Waktu'=>Carbon::parse($item->created_at)->format('d/m/Y H:i'),
+                'sending_status'=>$item->sending_status,
             ];
         });
         $this->messages = $messages;
+    }
+
+    public function directSent($id){
+        $message = Message::findOrFail($id);
+
+        ProcessSingleMessageJob::dispatch($message->id);
+
     }
 }

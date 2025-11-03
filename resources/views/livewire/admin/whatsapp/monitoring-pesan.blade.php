@@ -33,6 +33,11 @@
                             {{$data[$head]}}
                         </x-table.cell>
                     @endforeach
+                    <x-table.cell>
+                        @if($data['sending_status'] != 'sent')
+                            <flux:button wire:click="directSent({{$data['id_message']}})" variant="primary" size="sm">Kirim Sekarang</flux:button>
+                        @endif
+                    </x-table.cell>
 
                 </x-table.row>
             @empty

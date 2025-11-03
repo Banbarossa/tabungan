@@ -16,7 +16,8 @@
             </div>
 
             <div>
-                @if($deviceStatus)
+                @if($deviceStatus && $deviceStatus->status)
+
                 <flux:callout icon="check-badge" color="green" class="mb-6">
                     <flux:callout.heading>Whatsapp Terhubung</flux:callout.heading>
                     <flux:callout.text>
