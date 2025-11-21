@@ -44,7 +44,6 @@ class WhatsappService
                 ],
             ]);
 
-            dd($response);
 
 
 
