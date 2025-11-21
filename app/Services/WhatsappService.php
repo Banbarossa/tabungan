@@ -44,6 +44,9 @@ class WhatsappService
                 ],
             ]);
 
+            dd($response);
+
+
 
             $statusCode = $response->getStatusCode();
             $response = $response->getBody()->getContents();

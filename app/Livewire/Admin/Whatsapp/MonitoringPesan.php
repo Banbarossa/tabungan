@@ -4,7 +4,10 @@ namespace App\Livewire\Admin\Whatsapp;
 
 use App\Jobs\ProcessSingleMessageJob;
 use App\Models\Message;
+use App\Services\WhatsappService;
 use Carbon\Carbon;
+use Jantinnerezo\LivewireAlert\Enums\Position;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -63,8 +66,25 @@ class MonitoringPesan extends Component
 
     public function directSent($id){
         $message = Message::findOrFail($id);
+        $services = new WhatsappService();
+        $send = $services->indirectSend(message_id: $message->id);
+        if($send['success']){
+           LivewireAlert::title('Success')
+               ->text($send['message'])
+               ->position(Position::Center)
+               ->success()
+               ->show();
 
-        ProcessSingleMessageJob::dispatch($message->id);
+        }else{
+            LivewireAlert::title('Gagal')
+                ->text($send['message'])
+                ->position(Position::Center)
+                ->error()
+                ->show();
+        }
+
+
+//        ProcessSingleMessageJob::dispatch($message->id);
 
         $this->dataPesan();
 
