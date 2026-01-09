@@ -161,6 +161,7 @@
                 </div>
             </div>
             <form action="" wire:submit='tarik'>
+                <flux:input type="date" label="Tanggal" name="tanggal" wire:model="tanggal" class="mb-4"></flux:input>
                 <div class="mb-4">
 
                     <flux:input.group>

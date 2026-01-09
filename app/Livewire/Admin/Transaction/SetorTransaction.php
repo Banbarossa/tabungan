@@ -51,6 +51,8 @@ class SetorTransaction extends Component
 
     public function render()
     {
+        $tran = Transaction::latest()->limit(5)->get();
+//        dd($tran);
         $transaksi= Transaction::where('student_id',$this->student->id)
             ->latest()
             ->limit(200)
@@ -148,7 +150,7 @@ class SetorTransaction extends Component
             amount:$amount_tarik,
             operator:'-',
             type:'tarik',
-            date:$date,
+            date:$this->tanggal??$date,
             description: $description,
         );
 
