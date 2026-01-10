@@ -43,6 +43,7 @@ class LaporanHarianController extends Controller
             });
         $totalDebet  = $data->sum('to_Debet');
         $totalKredit = $data->sum('to_Kredit');
+        $selisih =$totalDebet - $totalKredit;
 
         $path = public_path('images/team.png');
         $type = pathinfo($path, PATHINFO_EXTENSION);
@@ -50,7 +51,7 @@ class LaporanHarianController extends Controller
         $logo = 'data:image/' . $type . ';base64,' . base64_encode($log);
         $headings=['No Id','Nama','Kelas','Nomor Transaksi','Petugas','Deskripsi','Debet','Kredit'];
 
-        $pdf = Pdf::loadView('pdf.filter-laporan',compact('data','headings','totalDebet','totalKredit','tanggal','petugas','logo'))
+        $pdf = Pdf::loadView('pdf.filter-laporan',compact('data','headings','totalDebet','totalKredit','tanggal','petugas','logo','selisih'))
             ->setPaper('A4', 'landscape');
 
 

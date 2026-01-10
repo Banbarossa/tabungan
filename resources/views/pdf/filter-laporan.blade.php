@@ -143,9 +143,15 @@
         </tbody>
         <tfoot>
         <tr>
-            <th colspan="{{ count($headings) - 1 }}">Total</th>
-            <th style="text-align: right;">{{ format_rupiah($totalDebet) }}</th>
-            <th style="text-align: right;">{{format_rupiah($totalKredit)  }}</th>
+            <td colspan="{{ count($headings) - 3 }}"></td>
+            <td colspan="2" style="border-top: dashed gray; text-align:left">Grand Total</td>
+            <td style="text-align: right; border-top: dashed gray ">{{ format_rupiah($totalDebet) }}</td>
+            <td style="text-align: right; border-top: dashed gray">{{format_rupiah($totalKredit)  }}</td>
+        </tr>
+        <tr>
+            <td colspan="{{ count($headings) - 3 }}"></td>
+            <td colspan="2" style="text-align: left;border-bottom: dashed gray">Setoran - Penarikan</td>
+            <td colspan="2" style="text-align: right;border-bottom: dashed gray">{{ format_rupiah($selisih) }}</td>
         </tr>
         </tfoot>
     </table>
