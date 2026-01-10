@@ -152,6 +152,7 @@ class SetorTransaction extends Component
             type:'tarik',
             date:$this->tanggal??$date,
             description: $description,
+            jenis_transaksi_id:$this->jenis_transaksi_id,
         );
 
         $this->amount_tarik ='';

@@ -1,7 +1,6 @@
 <section>
 
 
-
     <div class="grid lg:grid-cols-3 gap-4">
         <div class="lg:order-2">
             <livewire:admin.transaction.notification-card :student="$student"/>
@@ -66,8 +65,9 @@
                                 @endforeach
                                 <x-table.cell>
                                     <flux:button.group>
-                                        <flux:button size="sm" icon="eye" href="{{route('transaction.detail',['code'=>$code,'transaction'=>$t['id']])}}"></flux:button>
-{{--                                        <flux:button size="sm" icon="trash" variant="danger" wire:click="confirmDelete({{$t['id']}})"></flux:button>--}}
+                                        <flux:button size="sm" icon="eye"
+                                                     href="{{route('transaction.detail',['code'=>$code,'transaction'=>$t['id']])}}"></flux:button>
+                                        {{--                                        <flux:button size="sm" icon="trash" variant="danger" wire:click="confirmDelete({{$t['id']}})"></flux:button>--}}
                                     </flux:button.group>
                                 </x-table.cell>
                             </x-table.row>
@@ -88,9 +88,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 
     <flux:modal name="setor" class="md:w-96" variant="flyout">
@@ -124,7 +121,7 @@
                 <div class="mb-4">
                     <flux:select name="jenis_transaksi_id" wire:model="jenis_transaksi_id" label="Metode">
                         @foreach($methods as $method)
-                        <flux:select.option value="{{$method->id}}">{{$method->nama}}</flux:select.option>
+                            <flux:select.option value="{{$method->id}}">{{$method->nama}}</flux:select.option>
 
                         @endforeach
                     </flux:select>
@@ -162,6 +159,14 @@
             </div>
             <form action="" wire:submit='tarik'>
                 <flux:input type="date" label="Tanggal" name="tanggal" wire:model="tanggal" class="mb-4"></flux:input>
+                <div class="mb-4">
+                    <flux:select name="jenis_transaksi_id" wire:model="jenis_transaksi_id" label="Metode">
+                        @foreach($methods as $method)
+                            <flux:select.option value="{{$method->id}}">{{$method->nama}}</flux:select.option>
+
+                        @endforeach
+                    </flux:select>
+                </div>
                 <div class="mb-4">
 
                     <flux:input.group>
