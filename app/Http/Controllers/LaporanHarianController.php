@@ -56,7 +56,7 @@ class LaporanHarianController extends Controller
 
 
 
-        return $pdf->stream('daily-report.pdf');
+        return $pdf->download('daily-report.pdf');
 
     }
 }
