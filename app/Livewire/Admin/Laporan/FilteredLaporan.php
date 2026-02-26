@@ -27,7 +27,7 @@ class FilteredLaporan extends Component
         $jenis=JenisTransaksi::orderBy('no_urut','ASC')->get();
 
         $this->jenis=$jenis;
-        $this->metode = $jenis->pluck('id')->toArray();
+//        $this->metode = $jenis->pluck('id')->toArray();
     }
     public function render()
     {
