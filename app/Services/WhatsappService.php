@@ -31,7 +31,10 @@ class WhatsappService
                 return;
             }
 
-            $client = new Client();
+            $client = new Client([
+                'timeout' => 5,
+                'connect_timeout' => 3,
+            ]);
 
             $response = $client->post("https://api.fonnte.com/send", [
                 'headers' => [
@@ -150,7 +153,10 @@ class WhatsappService
         }
 
         try {
-            $client = new Client();
+            $client = new Client([
+                'timeout' => 5,
+                'connect_timeout' => 3,
+            ]);
             $response = $client->post('https://api.fonnte.com/device', [
                 'headers' => [
                     'Authorization' => $this->token,
