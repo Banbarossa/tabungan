@@ -2,12 +2,16 @@
 
 namespace App\Livewire\Admin\Transaction;
 
+use App\Exports\DinamicExport;
 use App\Models\JenisTransaksi;
 use App\Models\Student;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Jantinnerezo\LivewireAlert\Enums\Position;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use App\Models\Transaction;
 use App\Services\TransactionService;
@@ -16,6 +20,7 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use function Livewire\Volt\updated;
 
 class SetorTransaction extends Component
@@ -36,6 +41,10 @@ class SetorTransaction extends Component
     public $methods;
     public $code;
 
+    // Riwayat filters
+    public $filterYear;
+    public $filterMonths = [];
+
     public function mount($code){
         $this->code = $code;
         $id = vinclaDecode($code);
@@ -46,39 +55,170 @@ class SetorTransaction extends Component
         $this->methods=$methods;
         $this->jenis_transaksi_id=$methods->first()?$methods->first()->id:null;
 
+        $this->filterYear = (int) Carbon::now()->year;
+        $this->filterMonths = [];
 
     }
 
     public function render()
     {
-        $tran = Transaction::latest()->limit(5)->get();
+//        $tran = Transaction::latest()->limit(5)->get();
 //        dd($tran);
-        $transaksi= Transaction::where('student_id',$this->student->id)
-            ->latest()
-            ->limit(200)
-            ->get()
-            ->map(function($item){
-                return[
-                    'id'=>$item->id,
-                    'Code'=>vinclaEncode($item->id),
-                    'Tanggal'=>$item->date,
-                    'Setoran'=>$item->type == 'setor' ? format_rupiah($item->amount): '',
-                    'Penarikan'=>$item->type !== 'setor' ? format_rupiah($item->amount): '',
-                    'Saldo'=> format_rupiah($item->latest_saldo),
-                    'Metode'=>$item->metode?$item->metode->nama:'',
-                    'Cashier'=>$item->handledbyUser?->name,
-                    'Keterangan'=>$item->description,
-                ];
-            });
+
 
         $breads=[
             ['url'=>route('transaction'),'title'=>'Transaction'],
             ['url'=>url()->current(),'title'=>'Detail'],
         ];
 
-        return view('livewire.admin.transaction.setor-transaction',compact('transaksi',))->layoutData([
+        return view('livewire.admin.transaction.setor-transaction')->layoutData([
             'breads'=>$breads
         ]);
+    }
+
+    #[Computed]
+    public function histories()
+    {
+        return $this->historiesRows(limit: 200);
+    }
+
+    #[Computed]
+    public function availableYears()
+    {
+        $driver = DB::connection()->getDriverName();
+        $yearExpr = $driver === 'sqlite'
+            ? "strftime('%Y', date)"
+            : "YEAR(date)";
+
+        $years = Transaction::query()
+            ->where('student_id', $this->student->id)
+            ->whereNotNull('date')
+            ->selectRaw("DISTINCT {$yearExpr} as year")
+            ->orderByDesc('year')
+            ->pluck('year')
+            ->map(fn ($y) => (int) $y)
+            ->values()
+            ->all();
+
+        $currentYear = (int) Carbon::now()->year;
+        if (!in_array($currentYear, $years, true)) {
+            $years[] = $currentYear;
+        }
+        rsort($years);
+
+        return $years;
+    }
+
+    public function resetRiwayatFilter()
+    {
+        $this->filterYear = (int) Carbon::now()->year;
+        $this->filterMonths = [];
+    }
+
+    public function downloadExcel()
+    {
+        $rows = $this->historiesRows(limit: null);
+        $name = $this->student?->name ? Str::slug($this->student->name) : 'student';
+        $filename=$name.'.xlsx';
+
+        return Excel::download(new DinamicExport([
+            'title' => 'Riwayat Transaksi',
+            'headings' => $this->headings,
+            'rows' => $rows->map(fn ($r) => collect($r)->only($this->headings)->all()),
+        ]), $filename);
+    }
+
+    public function downloadPdf()
+    {
+        $rows = $this->historiesRows(limit: null);
+
+        $path = public_path('images/team.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $log = @file_get_contents($path);
+        $logo = $log ? ('data:image/' . $type . ';base64,' . base64_encode($log)) : null;
+
+
+
+        $pdf = Pdf::loadView('pdf.transaction-history', [
+            'student' => $this->student,
+            'headings' => $this->headings,
+            'rows' => $rows->map(fn ($r) => collect($r)->only($this->headings)->all()),
+            'filterYear' => $this->filterYear,
+            'filterMonths' => $this->filterMonths,
+            'logo' => $logo,
+            'downloadedBy' => Auth::user()?->name,
+            'downloadedAt' => Carbon::now()->format('d-m-Y H:i:s'),
+        ])->setPaper('A4', 'landscape');
+
+        // Livewire request/response is JSON-based; returning raw PDF binary can trigger
+        // "Malformed UTF-8 characters" when Livewire tries to encode the payload.
+        // Stream the PDF as a download response instead.
+        $filename = $this->downloadBaseFilename('pdf');
+        return response()->streamDownload(
+            fn () => print($pdf->output()),
+            $filename,
+            ['Content-Type' => 'application/pdf']
+        );
+    }
+
+    private function historiesRows(?int $limit)
+    {
+        $months = collect($this->filterMonths ?? [])
+            ->filter(fn ($m) => is_numeric($m))
+            ->map(fn ($m) => (int) $m)
+            ->filter(fn ($m) => $m >= 1 && $m <= 12)
+            ->values()
+            ->all();
+
+        $query = Transaction::query()
+            ->with(['metode', 'handledbyUser'])
+            ->where('student_id', $this->student->id)
+            ->when($this->filterYear, fn ($q) => $q->whereYear('date', (int) $this->filterYear))
+            ->latest();
+
+        if (!empty($months)) {
+            $year = (int) ($this->filterYear ?: Carbon::now()->year);
+            $query->where(function ($q) use ($months, $year) {
+                foreach ($months as $m) {
+                    $start = Carbon::create($year, $m, 1)->startOfMonth()->toDateString();
+                    $end = Carbon::create($year, $m, 1)->endOfMonth()->toDateString();
+                    $q->orWhereBetween('date', [$start, $end]);
+                }
+            });
+        }
+
+        if ($limit !== null) {
+            $query->limit($limit);
+        }
+
+        return $query->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'Code' => vinclaEncode($item->id),
+                'Tanggal' => $item->date,
+                'Setoran' => $item->type == 'setor' ? format_rupiah($item->amount) : '',
+                'Penarikan' => $item->type !== 'setor' ? format_rupiah($item->amount) : '',
+                'Saldo' => format_rupiah($item->latest_saldo),
+                'Metode' => $item->metode ? $item->metode->nama : '',
+                'Cashier' => $item->handledbyUser?->name,
+                'Keterangan' => $item->description,
+            ];
+        });
+    }
+
+    private function downloadBaseFilename(string $ext): string
+    {
+        $year = $this->filterYear ?: Carbon::now()->year;
+        $months = collect($this->filterMonths ?? [])
+            ->filter(fn ($m) => is_numeric($m))
+            ->map(fn ($m) => str_pad((string) ((int) $m), 2, '0', STR_PAD_LEFT))
+            ->values()
+            ->all();
+
+//        $range = empty($months) ? ((string) $year) : ($year . '-' . implode('-', $months));
+        $student = $this->student?->name ? Str::slug($this->student->name) : 'student';
+
+        return "riwayat-{$student}-{$year}." . $ext;
     }
 
     public function setor(){
@@ -227,10 +367,10 @@ class SetorTransaction extends Component
         }catch (\Exception $e){
             Log::error('Gagal Hapus', ['error' => $e->getMessage()]);
             LivewireAlert::title('Gagal')
-            ->text('Data gagal dihapus')
-            ->error()
-            ->position(Position::Center)
-            ->show();
+                ->text('Data gagal dihapus')
+                ->error()
+                ->position(Position::Center)
+                ->show();
         }
 
 

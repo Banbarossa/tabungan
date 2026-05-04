@@ -40,6 +40,40 @@
         <div x-cloak x-show="riwayat" x-transition>
             <flux:separator/>
             <div class="p-2">
+                <div class="border rounded-lg border-neutral-500/20 p-3 mb-3 bg-neutral-700/5">
+                    @php
+                        $monthNames = [1=>'Jan',2=>'Feb',3=>'Mar',4=>'Apr',5=>'Mei',6=>'Jun',7=>'Jul',8=>'Agus',9=>'Sept',10=>'Okt',11=>'Nov',12=>'Des'];
+                    @endphp
+
+                    <flux:fieldset>
+                        <flux:legend>Pilih Bulan</flux:legend>
+                        <flux:description>Silahkan bulan untuk filter</flux:description>
+                        <div class="flex gap-4 *:gap-x-2">
+                            @foreach($monthNames as $m => $label)
+                            <flux:checkbox wire:model.live="filterMonths" value="{{$m}}" label="{{$label}}" />
+                            @endforeach
+                        </div>
+                    </flux:fieldset>
+
+                    <div class="flex gap-2 mt-3 flex-wrap">
+                        <div class="flex items-center gap-4">
+                            <flux:label for="filterYear">Tahun</flux:label>
+                            <flux:select wire:model.live="filterYear" name="filterYear" size="sm">
+                                @foreach($this->availableYears() as $y)
+                                    <flux:select.option value="{{$y}}" label="{{$y}}"/>
+                                @endforeach
+                            </flux:select>
+                        </div>
+                        <div class="flex-1"></div>
+                        <flux:button type="button" wire:click="resetRiwayatFilter" variant="ghost">Reset</flux:button>
+                        <flux:button type="button" wire:click="downloadExcel" variant="primary" color="green" wire:loading.attr="disabled">
+                            Unduh Excel
+                        </flux:button>
+                        <flux:button type="button" wire:click="downloadPdf" variant="primary" wire:loading.attr="disabled">
+                            Unduh PDF
+                        </flux:button>
+                    </div>
+                </div>
                 <x-table.container>
                     <x-table.columns>
                         <x-table.column class="w-10">
@@ -52,7 +86,7 @@
 
                     </x-table.columns>
                     <x-table.rows>
-                        @forelse($transaksi as $index=>$t)
+                        @forelse($this->histories() as $index=>$t)
 
                             <x-table.row variant="hovered">
                                 <x-table.cell>
