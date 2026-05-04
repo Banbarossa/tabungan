@@ -51,6 +51,56 @@
             border-bottom: double solid #000;
             margin-bottom: 1rem;
         }
+
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        .meta-table td {
+            padding: 2px 0;
+            vertical-align: top;
+        }
+
+        .summary-wrap {
+            margin: 8px 0 14px 0;
+            border: 1px solid #cfcfcf;
+            background-color: #fafafa;
+            padding: 10px 12px;
+        }
+
+        .summary-title {
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0 0 6px 0;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .summary-table td {
+            padding: 4px 0;
+        }
+
+        .summary-label {
+            color: #333;
+        }
+
+        .summary-value {
+            text-align: right;
+            font-weight: bold;
+            width: 170px;
+            white-space: nowrap;
+        }
+
+        .summary-divider td {
+            border-top: 1px dashed #c0c0c0;
+            padding-top: 6px;
+        }
     </style>
 </head>
 <body>
@@ -90,34 +140,53 @@
     <tr>
         <td></td>
     </tr>
+    </thead>
+</table>
+
+@php
+    $names = [1=>'Januari',2=>'Februari',3=>'Maret',4=>'April',5=>'Mei',6=>'Juni',7=>'Juli',8=>'Agustus',9=>'September',10=>'Oktober',11=>'November',12=>'Desember'];
+    $months = collect($filterMonths ?? [])->map(fn($m) => (int) $m)->filter(fn($m) => $m >= 1 && $m <= 12)->values()->all();
+    $monthsText = empty($months) ? 'Semua Bulan' : collect($months)->map(fn($m) => $names[$m] ?? $m)->implode(', ');
+@endphp
+
+<table class="meta-table">
     <tr>
-        <td style="width: 8rem">Filter Tahun</td>
-        <td style="width: 1rem">:</td>
+        <td style="width: 92px;">Filter Tahun</td>
+        <td style="width: 10px;">:</td>
         <td>{{ $filterYear ?: '-' }}</td>
+        <td style="width: 40px;"></td>
+        <td style="width: 90px;">Diunduh Oleh</td>
+        <td style="width: 10px;">:</td>
+        <td>{{ $downloadedBy ?? '-' }}</td>
     </tr>
     <tr>
         <td>Filter Bulan</td>
         <td>:</td>
-        <td>
-            @php
-                $names = [1=>'Januari',2=>'Februari',3=>'Maret',4=>'April',5=>'Mei',6=>'Juni',7=>'Juli',8=>'Agustus',9=>'September',10=>'Oktober',11=>'November',12=>'Desember'];
-                $months = collect($filterMonths ?? [])->map(fn($m) => (int) $m)->filter(fn($m) => $m >= 1 && $m <= 12)->values()->all();
-            @endphp
-            {{ empty($months) ? 'Semua Bulan' : collect($months)->map(fn($m) => $names[$m] ?? $m)->implode(', ') }}
-        </td>
-    </tr>
-    <tr>
-        <td>Diunduh Oleh</td>
-        <td>:</td>
-        <td>{{ $downloadedBy ?? '-' }}</td>
-    </tr>
-    <tr>
+        <td>{{ $monthsText }}</td>
+        <td></td>
         <td>Waktu Unduh</td>
         <td>:</td>
         <td>{{ $downloadedAt ?? '-' }}</td>
     </tr>
-    </thead>
 </table>
+
+<div class="summary-wrap">
+    <div class="summary-title">Ringkasan (Semua Data)</div>
+    <table class="summary-table">
+        <tr>
+            <td class="summary-label">Total Setoran</td>
+            <td class="summary-value">{{ $overall['formatted']['setor'] ?? '-' }}</td>
+        </tr>
+        <tr>
+            <td class="summary-label">Total Penarikan</td>
+            <td class="summary-value">{{ $overall['formatted']['tarik'] ?? '-' }}</td>
+        </tr>
+        <tr class="summary-divider">
+            <td class="summary-label">Selisih (Setoran - Penarikan)</td>
+            <td class="summary-value">{{ $overall['formatted']['selisih'] ?? '-' }}</td>
+        </tr>
+    </table>
+</div>
 
 <table class="content-table">
     <thead>
@@ -147,4 +216,3 @@
 </script>
 </body>
 </html>
-

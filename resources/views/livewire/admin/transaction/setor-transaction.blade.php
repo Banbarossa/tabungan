@@ -73,6 +73,34 @@
                             Unduh PDF
                         </flux:button>
                     </div>
+
+                    @php($overall = $this->overallTotals())
+                    <div class="grid md:grid-cols-3 gap-2 mt-3">
+                        <div class="rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/60 dark:bg-zinc-900/30 p-3">
+                            <div class="text-[11px] uppercase tracking-wide text-zinc-600 dark:text-zinc-300">
+                                Total Setoran (Semua Data)
+                            </div>
+                            <div class="font-mono font-semibold text-zinc-900 dark:text-zinc-50">
+                                {{ $overall['formatted']['setor'] ?? format_rupiah(0) }}
+                            </div>
+                        </div>
+                        <div class="rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/60 dark:bg-zinc-900/30 p-3">
+                            <div class="text-[11px] uppercase tracking-wide text-zinc-600 dark:text-zinc-300">
+                                Total Penarikan (Semua Data)
+                            </div>
+                            <div class="font-mono font-semibold text-zinc-900 dark:text-zinc-50">
+                                {{ $overall['formatted']['tarik'] ?? format_rupiah(0) }}
+                            </div>
+                        </div>
+                        <div class="rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/60 dark:bg-zinc-900/30 p-3">
+                            <div class="text-[11px] uppercase tracking-wide text-zinc-600 dark:text-zinc-300">
+                                Selisih (Setoran - Penarikan)
+                            </div>
+                            <div class="font-mono font-semibold text-zinc-900 dark:text-zinc-50">
+                                {{ $overall['formatted']['selisih'] ?? format_rupiah(0) }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <x-table.container>
                     <x-table.columns>

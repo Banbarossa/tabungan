@@ -55,8 +55,9 @@ class SetorTransaction extends Component
         $this->methods=$methods;
         $this->jenis_transaksi_id=$methods->first()?$methods->first()->id:null;
 
-        $this->filterYear = (int) Carbon::now()->year;
-        $this->filterMonths = [];
+        $now = Carbon::now();
+        $this->filterYear = (int) $now->year;
+        $this->filterMonths = [(int) $now->month];
 
     }
 
@@ -111,26 +112,61 @@ class SetorTransaction extends Component
 
     public function resetRiwayatFilter()
     {
-        $this->filterYear = (int) Carbon::now()->year;
-        $this->filterMonths = [];
+        $now = Carbon::now();
+        $this->filterYear = (int) $now->year;
+        $this->filterMonths = [(int) $now->month];
     }
 
     public function downloadExcel()
     {
         $rows = $this->historiesRows(limit: null);
+        $overall = $this->overallTotals();
         $name = $this->student?->name ? Str::slug($this->student->name) : 'student';
         $filename=$name.'.xlsx';
+
+        $exportRows = $rows->map(fn ($r) => collect($r)->only($this->headings)->all());
+        $exportRows = $exportRows->concat(collect([
+            array_fill_keys($this->headings, ''),
+            [
+                'Tanggal' => '',
+                'Metode' => '',
+                'Cashier' => '',
+                'Setoran' => $overall['formatted']['setor'],
+                'Penarikan' => '',
+                'Saldo' => '',
+                'Keterangan' => 'TOTAL SETORAN (SEMUA DATA)',
+            ],
+            [
+                'Tanggal' => '',
+                'Metode' => '',
+                'Cashier' => '',
+                'Setoran' => '',
+                'Penarikan' => $overall['formatted']['tarik'],
+                'Saldo' => '',
+                'Keterangan' => 'TOTAL PENARIKAN (SEMUA DATA)',
+            ],
+            [
+                'Tanggal' => '',
+                'Metode' => '',
+                'Cashier' => '',
+                'Setoran' => '',
+                'Penarikan' => '',
+                'Saldo' => $overall['formatted']['selisih'],
+                'Keterangan' => 'SELISIH (SETORAN - PENARIKAN)',
+            ],
+        ]));
 
         return Excel::download(new DinamicExport([
             'title' => 'Riwayat Transaksi',
             'headings' => $this->headings,
-            'rows' => $rows->map(fn ($r) => collect($r)->only($this->headings)->all()),
+            'rows' => $exportRows,
         ]), $filename);
     }
 
     public function downloadPdf()
     {
         $rows = $this->historiesRows(limit: null);
+        $overall = $this->overallTotals();
 
         $path = public_path('images/team.png');
         $type = pathinfo($path, PATHINFO_EXTENSION);
@@ -145,20 +181,43 @@ class SetorTransaction extends Component
             'rows' => $rows->map(fn ($r) => collect($r)->only($this->headings)->all()),
             'filterYear' => $this->filterYear,
             'filterMonths' => $this->filterMonths,
+            'overall' => $overall,
             'logo' => $logo,
             'downloadedBy' => Auth::user()?->name,
             'downloadedAt' => Carbon::now()->format('d-m-Y H:i:s'),
         ])->setPaper('A4', 'landscape');
 
-        // Livewire request/response is JSON-based; returning raw PDF binary can trigger
-        // "Malformed UTF-8 characters" when Livewire tries to encode the payload.
-        // Stream the PDF as a download response instead.
         $filename = $this->downloadBaseFilename('pdf');
         return response()->streamDownload(
             fn () => print($pdf->output()),
             $filename,
             ['Content-Type' => 'application/pdf']
         );
+    }
+
+    #[Computed]
+    public function overallTotals(): array
+    {
+        $row = Transaction::query()
+            ->where('student_id', $this->student->id)
+            ->selectRaw("COALESCE(SUM(CASE WHEN type = 'setor' THEN amount ELSE 0 END), 0) as total_setor")
+            ->selectRaw("COALESCE(SUM(CASE WHEN type <> 'setor' THEN amount ELSE 0 END), 0) as total_tarik")
+            ->first();
+
+        $setor = (int) ($row?->total_setor ?? 0);
+        $tarik = (int) ($row?->total_tarik ?? 0);
+        $selisih = $setor - $tarik;
+
+        return [
+            'setor' => $setor,
+            'tarik' => $tarik,
+            'selisih' => $selisih,
+            'formatted' => [
+                'setor' => format_rupiah($setor),
+                'tarik' => format_rupiah($tarik),
+                'selisih' => format_rupiah($selisih),
+            ],
+        ];
     }
 
     private function historiesRows(?int $limit)
@@ -173,8 +232,7 @@ class SetorTransaction extends Component
         $query = Transaction::query()
             ->with(['metode', 'handledbyUser'])
             ->where('student_id', $this->student->id)
-            ->when($this->filterYear, fn ($q) => $q->whereYear('date', (int) $this->filterYear))
-            ->latest();
+            ->when($this->filterYear, fn ($q) => $q->whereYear('date', (int) $this->filterYear));
 
         if (!empty($months)) {
             $year = (int) ($this->filterYear ?: Carbon::now()->year);
