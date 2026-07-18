@@ -101,7 +101,8 @@ class MasterAccount extends Component
 
         $service =new StudentApi();
         $import = $service->importData();
-        if ($import['status'] == 'success') {
+
+        if ($import['success']) {
             LivewireAlert::title('Success')
                 ->text($import['message'])
                 ->success()
@@ -130,7 +131,7 @@ class MasterAccount extends Component
     public function updateKelasSiswa(){
         $service =new StudentApi();
         $update = $service->updateKelas();
-        if ($update['status']) {
+        if ($update['success']) {
             LivewireAlert::title('Success')
                 ->text($update['message'])
                 ->success()
