@@ -31,6 +31,10 @@
     </div>
     @fluxScripts
     @RegisterServiceWorkerScript
+    <script>
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+    </script>
 </body>
 
 </html>

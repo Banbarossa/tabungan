@@ -6,12 +6,14 @@
     @PwaHead
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
-        html{
+        html {
             color-scheme: light !important;
         }
-        body{
+
+        body {
             color-scheme: light !important;
         }
+
         .dark {
             color-scheme: light !important;
         }
@@ -265,6 +267,10 @@
 
     @fluxScripts
     @RegisterServiceWorkerScript
+    <script>
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+    </script>
 </body>
 
 </html>
