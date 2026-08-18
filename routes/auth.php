@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Route::domain('tabsis.pis.sch.id')->group(function () {
+// Route::domain('tabsis.pis.sch.id')->group(function () {
 
     Route::middleware('guest')->group(function () {
 
@@ -37,4 +37,4 @@ Route::domain('tabsis.pis.sch.id')->group(function () {
 
     Route::post('logout', App\Livewire\Actions\Logout::class)
         ->name('logout');
-});
+// });
