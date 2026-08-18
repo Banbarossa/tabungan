@@ -17,8 +17,8 @@ Route::domain('khitan.pis.sch.id')->group(function () {
         Route::get('profile/detail', App\Livewire\Student\LoginArea\Profile\Information::class)->name('profile.detail');
         Route::get('profile/password', App\Livewire\Student\LoginArea\Profile\Password::class)->name('profile.password');
 
-        Route::get('tahfidz-histories', App\Livewire\Student\LoginArea\Tahfidz\TahfidzHistory::class)->name('tahfidz.histories');
         Route::get('tahfidz', App\Livewire\Student\LoginArea\Tahfidz\StatistikTahfidz::class)->name('tahfidz');
+        Route::get('tahfidz-histories', App\Livewire\Student\LoginArea\Tahfidz\TahfidzHistory::class)->name('tahfidz.histories');
         Route::get('tahfidz-target', App\Livewire\Student\LoginArea\Tahfidz\TargetHafalan::class)->name('tahfidz.target');
         Route::get('tahfidz-information', App\Livewire\Student\LoginArea\Tahfidz\TahfidzInformation::class)->name('tahfidz.information');
     });

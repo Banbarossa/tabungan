@@ -1,6 +1,6 @@
 <div class="px-4 space-y-6">
     <div
-        class="bg-gradient-to-br from-[#7F1D1D] to-[#991B1B] rounded-2xl p-4 text-white shadow-lg space-y-4 relative overflow-hidden">
+        class="grad-tahfidz rounded-2xl p-4 text-white shadow-lg space-y-4 relative overflow-hidden">
         {{-- Background Pattern Subtle --}}
         <div class="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
             <x-icon name="book-open" class="w-40 h-40" />
@@ -45,7 +45,7 @@
                     }
                 @endphp
                 <a href="https://wa.me/{{ $phone }}" target="_blank"
-                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white text-xs font-medium shadow transition-all">
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white text-xs font-medium shadow transition-all">
                     <x-icon name="chat-bubble-left-right" class="w-4 h-4" />
                     <span>Hubungi</span>
                 </a>
@@ -201,7 +201,7 @@
 
         {{-- Hero Card: Utama & Visual Progress --}}
         <div
-            class="bg-gradient-to-br from-[#7F1D1D] to-[#991B1B] rounded-2xl p-5 text-white shadow-lg relative overflow-hidden space-y-4">
+            class="grad-tahfidz rounded-2xl p-5 text-white shadow-lg relative overflow-hidden space-y-4">
             {{-- Background Pattern --}}
             <div class="absolute -right-8 -bottom-8 opacity-10 pointer-events-none">
                 <x-icon name="chart-bar" class="w-48 h-48 text-white" />
@@ -214,20 +214,20 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
                         {{ $statusNote }}
                     </span>
-                    <p class="text-xs text-red-200 mt-2">Tingkat Kehadiran Bulan Ini</p>
+                    <p class="text-xs text-emerald-50 mt-2">Tingkat Kehadiran Bulan Ini</p>
                 </div>
 
                 <div class="text-right">
-                    <span class="text-xs text-red-200 font-medium">Total Sesi</span>
+                    <span class="text-xs text-emerald-50 font-medium">Total Sesi</span>
                     <p class="text-base font-bold text-white">{{ $totalPertemuan }} <span
-                            class="text-xs font-normal text-red-200">Kali</span></p>
+                            class="text-xs font-normal text-emerald-50">Kali</span></p>
                 </div>
             </div>
 
             {{-- Display Angka Persentase Utama --}}
             <div class="relative z-10 flex items-baseline gap-2">
                 <h1 class="text-4xl font-extrabold tracking-tight">{{ number_format($persentase, 0) }}%</h1>
-                <span class="text-xs text-red-200">Persentase Kehadiran</span>
+                <span class="text-xs text-emerald-50">Persentase Kehadiran</span>
             </div>
 
             {{-- Progress Bar --}}

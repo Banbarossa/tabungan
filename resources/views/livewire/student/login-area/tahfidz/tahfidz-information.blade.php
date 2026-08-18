@@ -1,7 +1,7 @@
 <div class="px-4 space-y-4">
 
     {{-- Card Header: Informasi Kelas & Musyrif --}}
-    <div class="bg-gradient-to-br from-[#7F1D1D] to-[#991B1B] rounded-2xl p-4 text-white shadow-lg space-y-4 relative overflow-hidden">
+    <div class="grad-tahfidz rounded-2xl p-4 text-white shadow-lg space-y-4 relative overflow-hidden">
         {{-- Background Pattern Subtle --}}
         <div class="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
             <x-icon name="book-open" class="w-40 h-40" />
@@ -43,7 +43,7 @@
                     }
                 @endphp
                 <a href="https://wa.me/{{ $phone }}" target="_blank"
-                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white text-xs font-medium shadow transition-all">
+                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white text-xs font-medium shadow transition-all">
                     <x-icon name="chat-bubble-left-right" class="w-4 h-4" />
                     <span>Hubungi</span>
                 </a>

@@ -1,5 +1,5 @@
 <div>
-    <div class="wallet-gradient px-4 pt-12 pb-0 relative overflow-hidden">
+    <div class="grad-tahfidz px-4 pt-12 pb-0 relative overflow-hidden">
         <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5"></div>
         <div class="absolute top-10 right-20 w-20 h-20 rounded-full bg-white/5"></div>
         <div class="flex items-center justify-between mb-5 relative">
