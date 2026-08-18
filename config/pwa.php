@@ -25,6 +25,7 @@ return [
         'display' => 'fullscreen',
         'description' => 'A Progressive Web Application setup for Laravel projects.',
         'theme_color' => '#8a0000',
+        'start_url'=>'https://khitan.pis.sch.id',
         'icons' => [
             [
                 'src' => 'logo.png',
