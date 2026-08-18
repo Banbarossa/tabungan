@@ -17,15 +17,15 @@
             <livewire:cashier.studend-detail-card :student="$student"/>
         </div>
         <div class="w-full max-w-lg">
-            <div class=" border rounded-lg p-4">
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
+            <div class=" border-2 rounded-lg p-4 bg-white">
+                <div class="grid grid-cols-2 gap-4 mb-4 divide-x">
+                    <div class="flex flex-col items-center">
                         <flux:text>Saldo</flux:text>
-                        <flux:heading size="lg" class="mb-2">{{format_rupiah($student->saldo)}}</flux:heading>
+                        <h2 class="mb-2 font-semibold text-lg">{{format_rupiah($student->saldo)}}</h2>
                     </div>
-                    <div>
+                    <div class="flex flex-col items-center">
                         <flux:text>Limit Harian</flux:text>
-                        <flux:heading size="lg" class="mb-2">{{format_rupiah($dailyLimit)}}</flux:heading>
+                        <h2 class="mb-2 font-semibold text-lg">{{format_rupiah($dailyLimit)}}</h2>
                     </div>
                 </div>
                 <flux:separator text="Penarikan" />
@@ -55,8 +55,8 @@
     </div>
     @if (!empty($history))
     <div>
-        <flux:heading size="lg" class="mt-6">Riwayat</flux:heading>
-        <div class="rounded-lg p-4 border max-w-lg">
+        <flux:heading size="lg" class="mt-6 mb-2">Riwayat</flux:heading>
+        <div class="rounded-lg p-4 border-2 bg-white max-w-lg">
             <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
                 @foreach ($history as $item)
                 <li class="pb-3 sm:pb-4">
@@ -81,6 +81,10 @@
                 </li>
                 @endforeach
             </ul>
+
+            <div class="mt-2">
+                {{ $history->links('livewire::simple-tailwind') }}
+            </div>
         </div>
 
     </div>

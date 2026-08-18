@@ -7,8 +7,9 @@ use App\Models\Student;
 use App\Models\Transaction;
 use App\Traits\DailyReportDataTrait;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
 class StudentApi
@@ -38,6 +39,7 @@ class StudentApi
                     'send_notification'=>true,
                     'notification_target'=>'whatsapp',
                     'notification_account'=>$item['no_hp'],
+                    'password'=>$item['no_hp']?Hash::make($item['no_hp']):Hash::make($item['nisn']),
 
                 ]);
 

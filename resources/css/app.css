@@ -52,7 +52,7 @@
 }
 
 [data-flux-label] {
-    @apply  !mb-0 !leading-tight;
+    @apply !mb-0 !leading-tight;
 }
 
 input:focus[data-flux-control],
@@ -64,3 +64,83 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+
+.grad-wallet {
+    background: linear-gradient(135deg, #7F1D1D 0%, #DC2626 100%);
+}
+
+.grad-academic {
+    background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+}
+
+.grad-tahfidz {
+    background: linear-gradient(135deg, #065F46 0%, #10B981 100%);
+}
+
+.grad-attendance {
+    background: linear-gradient(135deg, #92400E 0%, #F59E0B 100%);
+}
+
+.grad-wallet {
+    background: linear-gradient(135deg, #7F1D1D 0%, #DC2626 100%);
+}
+
+.grad-finance {
+    background: linear-gradient(135deg, #4C1D95 0%, #8B5CF6 100%);
+}
+
+.grad-achievement {
+    background: linear-gradient(135deg, #D4A017 0%, #F5C842 100%);
+}
+
+.grad-behavior {
+    background: linear-gradient(135deg, #0C4A6E 0%, #0EA5E9 100%);
+}
+
+.grad-health {
+    background: linear-gradient(135deg, #166534 0%, #22C55E 100%);
+}
+
+.grad-permission {
+    background: linear-gradient(135deg, #7C3AED 0%, #A78BFA 100%);
+}
+
+.grad-schedule {
+    background: linear-gradient(135deg, #0F172A 0%, #475569 100%);
+}
+
+.grad-announce {
+    background: linear-gradient(135deg, #BE185D 0%, #EC4899 100%);
+}
+
+.grad-messages {
+    background: linear-gradient(135deg, #0369A1 0%, #38BDF8 100%);
+}
+
+.grad-gray {
+    background: rgb(146, 146, 146)
+}
+
+.wallet-gradient {
+    background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 40%, #B91C1C 100%);
+}
+
+.header-gradient {
+    background: linear-gradient(135deg, #7F1D1D 0%, #9B2C2C 60%, #B91C1C 100%);
+}
+
+.geo-pattern {
+    background-image:
+        repeating-linear-gradient(45deg, rgba(212, 160, 23, 0.06) 0, rgba(212, 160, 23, 0.06) 1px, transparent 1px, transparent 24px),
+        repeating-linear-gradient(-45deg, rgba(212, 160, 23, 0.06) 0, rgba(212, 160, 23, 0.06) 1px, transparent 1px, transparent 24px);
+}
+
+.arch-motif {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border: 1.5px solid rgba(212, 160, 23, 0.18);
+    border-radius: 50% 50% 0 0 / 60% 60% 0 0;
+    pointer-events: none;
+}

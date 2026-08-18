@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Transaction;
 
 use App\Models\Student;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
@@ -17,11 +18,10 @@ class MasterTransaction extends Component
     public $search;
     public function render()
     {
-        $students=$this->dataStudent();
         $breads=[
             ['url'=>url()->current(),'title'=>'Transaction'],
         ];
-        return view('livewire.admin.transaction.master-transaction',compact('students'))->layoutData(['breads'=>$breads]);
+        return view('livewire.admin.transaction.master-transaction')->layoutData(['breads'=>$breads]);
     }
 
     public function updatingSearch()
@@ -29,12 +29,22 @@ class MasterTransaction extends Component
         $this->resetPage();
     }
 
-    public function dataStudent(){
+    #[Computed()]
+    public function students(){
         $students = Student::orderBy('name')
         ->when($this->search,function($query){
             $query->where('name','like','%'.$this->search.'%');
         })
-        ->paginate(100);
+        ->paginate(100)->through(function($item){
+            return (object) [
+                'id'=>$item->id,
+                'name'=>$item->name,
+                'nisn'=>$item->nisn,
+                'saldo'=>$item->saldo,
+                'limit'=>$item->daily_limit,
+                'photo'=>$item->avatar,
+            ];
+        });
         return $students;
 
     }

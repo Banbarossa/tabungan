@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Transaction;
 use App\Exports\DinamicExport;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
@@ -13,9 +14,9 @@ class DailyHistory extends Component
 {
     #[Title('Riwayat transaksi')]
     public $search;
-    public $headings;
 
     public $date;
+    public $headings = ['No Faktur', 'Nama', 'Debit', 'Kredit', 'Metode', 'Tanggal', 'Cashier'];
     public function mount(){
         $this->date = Carbon::today()->toDateString();
     }
@@ -26,13 +27,12 @@ class DailyHistory extends Component
         $breadcrumbs=[
             ['url'=>url()->current(),'title'=>'Riwayat'],
         ];
-        $transactions =$this->data();
-        return view('livewire.admin.transaction.daily-history',[
-            'transactions'=>$transactions,
-        ])->layoutData(['breads'=>$breadcrumbs]);
+        // $transactions =$this->data();
+        return view('livewire.admin.transaction.daily-history')->layoutData(['breads'=>$breadcrumbs]);
     }
 
-    public function data(){
+    #[Computed()]
+    public function transactions(){
         $transactions =Transaction::with('student','verifiedByUser')
             ->when($this->search,function ($query){
                 $query->whereHas('student',function ($query){
@@ -51,19 +51,10 @@ class DailyHistory extends Component
                     'Kredit'=>$item->type !== 'setor' ?format_rupiah($item->amount) : null,
                     'Metode'=>$item->metode?$item->metode->nama:'',
                     'Tanggal'=>$item->date,
-                    'Cashier'=>$item->verifiedByUser?->name,
+                    'Cashier'=>$item->handledbyUser?->name,
 
                 ];
             });
-        $this->headings = $transactions->isNotEmpty() ? array_diff(array_keys($transactions->first()), ['id']) : [
-            'No Faktur',
-            'Nama',
-            'Debit',
-            'Kredit',
-            'Metode',
-            'Tanggal',
-            'Cashier',
-        ];
         return $transactions;
     }
 
@@ -73,10 +64,10 @@ class DailyHistory extends Component
         $headings = $this->headings;
         $data=[
             'headings' => $headings,
-            'rows' => $this->data(),
+            'rows' => $this->transactions(),
             'title' => 'TRANSAKSI '.$date,
         ];
-        $file_name = 'tansaksi'.$date.'.xlsx';
+        $file_name = 'tansaksi-'.$date.'.xlsx';
         return Excel::download(new DinamicExport($data),$file_name);
 
     }

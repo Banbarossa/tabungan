@@ -27,7 +27,8 @@ return new class extends Migration
             $table->bigInteger('daily_limit')->nullable()->default(15000);
             $table->boolean('send_notification')->default(false);
             $table->enum('notification_target',['whatsapp','email'])->nullable();
-            $table->string('notification_account')->nullable();
+            $table->string('
+            ')->nullable();
             $table->timestamps();
         });
     }

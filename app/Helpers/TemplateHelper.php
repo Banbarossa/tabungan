@@ -25,6 +25,13 @@ if (!function_exists('cekSendMessage')) {
         };
     }
 }
-
-
-
+if (!function_exists('sanitizeRupiah')) {
+    function sanitizeRupiah(string|int $value): int
+    {
+        if (is_numeric($value)) {
+            return (int) $value;
+        }
+        $cleanNumber = preg_replace('/[^0-9]/', '', $value);
+        return (int) $cleanNumber;
+    }
+}

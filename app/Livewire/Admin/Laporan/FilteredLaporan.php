@@ -22,6 +22,7 @@ class FilteredLaporan extends Component
     #[Title('Laporan')]
 
     public function mount(){
+
         $this->start_date = Carbon::now()->toDateString();
         $this->end_date = Carbon::now()->toDateString();
         $jenis=JenisTransaksi::orderBy('no_urut','ASC')->get();

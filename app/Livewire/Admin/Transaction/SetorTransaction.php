@@ -36,7 +36,7 @@ class SetorTransaction extends Component
     public $amount_setor;
     public $amount_tarik;
 
-    public $headings=[];
+    public $headings = [];
     public $jenis_transaksi_id;
     public $methods;
     public $code;
@@ -45,35 +45,50 @@ class SetorTransaction extends Component
     public $filterYear;
     public $filterMonths = [];
 
-    public function mount($code){
+    public $monthNames = [
+        1 => 'Jan',
+        2 => 'Feb',
+        3 => 'Mar',
+        4 => 'Apr',
+        5 => 'Mei',
+        6 => 'Jun',
+        7 => 'Jul',
+        8 => 'Agus',
+        9 => 'Sept',
+        10 => 'Okt',
+        11 => 'Nov',
+        12 => 'Des',
+    ];
+
+    public function mount($code)
+    {
         $this->code = $code;
         $id = vinclaDecode($code);
         $this->student = Student::find($id);
-        $this->tanggal=Carbon::now()->toDateString();
-        $this->headings = ['Tanggal','Metode','Cashier','Setoran','Penarikan','Saldo','Keterangan'];
-        $methods=JenisTransaksi::orderBy('no_urut','asc')->get();
-        $this->methods=$methods;
-        $this->jenis_transaksi_id=$methods->first()?$methods->first()->id:null;
+        $this->tanggal = Carbon::now()->toDateString();
+        $this->headings = ['Tanggal', 'Cashier', 'Setoran', 'Penarikan', 'Saldo', 'Keterangan'];
+        $methods = JenisTransaksi::orderBy('no_urut', 'asc')->get();
+        $this->methods = $methods;
+        $this->jenis_transaksi_id = $methods->first() ? $methods->first()->id : null;
 
         $now = Carbon::now();
         $this->filterYear = (int) $now->year;
         $this->filterMonths = [(int) $now->month];
-
     }
 
     public function render()
     {
-//        $tran = Transaction::latest()->limit(5)->get();
-//        dd($tran);
+        //        $tran = Transaction::latest()->limit(5)->get();
+        //        dd($tran);
 
 
-        $breads=[
-            ['url'=>route('transaction'),'title'=>'Transaction'],
-            ['url'=>url()->current(),'title'=>'Detail'],
+        $breads = [
+            ['url' => route('transaction'), 'title' => 'Transaction'],
+            ['url' => url()->current(), 'title' => 'Detail'],
         ];
 
         return view('livewire.admin.transaction.setor-transaction')->layoutData([
-            'breads'=>$breads
+            'breads' => $breads
         ]);
     }
 
@@ -97,7 +112,7 @@ class SetorTransaction extends Component
             ->selectRaw("DISTINCT {$yearExpr} as year")
             ->orderByDesc('year')
             ->pluck('year')
-            ->map(fn ($y) => (int) $y)
+            ->map(fn($y) => (int) $y)
             ->values()
             ->all();
 
@@ -122,9 +137,9 @@ class SetorTransaction extends Component
         $rows = $this->historiesRows(limit: null);
         $overall = $this->overallTotals();
         $name = $this->student?->name ? Str::slug($this->student->name) : 'student';
-        $filename=$name.'.xlsx';
+        $filename = $name . '.xlsx';
 
-        $exportRows = $rows->map(fn ($r) => collect($r)->only($this->headings)->all());
+        $exportRows = $rows->map(fn($r) => collect($r)->only($this->headings)->all());
         $exportRows = $exportRows->concat(collect([
             array_fill_keys($this->headings, ''),
             [
@@ -178,7 +193,7 @@ class SetorTransaction extends Component
         $pdf = Pdf::loadView('pdf.transaction-history', [
             'student' => $this->student,
             'headings' => $this->headings,
-            'rows' => $rows->map(fn ($r) => collect($r)->only($this->headings)->all()),
+            'rows' => $rows->map(fn($r) => collect($r)->only($this->headings)->all()),
             'filterYear' => $this->filterYear,
             'filterMonths' => $this->filterMonths,
             'overall' => $overall,
@@ -189,7 +204,7 @@ class SetorTransaction extends Component
 
         $filename = $this->downloadBaseFilename('pdf');
         return response()->streamDownload(
-            fn () => print($pdf->output()),
+            fn() => print($pdf->output()),
             $filename,
             ['Content-Type' => 'application/pdf']
         );
@@ -223,16 +238,16 @@ class SetorTransaction extends Component
     private function historiesRows(?int $limit)
     {
         $months = collect($this->filterMonths ?? [])
-            ->filter(fn ($m) => is_numeric($m))
-            ->map(fn ($m) => (int) $m)
-            ->filter(fn ($m) => $m >= 1 && $m <= 12)
+            ->filter(fn($m) => is_numeric($m))
+            ->map(fn($m) => (int) $m)
+            ->filter(fn($m) => $m >= 1 && $m <= 12)
             ->values()
             ->all();
 
         $query = Transaction::query()
             ->with(['metode', 'handledbyUser'])
             ->where('student_id', $this->student->id)
-            ->when($this->filterYear, fn ($q) => $q->whereYear('date', (int) $this->filterYear));
+            ->when($this->filterYear, fn($q) => $q->whereYear('date', (int) $this->filterYear));
 
         if (!empty($months)) {
             $year = (int) ($this->filterYear ?: Carbon::now()->year);
@@ -268,27 +283,28 @@ class SetorTransaction extends Component
     {
         $year = $this->filterYear ?: Carbon::now()->year;
         $months = collect($this->filterMonths ?? [])
-            ->filter(fn ($m) => is_numeric($m))
-            ->map(fn ($m) => str_pad((string) ((int) $m), 2, '0', STR_PAD_LEFT))
+            ->filter(fn($m) => is_numeric($m))
+            ->map(fn($m) => str_pad((string) ((int) $m), 2, '0', STR_PAD_LEFT))
             ->values()
             ->all();
 
-//        $range = empty($months) ? ((string) $year) : ($year . '-' . implode('-', $months));
+        //        $range = empty($months) ? ((string) $year) : ($year . '-' . implode('-', $months));
         $student = $this->student?->name ? Str::slug($this->student->name) : 'student';
 
         return "riwayat-{$student}-{$year}." . $ext;
     }
 
-    public function setor(){
+    public function setor()
+    {
 
         $this->validate([
             'amount_setor' => ['required', 'regex:/^[0-9.]+$/'],
-        ],[
-            'amount_setor.required'=>'Jumlah wajib diisi',
-            'amount_setor.regex'=>'Tidak menerima selain angka dan desimal'
+        ], [
+            'amount_setor.required' => 'Jumlah wajib diisi',
+            'amount_setor.regex' => 'Tidak menerima selain angka dan desimal'
         ]);
 
-        $sanitize = str_replace('.','',$this->amount_setor);
+        $sanitize = str_replace('.', '', $this->amount_setor);
         $amount_setor = (int) $sanitize;
 
         if ($amount_setor < 1000) {
@@ -302,33 +318,32 @@ class SetorTransaction extends Component
         $service = new TransactionService($this->student);
 
         $service->transaction(
-            amount:$amount_setor,
-            operator:'+',
-            type:'setor',
-            date:$date,
+            amount: $amount_setor,
+            operator: '+',
+            type: 'setor',
+            date: $date,
             description: $description,
-            jenis_transaksi_id:$this->jenis_transaksi_id,
+            jenis_transaksi_id: $this->jenis_transaksi_id,
         );
-        $this->amount_setor ='';
+        $this->amount_setor = '';
 
 
 
         $this->student->refresh();
-        $this->dispatch('modal-close','setor');
-
-
+        $this->dispatch('modal-close', 'setor');
     }
 
-    public function tarik(){
+    public function tarik()
+    {
 
         $this->validate([
             'amount_tarik' => ['required', 'regex:/^[0-9.]+$/'],
-        ],[
-            'amount_tarik.required'=>'Jumlah wajib diisi',
-            'amount_tarik.regex'=>'Tidak menerima selain angka dan desimal'
+        ], [
+            'amount_tarik.required' => 'Jumlah wajib diisi',
+            'amount_tarik.regex' => 'Tidak menerima selain angka dan desimal'
         ]);
 
-        $sanitize = str_replace('.','',$this->amount_tarik);
+        $sanitize = str_replace('.', '', $this->amount_tarik);
         $amount_tarik = (int) $sanitize;
 
         if ($amount_tarik < 1000) {
@@ -345,24 +360,23 @@ class SetorTransaction extends Component
         $description = $this->description;
         //        $amount,$operator,$type,$date,$description=null,$jenis_transaksi_id=null
         $service->transaction(
-            amount:$amount_tarik,
-            operator:'-',
-            type:'tarik',
-            date:$this->tanggal??$date,
+            amount: $amount_tarik,
+            operator: '-',
+            type: 'tarik',
+            date: $this->tanggal ?? $date,
             description: $description,
-            jenis_transaksi_id:$this->jenis_transaksi_id,
+            jenis_transaksi_id: $this->jenis_transaksi_id,
         );
 
-        $this->amount_tarik ='';
-        $this->description ='';
+        $this->amount_tarik = '';
+        $this->description = '';
 
         $this->student->refresh();
-        $this->dispatch('modal-close','tarik');
-
-
+        $this->dispatch('modal-close', 'tarik');
     }
 
-    public function confirmDelete($id){
+    public function confirmDelete($id)
+    {
         LivewireAlert::title('Delete Item')
             ->withOptions([
                 'input' => 'textarea',
@@ -373,7 +387,8 @@ class SetorTransaction extends Component
             ->onConfirm('deleteItem', ['id' => $id])
             ->show();
     }
-    public function deleteItem($data){
+    public function deleteItem($data)
+    {
         try {
             DB::transaction(function () use ($data) {
                 $deleted_reason = $data['value'];
@@ -422,7 +437,7 @@ class SetorTransaction extends Component
                 ->success()
                 ->position(Position::Center)
                 ->show();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             Log::error('Gagal Hapus', ['error' => $e->getMessage()]);
             LivewireAlert::title('Gagal')
                 ->text('Data gagal dihapus')
@@ -430,9 +445,5 @@ class SetorTransaction extends Component
                 ->position(Position::Center)
                 ->show();
         }
-
-
     }
-
-
 }

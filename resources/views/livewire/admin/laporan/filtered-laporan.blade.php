@@ -1,102 +1,114 @@
 <div class="space-y-6">
-    <div class="border rounded-lg border-neutral-500/20 p-4 ">
+    <div class="border-2 rounded-lg bg-white p-6 ">
         <form wire:submit="filterData">
             <div class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <flux:input type="date" label="Tanggal Mulai" wire:model="start_date" name="start_date"/>
-                    <flux:input type="date" label="Tanggal Akhir" wire:model="end_date" name="end_date"/>
+                    <flux:input type="date" label="Tanggal Mulai" wire:model="start_date" name="start_date" />
+                    <flux:input type="date" label="Tanggal Akhir" wire:model="end_date" name="end_date" />
                     <flux:select wire:model="user_id" name="user_id" label="Petugas">
-                        <flux:select.option value="" label="Pilih Petugas"/>
-                        @foreach($users as $user)
-                            <flux:select.option value="{{$user->id}}" label="{{$user->name}}"/>
+                        <flux:select.option value="" label="Pilih Petugas" />
+                        @foreach ($users as $user)
+                            <flux:select.option value="{{ $user->id }}" label="{{ $user->name }}" />
                         @endforeach
                     </flux:select>
                 </div>
-                <flux:separator/>
-                <flux:checkbox.group wire:model="metode" label="Metode Pembayaran" class="flex items-start gap-6">
-                    @foreach($jenis as $j)
-                        <flux:checkbox label="{{$j->nama}}" value="{{$j->id}}"/>
-                    @endforeach
-                </flux:checkbox.group>
+                <flux:separator />
+                <flux:fieldset class="space-y-2">
+                    <div>
+                        <flux:legend class="text-base font-medium">Pilih Bulan</flux:legend>
+                        <flux:description class="text-xs">Pilih satu atau beberapa bulan untuk memfilter data
+                        </flux:description>
+                    </div>
+
+                    <!-- Grid/Flex Checkboxes (Responsive) -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5  gap-2 pt-1">
+                        @foreach ($jenis as $j)
+                            <label
+                                class="flex {{ in_array($j->id, $metode) ? 'bg-green-100/50 ring-2 ring-green-100 hover:bg-green-100 font-bold' : ' bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800/50' }} text-xs items-center gap-2 p-2 rounded-lg border border-zinc-200/60 dark:border-zinc-800/60   transition-colors cursor-pointer">
+                                <flux:checkbox wire:model.live="metode" value="{{ $j->id }}" />
+                                <span
+                                    class=" {{ in_array($j->id, $metode) ? 'text-green-700' : 'text-zinc-700 dark:text-zinc-300' }}">{{ $j->nama }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                </flux:fieldset>
                 <flux:button type="submit" class="w-full" variant="primary">Tampilkan</flux:button>
             </div>
 
         </form>
     </div>
 
-    <div class="text-end">
-{{--        <flux:icon.document-chart-bar/>--}}
-        <flux:button
-            icon="document-chart-bar"
-            variant="primary"
-            color="green"
-            :href="route('laporan.filter.pdf', [
+    <div class="border-2 rounded-lg bg-white overflow-hidden">
+        <div class="text-end p-6">
+            <flux:button icon="document-chart-bar" variant="primary" color="green"
+                :href="route('laporan.filter.pdf', [
                     'start_date' => $start_date,
-                    'end_date'   => $end_date,
-                    'user_id'    => $user_id,
-                    'metode'     => implode(',', $metode)
-                    ])"
-        >
-            Unduh Laporan
-        </flux:button>
-    </div>
-    <x-table.container class="rounded-lg">
-        <x-table.columns>
-            <x-table.column class="w-16">
-                No
-            </x-table.column>
-            @foreach($this->headings as $head)
-                <x-table.column>{{$head}}</x-table.column>
-            @endforeach
+                    'end_date' => $end_date,
+                    'user_id' => $user_id,
+                    'metode' => implode(',', $metode)
+                ])">
+                Unduh Laporan
+            </flux:button>
+        </div>
+        <x-table.container class="border-none">
+            <x-table.columns>
+                <x-table.column class="w-16">
+                    No
+                </x-table.column>
+                @foreach ($this->headings as $head)
+                    <x-table.column>{{ $head }}</x-table.column>
+                @endforeach
 
 
-        </x-table.columns>
-        <x-table.rows>
-            @forelse($this->dataLaporan['data'] as $index=>$data)
+            </x-table.columns>
+            <x-table.rows>
+                @forelse($this->dataLaporan['data'] as $index=>$data)
 
-                <x-table.row variant="hovered">
-                    <x-table.cell class="text-sm">
-                        {{$index+1}}
-                    </x-table.cell>
-                    @foreach($this->headings as $head)
-                        <x-table.cell class="truncate text-wrap text-sm py-1 px-4">
-                            {{$data[$head]}}
+                    <x-table.row variant="hovered">
+                        <x-table.cell class="text-sm">
+                            {{ $index + 1 }}
                         </x-table.cell>
-                    @endforeach
-                </x-table.row>
+                        @foreach ($this->headings as $head)
+                            <x-table.cell class="truncate text-wrap text-sm py-1 px-4">
+                                {{ $data[$head] }}
+                            </x-table.cell>
+                        @endforeach
+                    </x-table.row>
 
-            @empty
-                <x-table.row>
-                    <x-table.cell colspan="{{count($this->headings)+1}}">
-                        <div class="flex items-center gap-2">
-                            <flux:icon.information-circle></flux:icon.information-circle>
-                            <span>
+                @empty
+                    <x-table.row>
+                        <x-table.cell colspan="{{ count($this->headings) + 1 }}">
+                            <div class="flex items-center gap-2">
+                                <flux:icon.information-circle></flux:icon.information-circle>
+                                <span>
                                     Tidak ada data yang ditemukan
                                 </span>
-                        </div>
-                    </x-table.cell>
+                            </div>
+                        </x-table.cell>
+                    </x-table.row>
+                @endforelse
+                <x-table.row class="!bg-orange-100 font-bold text-orange-700">
+                    <x-table.cell colspan="5" />
+                    <x-table.cell colspan="2" >SubTotal</x-table.cell>
+                    <x-table.cell>{{ format_rupiah($this->dataLaporan['totalDebet']) }}</x-table.cell>
+                    <x-table.cell>{{ format_rupiah($this->dataLaporan['totalKredit']) }}</x-table.cell>
                 </x-table.row>
-            @endforelse
-                <x-table.row>
-                    <x-table.cell colspan="5"/>
-                    <x-table.cell colspan="2">SubTotal</x-table.cell>
-                    <x-table.cell>{{format_rupiah($this->dataLaporan['totalDebet'])}}</x-table.cell>
-                    <x-table.cell>{{format_rupiah($this->dataLaporan['totalKredit'])}}</x-table.cell>
-                </x-table.row><x-table.row>
-                    <x-table.cell colspan="5"/>
+                <x-table.row class="!bg-green-100 font-bold text-green-700">
+                    <x-table.cell colspan="5" />
                     <x-table.cell colspan="3">Setoran - Penarikan</x-table.cell>
-                    <x-table.cell>{{format_rupiah($this->dataLaporan['selisih'])}}</x-table.cell>
+                    <x-table.cell>{{ format_rupiah($this->dataLaporan['selisih']) }}</x-table.cell>
                 </x-table.row>
-        </x-table.rows>
-    </x-table.container>
+            </x-table.rows>
+        </x-table.container>
+    </div>
 
-{{--            <iframe--}}
-{{--                src="{{ route('laporan.filter.pdf', [--}}
-{{--                    'start_date' => $start_date,--}}
-{{--                    'end_date'   => $end_date,--}}
-{{--                    'user_id'    => $user_id,--}}
-{{--                    'metode'     => implode(',', $metode),--}}
-{{--                ]) }}"--}}
-{{--                width="100%" height="600px">--}}
-{{--            </iframe>--}}
+    {{--            <iframe --}}
+    {{--                src="{{ route('laporan.filter.pdf', [ --}}
+    {{--                    'start_date' => $start_date, --}}
+    {{--                    'end_date'   => $end_date, --}}
+    {{--                    'user_id'    => $user_id, --}}
+    {{--                    'metode'     => implode(',', $metode), --}}
+    {{--                ]) }}" --}}
+    {{--                width="100%" height="600px"> --}}
+    {{--            </iframe> --}}
 </div>

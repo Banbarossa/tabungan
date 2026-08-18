@@ -1,0 +1,29 @@
+{
+    "name": "PIS CONNECT",
+    "short_name": "PIS",
+    "background_color": "#8a0000",
+    "display": "fullscreen",
+    "description": "A Progressive Web Application setup for Laravel projects.",
+    "theme_color": "#8a0000",
+    "screenshots": [
+        {
+            "src": "screenshots/desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        },
+        {
+            "src": "screenshots/mobile.png",
+            "sizes": "350x712",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
