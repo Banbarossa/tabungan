@@ -5,6 +5,17 @@
     @include('partials.head')
     @PwaHead
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        html{
+            color-scheme: light !important;
+        }
+        body{
+            color-scheme: light !important;
+        }
+        .dark {
+            color-scheme: light !important;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen" style="background:#F8F7F5;">

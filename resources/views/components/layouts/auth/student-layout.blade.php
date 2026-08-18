@@ -4,6 +4,19 @@
 <head>
     @include('partials.head')
     @PwaHead
+    <style>
+        html {
+            color-scheme: light !important;
+        }
+
+        body {
+            color-scheme: light !important;
+        }
+
+        .dark {
+            color-scheme: light !important;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen  antialiased ">
