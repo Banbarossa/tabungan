@@ -3,9 +3,10 @@
 use App\Http\Controllers\PushSubscriptionController;
 use Illuminate\Support\Facades\Route;
 
-Route::domain('khitan.pis.sch.id')->group(function () {
+// Route::domain('khitan.pis.sch.id')->group(function () {
 
     Route::get('/', App\Livewire\Student\Auth\Login::class)->middleware('guest:student')->name('student.login');
+    Route::get('/install', App\Livewire\Student\Install::class)->name('install');
 
     Route::middleware('auth:student')->as('student.')->prefix('student')->group(function () {
         Route::get('dashboard', App\Livewire\Student\LoginArea\StudentDashboard::class)->name('dashboard');
@@ -32,4 +33,4 @@ Route::domain('khitan.pis.sch.id')->group(function () {
 
     Route::post('student/logout', App\Livewire\Actions\StudentLogout::class)
         ->name('student.logout')->middleware('auth:student');
-});
+// });

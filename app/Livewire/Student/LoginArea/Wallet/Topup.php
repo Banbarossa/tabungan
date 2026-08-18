@@ -19,7 +19,7 @@ class Topup extends Component
         [
             "step"  => "1",
             "title" => "Transfer ke Rekening Pesantren",
-            "desc"  => "Transfer ke rek. BCA 123-456-7890 a.n. Yayasan Al-Ikhlas"
+            "desc"  => "Transfer ke rek yang tertera dibagian bawah ini"
         ],
         [
             "step"  => "2",

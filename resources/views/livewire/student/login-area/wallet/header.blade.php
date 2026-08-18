@@ -17,7 +17,7 @@
             <p class="text-red-200 text-xs mb-1">Saldo Tersedia</p>
             <div class="flex items-center justify-center gap-3">
                 <p class="font-display font-bold text-4xl text-white tracking-tight">
-                    Rp {{ data_get($data, 'saldo') }}
+                    {{ format_rupiah(data_get($data, 'saldo',0))  }}
                 </p>
             </div>
             <div class="flex items-center justify-center gap-3">
