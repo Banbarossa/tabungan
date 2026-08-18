@@ -3,7 +3,7 @@
     "short_name": "PIS CONNECT",
     "background_color": "#8a0000",
     "display": "fullscreen",
-    "description": "A Progressive Web Application setup for Laravel projects.",
+    "description": "Aplikasi penghubung antara orang tua dan pesantren",
     "theme_color": "#8a0000",
     "screenshots": [
         {

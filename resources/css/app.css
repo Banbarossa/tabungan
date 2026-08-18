@@ -36,6 +36,14 @@
     }
 }
 
+:root {
+    color-scheme: light !important;
+}
+
+html.dark {
+    color-scheme: light !important;
+}
+
 @layer base {
 
     *,
