@@ -33,5 +33,10 @@ return Application::configure(basePath: dirname(__DIR__))
         });
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            if ($request->routeIs('student.*') || $request->is('student/*')) {
+                return redirect()->route('student.login')
+                    ->with('error', 'Sesi Anda telah berakhir, silakan masuk kembali.');
+            }
+        });
     })->create();

@@ -49,7 +49,6 @@ class CashierTransaction extends Component
             'petugas' => UserOverrideLimit::where('user_id', auth()->id())->value('limit'),
             default   => null,
         };
-        $this->getData('0124358717');
     }
 
     public function render()

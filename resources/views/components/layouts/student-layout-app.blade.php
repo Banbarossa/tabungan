@@ -219,9 +219,13 @@
             @endforeach
 
             {{-- Item Logout (Menggunakan struktur & ukuran yang sama persis) --}}
-            <form method="POST" action="{{ route('student.logout') }}" class="flex-1 flex">
+            <form method="POST" action="{{ route('student.logout') }}" class="flex-1 flex" x-data="{ submitting: false }"
+                x-on:submit="
+        if (submitting) { $event.preventDefault(); return; }
+        submitting = true;
+    ">
                 @csrf
-                <button type="submit"
+                <button type="submit" :disabled="submitting"
                     class="w-full flex flex-col items-center justify-center py-2.5 gap-0.5 relative touch-feedback text-gray-400 hover:text-red-600 transition-colors group">
                     <div class="relative">
                         <x-icon name="arrow-left-end-on-rectangle" :size="20"
