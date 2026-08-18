@@ -7,7 +7,7 @@ use Livewire\Volt\Volt;
 //     return view('welcome');
 // })->name('home');
 
-// Route::domain('tabsis.pis.sch.id')->group(function () {
+Route::domain('tabsis.pis.sch.id')->group(function () {
 
     Route::group(['middleware' => ['auth:web', 'can:admin']], function () {
         Route::get('dashboard', \App\Livewire\Admin\Dashboard\MasterDasboard::class)->name('dashboard');
@@ -80,7 +80,7 @@ use Livewire\Volt\Volt;
         Route::get('/transaction/{code}', \App\Livewire\Admin\Transaction\SetorTransaction::class)->name('transaction.setor');
         Route::get('/transaction/{code}/{transaction}', \App\Livewire\Admin\Transaction\DetailTransaction::class)->name('transaction.detail');
     });
-// });
+});
 
 
 

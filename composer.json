@@ -42,7 +42,9 @@
         },
         "files": [
             "app/Helpers/vinclahelper.php",
-            "app/Helpers/TemplateHelper.php"
+            "app/Helpers/TemplateHelper.php",
+            "app/Helpers/RupiahHelper.php",
+            "app/Helpers/DayNameHelper.php"
         ]
     },
     "autoload-dev": {
