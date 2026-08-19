@@ -1,10 +1,11 @@
 {
     "name": "PIS CONNECT",
-    "short_name": "PIS CONNECT",
+    "short_name": "PIS",
     "background_color": "#8a0000",
-    "display": "fullscreen",
-    "description": "Aplikasi penghubung antara orang tua dan pesantren",
+    "display": "standalone",
+    "description": "Aplikasi Informasi dan Monitoring santri Imam Syafii",
     "theme_color": "#8a0000",
+    "scope": "/",
     "screenshots": [
         {
             "src": "screenshots/desktop.png",
@@ -18,7 +19,7 @@
             "type": "image/png"
         }
     ],
-    "start_url": "/student/dashboard",
+    "start_url": "/",
     "icons": [
         {
             "src": "logo.png",

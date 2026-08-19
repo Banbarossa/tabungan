@@ -22,10 +22,11 @@ return [
         'name' => 'PIS CONNECT',
         'short_name' => 'PIS',
         'background_color' => '#8a0000',
-        'display' => 'fullscreen',
-        'description' => 'A Progressive Web Application setup for Laravel projects.',
+        'display' => 'standalone',
+        'description' => 'Aplikasi Informasi dan Monitoring santri Imam Syafii',
         'theme_color' => '#8a0000',
-        'start_url'=>'https://khitan.pis.sch.id',
+        'start_url'=>'/student/dashboard',
+        'scope'=>'/',
         'icons' => [
             [
                 'src' => 'logo.png',
@@ -33,6 +34,7 @@ return [
                 'type' => 'image/png',
             ],
         ],
+
         'screenshots' => [
             [
                 'src' => 'screenshots/desktop.png',

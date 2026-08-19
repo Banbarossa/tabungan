@@ -14,6 +14,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->redirectGuestsTo(function(Request $request){
+            if($request->getHost()==='tabsis.pis.sch.id'){
+                return route('login');
+            }
+            return route('student.login');
+        });
+
+
         $middleware->redirectUsersTo(function (Request $request) {
             if (Auth::guard('student')->check()) {
                 return route('student.dashboard');
