@@ -193,7 +193,7 @@
             <div class="mt-6 text-center">
 
                 <a
-                    href="{{ route('login') }}"
+                    href="{{ route('student.login') }}"
                     class="text-sm font-medium transition-opacity hover:opacity-70"
                     style="color:#7f1d1d;">
 
