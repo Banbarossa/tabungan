@@ -17,7 +17,7 @@
         </h1>
         <p class="text-center text-sm font-light tracking-widest uppercase opacity-80 mb-10"
             style="color:#fde68a; letter-spacing:0.12em;">
-            Sistem Informasi Akademik
+            Sistem Informasi dan Monitoring
         </p>
 
         <div class="flex items-center gap-3 w-full max-w-xs mb-10">

@@ -25,7 +25,7 @@
             <p
                 class="text-center text-xs font-light tracking-wider opacity-60"
                 style="color:#7f1d1d;">
-                Sistem Informasi Akademik
+                Sistem Informasi dan Monitoring
             </p>
 
         </div>
