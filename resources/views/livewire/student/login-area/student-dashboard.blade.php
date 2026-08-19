@@ -12,7 +12,7 @@
                     <p class="text-red-200 text-xs font-medium tracking-wider uppercase">Pesantren Imam Syafi'i</p>
                     <h1 class="text-white text-lg font-bold font-display leading-tight">Selamat Datang 👋</h1>
                 </div>
-                <button class="relative p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-base" wire:click="testNotif">
+                <button class="relative p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-base" >
                     <flux:icon name='bell' class="text-white" />
                     <span class="absolute top-1 right-1 w-2 h-2 bg-yellow-400 rounded-full border border-red-800"></span>
                 </button>
@@ -105,7 +105,7 @@
                     <a href="{{ route($item['routeName']) }}" wire:navigate
                         class="flex flex-col items-center gap-1.5 group touch-feedback">
                         <div
-                            class="relative w-full aspect-square rounded-2xl {{ $item['grad'] }} flex items-center justify-center shadow-sm group-hover:scale-105 transition-base">
+                            class="relative w-full aspect-square rounded-2xl {{ $item['grad'] }} flex items-center justify-center shadow-sm group-hover:scale-105 transition duration-500">
                             <flux:icon name="{{ $item['icon'] }}" class="text-white size-8" />
                             {{-- <x-badge :count="$item['badge']" /> --}}
                         </div>

@@ -16,7 +16,7 @@ export function renderPerkembanganChart(elementId,data){
                 label:'Ayat Baru',
                 data:data.map(item=>item.jumlah_ayat),
                 borderRadius:8,
-                backgroundColor:'#dc2626'
+                backgroundColor:'#029a69'
             }]
         },
         options:{

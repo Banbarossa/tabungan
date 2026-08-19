@@ -31,7 +31,7 @@
                     {{ substr(data_get($header, 'musyrif', 'M'), 0, 1) }}
                 </div>
                 <div>
-                    <p class="text-[11px] text-red-200">Musyrif / Pembimbing</p>
+                    <p class="text-[11px] text-green-200">Musyrif / Pembimbing</p>
                     <p class="text-sm font-semibold">{{ data_get($header, 'musyrif', '-') }}</p>
                 </div>
             </div>
@@ -66,7 +66,7 @@
 
         {{-- Header Periode Laporan --}}
         <div class="flex items-center gap-2.5 shrink-0">
-            <div class="w-8 h-8 rounded-lg bg-red-50 text-[#7F1D1D] flex items-center justify-center shrink-0">
+            <div class="w-8 h-8 rounded-lg bg-green-50 text-green-700 flex items-center justify-center shrink-0">
                 <x-icon name="adjustments-horizontal" class="w-4 h-4" />
             </div>
             <div>
@@ -108,22 +108,22 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-red-50   p-4 rounded-lg border border-border">
+            <div class="bg-green-50   p-4 rounded-lg border border-border">
                 <div class="text-lg font-bold text-primary dark:text-secondary">
                     {{ data_get($data, 'monthSummary.jumlah_ziyadah') }}</div>
-                <div class="text-xs">x Setoran Baru</div>
+                <div class="text-xs text-gray-500 ">x Setoran Baru</div>
             </div>
-            <div class="bg-red-50   p-4 rounded-lg border border-border">
+            <div class="bg-green-50   p-4 rounded-lg border border-border">
                 <div class="text-lg font-bold text-primary dark:text-secondary">
                     {{ data_get($data, 'monthSummary.jumlah_murajaah') }}</div>
-                <div class="text-xs">x Murajaah</div>
+                <div class="text-xs text-gray-500 ">x Murajaah</div>
             </div>
-            <div class="bg-red-50  text-neutral-500 p-4 rounded-lg border border-border">
+            <div class="bg-green-50   p-4 rounded-lg border border-border">
                 <div class="text-lg font-bold text-primary dark:text-secondary">
                     {{ data_get($data, 'monthSummary.jumlah_ayat') }}</div>
-                <div class="text-xs">Ayat Baru</div>
+                <div class="text-xs text-gray-500 ">Ayat Baru</div>
             </div>
-            <div class="bg-red-50  text-neutral-500 p-4 rounded-lg border border-border">
+            <div class="bg-green-50   p-4 rounded-lg border border-border">
                 <div class="text-lg font-bold text-primary dark:text-secondary">
                     <div class="text-sm flex items-start gap-0.5">
                         @for ($i = 1; $i <= 5; $i++)
@@ -132,7 +132,7 @@
                         @endfor
                     </div>
                 </div>
-                <div class="text-xs">Rating Rata Rata</div>
+                <div class="text-xs text-gray-500">Rating Rata Rata</div>
             </div>
         </div>
         <div class="mt-8 h-72">

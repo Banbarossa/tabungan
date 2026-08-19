@@ -142,8 +142,8 @@ class StudentDashboard extends Component
         ];
     }
 
-    public function testNotif(){
-        $user = auth('student')->user();
-        $user->notify(new NewAnnouncementNotification('test','Tems Message','/'));
-    }
+    // public function testNotif(){
+    //     $user = auth('student')->user();
+    //     $user->notify(new NewAnnouncementNotification('test','Tems Message','/'));
+    // }
 }

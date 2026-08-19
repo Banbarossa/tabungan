@@ -14,7 +14,7 @@
         </div>
 
         <div class="text-center pb-5 relative">
-            <p class="text-red-200 text-xs mb-1">Target Saat ini</p>
+            <p class="text-green-50 text-xs mb-1">Target Saat ini</p>
             <div class="flex items-center justify-center gap-3">
                 <p class="font-display font-bold text-4xl text-white tracking-tight">
                     {{ data_get($target, 'juz'), '-' }}
@@ -68,7 +68,7 @@
                     {{ $t['label'] }}
 
                     @if (Request::routeIs($t['routeName']))
-                        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-[#7F1D1D] rounded-full">
+                        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-green-800 rounded-full">
                         </div>
                     @endif
                 </a>

@@ -42,7 +42,7 @@
         {{-- Content Utama: Ayat / Surat --}}
         <div class="p-3 bg-gray-50/80 rounded-xl border border-gray-100/80 flex items-center justify-between gap-3">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-red-50 text-[#7F1D1D] flex items-center justify-center shrink-0">
+                <div class="w-9 h-9 rounded-lg bg-green-50 text-green-700 flex items-center justify-center shrink-0">
                     <x-icon name="book-open" class="w-5 h-5" />
                 </div>
                 <div>

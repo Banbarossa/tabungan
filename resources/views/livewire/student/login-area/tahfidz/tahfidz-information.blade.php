@@ -29,7 +29,7 @@
                     {{ substr(data_get($data, 'musyrif', 'M'), 0, 1) }}
                 </div>
                 <div>
-                    <p class="text-[11px] text-red-200">Musyrif / Pembimbing</p>
+                    <p class="text-[11px] text-green-200">Musyrif / Pembimbing</p>
                     <p class="text-sm font-semibold">{{ data_get($data, 'musyrif', '-') }}</p>
                 </div>
             </div>
@@ -55,7 +55,7 @@
     <div class="space-y-4">
         <div class="flex items-center justify-between px-1">
             <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
-                <x-icon name="calendar" class="w-4 h-4 text-[#7F1D1D]" />
+                <x-icon name="calendar" class="w-4 h-4 text-green-600" />
                 Jadwal Roster Halaqah
             </h3>
             <span class="text-xs text-gray-500 font-medium">

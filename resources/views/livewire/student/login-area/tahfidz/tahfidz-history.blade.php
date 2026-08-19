@@ -2,7 +2,7 @@
     <div class="flex gap-2 ">
         @foreach ($pilihan_periode as $key => $p)
             <button wire:click="changePeriode('{{ $key }}')"
-                class="shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold capitalize transition-base {{ $key === $periode ? 'bg-[#7F1D1D] text-white' : 'bg-white text-gray-500 shadow' }}">
+                class="shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold capitalize transition-base {{ $key === $periode ? 'grad-tahfidz text-white' : 'bg-white text-gray-500 shadow' }}">
                 {{ $p }}
             </button>
         @endforeach
