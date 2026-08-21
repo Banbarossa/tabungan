@@ -3,7 +3,7 @@
 use App\Http\Controllers\PushSubscriptionController;
 use Illuminate\Support\Facades\Route;
 
-Route::domain('irtiqa.pis.sch.id')->group(function () {
+Route::domain('sima.pis.sch.id')->group(function () {
 
     Route::get('/', App\Livewire\Student\Auth\Login::class)->middleware('guest:student')->name('student.login');
     Route::get('/install', App\Livewire\Student\Install::class)->name('install');
