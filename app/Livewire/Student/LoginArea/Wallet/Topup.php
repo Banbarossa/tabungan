@@ -7,8 +7,11 @@ use App\Models\TopupRequest;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use finfo;
+use Flux\Flux;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Jantinnerezo\LivewireAlert\Enums\Position;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -124,8 +127,12 @@ class Topup extends Component
 
         $this->reset(['resi_upload', 'jumlah_topup', 'keterangan_resi', 'tanggal_topup']);
 
-        $this->dispatch('close-modal', name: 'modal-topup');
-        session()->flash('success', 'Pengajuan top up berhasil dikirim dan menunggu verifikasi admin.');
+        Flux::modal('modal-topup')->close();
+        LivewireAlert::title('Berhasil')
+            ->text('Permintaan top up berhasil dikirim. Silakan tunggu konfirmasi dari admin.')
+            ->position(Position::Center)
+            ->success()
+            ->show();
     }
 
     public function rules()

@@ -19,8 +19,8 @@ return [
     */
 
     'manifest' => [
-        'name' => 'PIS CONNECT',
-        'short_name' => 'PIS',
+        'name' => 'IRTIQA',
+        'short_name' => 'IRTIQA',
         'background_color' => '#8a0000',
         'display' => 'standalone',
         'description' => 'Aplikasi Informasi dan Monitoring santri Imam Syafii',

@@ -254,7 +254,7 @@
                                 {{-- @endforeach --}}
                                 <x-table.cell>
                                     <flux:button.group>
-                                        <flux:button size="sm" icon="eye"
+                                        <flux:button size="sm" icon="eye" variant="primary"
                                             href="{{ route('transaction.detail', ['code' => $code, 'transaction' => $t['id']]) }}">
                                         </flux:button>
                                         {{--                                        <flux:button size="sm" icon="trash" variant="danger" wire:click="confirmDelete({{$t['id']}})"></flux:button> --}}

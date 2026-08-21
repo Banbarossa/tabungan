@@ -3,7 +3,9 @@
 namespace App\Livewire\Student\Auth;
 
 use Illuminate\Support\Facades\Auth;
+use Jantinnerezo\LivewireAlert\Enums\Position;
 use Livewire\Attributes\Layout;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -17,6 +19,12 @@ class Login extends Component
     #[Title('Login')]
     public function login()
     {
+        LivewireAlert::title('Warning')
+        ->text('Saat ini belum dibuka akses')
+        ->position(Position::Center)
+        ->warning()
+        ->show();
+        return;
         $this->validate([
             'nisn' => ['required'],
             'password' => ['required'],

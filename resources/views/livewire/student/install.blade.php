@@ -241,6 +241,7 @@
         if (isStandalone) {
             installButton.classList.add('hidden');
             installedMessage.classList.remove('hidden');
+            window.location.href="{{ route('student.dashboard') }}"
             return;
         }
 

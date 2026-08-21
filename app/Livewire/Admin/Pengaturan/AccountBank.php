@@ -28,7 +28,7 @@ class AccountBank extends Component
         $breads = [
             ['url' => url()->current(), 'title' => 'Account Bank'],
         ];
-        return view('livewire.admin.pengaturan.account-bank')->layoutData(['breads' => $breads]);;
+        return view('livewire.admin.pengaturan.account-bank')->layoutData(['breads' => $breads]);
     }
 
     public function dataModel()

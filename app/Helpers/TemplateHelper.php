@@ -25,13 +25,25 @@ if (!function_exists('cekSendMessage')) {
         };
     }
 }
+// if (!function_exists('sanitizeRupiah')) {
+//     function sanitizeRupiah(string|int $value): int
+//     {
+//         if (is_numeric($value)) {
+//             return (int) $value;
+//         }
+//         $cleanNumber = preg_replace('/[^0-9]/', '', $value);
+//         return (int) $cleanNumber;
+//     }
+// }
 if (!function_exists('sanitizeRupiah')) {
-    function sanitizeRupiah(string|int $value): int
+    function sanitizeRupiah(string|int|float $value): int
     {
-        if (is_numeric($value)) {
-            return (int) $value;
+
+        if (is_int($value)) {
+            return $value;
         }
-        $cleanNumber = preg_replace('/[^0-9]/', '', $value);
-        return (int) $cleanNumber;
+
+
+        return (int) round((float) str_replace(',', '', $value));
     }
 }

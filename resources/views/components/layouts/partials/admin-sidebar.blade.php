@@ -28,6 +28,9 @@
             <flux:navlist.item icon="banknotes" :href="route('transaction')"
                 :current="request()->routeIs('transaction')" wire:navigate>Transaction
             </flux:navlist.item>
+            <flux:navlist.item icon="cloud-arrow-up" :href="route('riwayat-topup-jajan')"
+                :current="request()->routeIs('riwayat-topup-jajan')" wire:navigate>Topup Jajan
+            </flux:navlist.item>
             <flux:navlist.item icon="arrow-path" :href="route('daily-history')"
                 :current="request()->routeIs('daily-history')" wire:navigate>Daily History
             </flux:navlist.item>

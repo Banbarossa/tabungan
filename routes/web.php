@@ -11,6 +11,8 @@ Route::domain('tabsis.pis.sch.id')->group(function () {
 
     Route::group(['middleware' => ['auth:web', 'can:admin']], function () {
         Route::get('dashboard', \App\Livewire\Admin\Dashboard\MasterDasboard::class)->name('dashboard');
+        Route::get('topup-jajan/{status?}', \App\Livewire\Admin\TopupJajan\ListTopupRequest::class)->name('riwayat-topup-jajan');
+        Route::get('verification/topup-jajan/{encripted_id}', \App\Livewire\Admin\TopupJajan\VerificaionPage::class)->name('verification-topup-jajan');
     });
 
     Route::group(['middleware' => ['auth:web', 'can:cashier'], 'as' => 'cashier.'], function () {
