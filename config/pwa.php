@@ -19,11 +19,11 @@ return [
     */
 
     'manifest' => [
-        'name' => 'IRTIQA',
-        'short_name' => 'IRTIQA',
+        'name' => 'SIMAPIS',
+        'short_name' => 'SIMAPIS',
         'background_color' => '#8a0000',
         'display' => 'standalone',
-        'description' => 'Aplikasi Informasi dan Monitoring santri Imam Syafii',
+        'description' => 'Aplikasi Informasi dan Monitoring anka santri Imam Syafii',
         'theme_color' => '#8a0000',
         'start_url'=>'/student/dashboard',
         'scope'=>'/',
