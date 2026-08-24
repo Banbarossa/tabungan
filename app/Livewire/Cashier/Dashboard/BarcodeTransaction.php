@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Savinglimit;
 use App\Models\Transaction;
+use App\Notifications\NewAnnouncementNotification;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use App\Services\TransactionService;
@@ -105,6 +106,7 @@ class BarcodeTransaction extends Component
         $date = Carbon::now()->toDateString();
         $description = $this->description;
         $service->transaction($amount, '-', 'tarik', $date, $description);
+        $this->student->notify(new NewAnnouncementNotification('Penarikan Jajan', $this->student->nama .' Baru melakukan penarikan jajan'));
         $this->student = null;
         $this->search = '';
 

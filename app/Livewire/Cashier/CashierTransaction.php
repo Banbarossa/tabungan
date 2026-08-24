@@ -7,6 +7,7 @@ use App\Models\Savinglimit;
 use App\Models\Student;
 use App\Models\Transaction;
 use App\Models\UserOverrideLimit;
+use App\Notifications\NewAnnouncementNotification;
 use App\Services\TransactionService;
 use Carbon\Carbon;
 use Jantinnerezo\LivewireAlert\Enums\Position;
@@ -121,6 +122,8 @@ class CashierTransaction extends Component
             date: $date,
             description: $description
         );
+
+        $this->student->notify(new NewAnnouncementNotification('Penarikan Jajan',$this->student->name.' baru melakukan penarikan jajan'));
 
         $this->dispatch('transaction_updated');
     }

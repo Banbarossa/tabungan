@@ -7,6 +7,7 @@ use App\Models\JenisTransaksi;
 use App\Models\Student;
 use App\Models\TopupRequest;
 use App\Models\Transaction;
+use App\Notifications\NewAnnouncementNotification;
 use App\Services\TransactionService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -65,8 +66,15 @@ class VerificaionPage extends Component
             'verification_at' => now(),
             'verification_by' => auth()->id(),
         ]);
+        $student= Student::find($this->topupRequest->student_id);
+        $student->notify(new NewAnnouncementNotification('Ditolak','verifikasi reis Topup tidak diterima admin'));
 
-        session()->flash('message', 'Permintaan topup telah ditolak.');
+
+        LivewireAlert::title('Berhasil')
+            ->text('Data berhasil ditolak')
+            ->position(Position::Center)
+            ->success()
+            ->show();
     }
 
 
@@ -117,6 +125,7 @@ class VerificaionPage extends Component
             ]);
 
             DB::commit();
+            $student->notify(new NewAnnouncementNotification('Berhasil','Verifikasi resi topup jajan diterima admin'));
             session()->flash('success', 'Permintaan topup berhasil disetujui dan saldo telah ditambahkan.');
             $this->redirect(route('riwayat-topup-jajan'), true);
         } catch (\Exception $e) {

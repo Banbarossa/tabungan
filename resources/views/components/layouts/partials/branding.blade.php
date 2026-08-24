@@ -11,13 +11,13 @@
 
     <div class="relative flex flex-col items-center justify-center flex-1 px-12 xl:px-16 text-white">
         <x-layouts.partials.logo class="w-16 mb-8 drop-shadow-xl"/>
-        <h1 class="text-center mb-2 leading-tight"
+        <h1 class="text-center mb-2 leading-tight tracking-widest"
             style="font-family: var(--font-display); font-size: clamp(1.5rem,2vw,2rem); font-weight:700;">
-            Pesantren Imam Syafi'i
+            SIMAPIS
         </h1>
         <p class="text-center text-sm font-light tracking-widest uppercase opacity-80 mb-10"
             style="color:#fde68a; letter-spacing:0.12em;">
-            Sistem Informasi dan Monitoring
+            Sistem Informasi dan Monitoring <br> Aktivitas Pesantren Imam Syafi'i
         </p>
 
         <div class="flex items-center gap-3 w-full max-w-xs mb-10">

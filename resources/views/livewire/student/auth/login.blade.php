@@ -10,13 +10,13 @@
         {{-- Form login (disembunyikan Alpine kalau sukses) --}}
         <div>
             <div class="flex flex-col items-center mb-8 lg:hidden">
-                <x-layouts.partials.logo class="mb-4 w-10" />
-                <h1 class="text-center leading-snug mb-1"
+                <x-layouts.partials.logo class="mb-4 !w-8" />
+                <h1 class="text-center leading-snug mb-1 tracking-widest"
                     style="font-family: var(--font-display); font-size:1.35rem; font-weight:700; color:#7f1d1d;">
-                    Pesantren Imam Syafi'i
+                    SIMAPIS
                 </h1>
                 <p class="text-center text-xs font-light tracking-wider opacity-60" style="color:#7f1d1d;">
-                    Sistem Informasi Akademik
+                    Sistem Informasi dan Monitoring
                 </p>
             </div>
 

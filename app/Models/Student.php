@@ -9,12 +9,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class Student extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\StudentFactory> */
-    use HasFactory,Notifiable, HasPushSubscriptions;
+    use HasFactory,Notifiable, HasPushSubscriptions, HasApiTokens;
 
     protected $guarded=[];
 

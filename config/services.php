@@ -34,5 +34,8 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'mobile_app'=>[
+        'api_key'=>env('MOBILE_APP_API_KEY'),
+    ]
 
 ];
