@@ -19,12 +19,6 @@ class Login extends Component
     #[Title('Login')]
     public function login()
     {
-        LivewireAlert::title('Warning')
-        ->text('Saat ini belum dibuka akses')
-        ->position(Position::Center)
-        ->warning()
-        ->show();
-        return;
         $this->validate([
             'nisn' => ['required'],
             'password' => ['required'],
