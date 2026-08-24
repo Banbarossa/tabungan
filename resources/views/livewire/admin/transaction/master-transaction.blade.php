@@ -89,7 +89,7 @@
                         </x-table.row>
                     @empty
                         <x-table.row>
-                            <x-table.cell colspan="{{ count($headings) + 2 }}">
+                            <x-table.cell colspan="5">
                                 <div class="flex items-center gap-2">
                                     <flux:icon.information-circle></flux:icon.information-circle>
                                     <span>
