@@ -6,7 +6,7 @@
             <div class="relative">
                 <div class="flex justify-between items-start mb-4">
                     <div>
-                        <p class="text-red-200 text-[10px] uppercase tracking-widest">Pesantren Al-Ikhlas</p>
+                        <p class="text-red-200 text-[10px] uppercase tracking-widest">Pesantren Imam Syafi'i</p>
                         <p class="text-white/60 text-[10px] mt-0.5">Akun Uang Saku Digital</p>
                     </div>
                     <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
