@@ -6,6 +6,8 @@
         <!-- ================= KOLOM KIRI (LEBIH BESAR - IDENTITAS SANTRI) ================= -->
         <div
             class="lg:col-span-2 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6">
+
+
             <form wire:submit="save" class="space-y-6">
 
                 <!-- Section Header Utama -->
@@ -21,6 +23,37 @@
                 </div>
 
                 <flux:separator />
+                <div class="flex justify-center">
+                    <label class="cursor-pointer">
+                        <!-- Input file disembunyikan -->
+                        <input type="file" wire:model="photo" class="hidden" />
+
+                        <!-- Custom avatar uploader -->
+                        <div
+                            class="
+            relative flex items-center justify-center size-20 rounded-full transition-colors
+            border border-zinc-200 dark:border-white/10 hover:border-zinc-300 dark:hover:border-white/10
+            bg-zinc-100 hover:bg-zinc-200 dark:bg-white/10 hover:dark:bg-white/15 in-data-dragging:dark:bg-white/15
+            ">
+                            <!-- Show the uploaded file if it exists -->
+                            @if ($photo)
+                                <img src="{{ $photo?->temporaryUrl() }}" class="size-full object-cover rounded-full" />
+                            @elseif ($existingPhoto)
+                                <img src="{{ $existingPhoto }}" class="size-full object-cover rounded-full" />
+                            @else
+                                <!-- Show the default icon if no file is uploaded -->
+                                <flux:icon name="user" variant="solid" class="text-zinc-500 dark:text-zinc-400" />
+                            @endif
+                            <!-- Corner upload icon -->
+                            <div class="absolute bottom-0 right-0 bg-white dark:bg-zinc-800 rounded-full">
+                                <flux:icon name="arrow-up-circle" variant="solid"
+                                    class="text-zinc-500 dark:text-zinc-400" />
+                            </div>
+                        </div>
+                    </label>
+                    <flux:error name="photo" />
+                </div>
+
 
                 <!-- 1. Data Diri Santri -->
                 <div class="space-y-4">

@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use finfo;
 use Flux\Flux;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Jantinnerezo\LivewireAlert\Enums\Position;
@@ -17,6 +18,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Spatie\Image\Enums\AlignPosition;
+use Spatie\Image\Image;
 
 class Topup extends Component
 {
@@ -73,13 +76,13 @@ class Topup extends Component
         return TopupRequest::where('student_id', auth('student')->user()->id)
             ->where('type', 'wallet')
             ->where('status', 'pending')
-            ->paginate(10)->through(function($item){
+            ->paginate(10)->through(function ($item) {
                 return (object) [
-                    'jumlah'=>format_rupiah($item->jumlah),
-                    'tanggal'=>Carbon::parse($item->tanggal_topup)->locale('id')->translatedFormat('d M Y'),
-                    'file_path'=>$item->file_path,
-                    'keterangan'=>$item->keterangan,
-                    'status'=>$item->status,
+                    'jumlah' => format_rupiah($item->jumlah),
+                    'tanggal' => Carbon::parse($item->tanggal_topup)->locale('id')->translatedFormat('d M Y'),
+                    'file_path' => $item->file_path,
+                    'keterangan' => $item->keterangan,
+                    'status' => $item->status,
                 ];
             });
     }
@@ -97,20 +100,44 @@ class Topup extends Component
 
         $file = $this->resi_upload;
         $folder = 'resi-jajan';
-        $source_image = @imagecreatefromstring(file_get_contents($file->getRealPath()));
-
-        if ($source_image !== false) {
-            $filePath = $folder . '/' . $file->hashName();
-
-            ob_start();
-            imagejpeg($source_image, null, 85);
-            $cleanImageData = ob_get_clean();
-            imagedestroy($source_image);
-
-            Storage::disk('public')->put($filePath, $cleanImageData);
-        } else {
-            $filePath = $file->store($folder, 'public');
+        $filename = $file->hashName();
+        $relativePath = $folder . '/' . $filename;
+        $absolutePath = Storage::disk('public')->path($relativePath);
+        try {
+            Image::Load($file->getRealPath())
+                ->optimize()
+                ->watermark(
+                    public_path('logo.png'),
+                    AlignPosition::BottomRight,
+                    paddingX:10,
+                    height:100,
+                    width:100,
+                    alpha:60,
+                    paddingY:10,
+                )
+                ->quality(85)
+                ->save($absolutePath);
+            $filePath = $relativePath;
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            $this->addError('resi_upload', 'File gambar rusak atau format tidak didukung. Silakan gunakan gambar lain.');
+            return;
         }
+        //
+        // $source_image = @imagecreatefromstring(file_get_contents($file->getRealPath()));
+
+        // if ($source_image !== false) {
+        //     $filePath = $folder . '/' . $file->hashName();
+
+        //     ob_start();
+        //     imagejpeg($source_image, null, 85);
+        //     $cleanImageData = ob_get_clean();
+        //     imagedestroy($source_image);
+
+        //     Storage::disk('public')->put($filePath, $cleanImageData);
+        // } else {
+        //     $filePath = $file->store($folder, 'public');
+        // }
 
         $referenceNumber = 'wlt-' . now()->format('Ymd') . '-' . strtoupper(Str::random(5));
 

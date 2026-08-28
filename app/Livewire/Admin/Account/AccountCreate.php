@@ -4,13 +4,19 @@ namespace App\Livewire\Admin\Account;
 
 use App\Models\Student;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Spatie\Image\Image;
 use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Validation\Rules\File;
+use Livewire\WithFileUploads;
 
 class AccountCreate extends Component
 {
+    use WithFileUploads;
     #[Layout('components.layouts.app')]
     #[Title('Account')]
 
@@ -33,6 +39,9 @@ class AccountCreate extends Component
     public $input_limit;
     public $new_password;
     public $confirmation_password;
+    public $existingPhoto;
+    public $photo;
+
 
 
     public function mount($code = null)
@@ -57,6 +66,7 @@ class AccountCreate extends Component
             $this->daily_limit = $student->daily_limit;
             $this->status = $student->status;
             $this->input_limit = $student->daily_limit;
+            $this->existingPhoto=$student->avatar;
         }
     }
 
@@ -87,6 +97,12 @@ class AccountCreate extends Component
             'notification_account' => 'nullable',
             'daily_limit' => 'nullable',
             'status' => 'nullable',
+            'photo' => [
+                'nullable',
+                File::image()
+                    ->types(['jpg', 'jpeg', 'png', 'webp'])
+                    ->max(5 * 1024), // Maksimal 5MB
+            ],
         ];
     }
 
@@ -94,8 +110,30 @@ class AccountCreate extends Component
     {
         $validated = $this->validate();
 
+        if ($this->photo) {
+            $file = $this->photo;
+            $folder = 'photos';
+            $filename = $file->hashName();
+            $relativePath = $folder . '/' . $filename;
+            $absolutePath = Storage::disk('public')->path($relativePath);
+            try {
+                Image::Load($file->getRealPath())
+                    ->optimize()
+                    ->quality(85)
+                    ->save($absolutePath);
+                $filePath = $relativePath;
+                $validated['photo']=$filePath;
+            } catch (\Throwable $th) {
+                Log::error($th->getMessage());
+                $this->addError('photo', 'File gambar rusak atau format tidak didukung. Silakan gunakan gambar lain.');
+                return;
+            }
+        }
+
+
         if ($this->student) {
-            Student::find($this->student->id)->update($validated);
+            Student::find($this->student->id)
+                ->update($validated);
         } else {
             $validated['status'] = true;
             Student::create($validated);

@@ -23,6 +23,7 @@
         "milon/barcode": "^12.0",
         "riskihajar/terbilang": "^2.1",
         "simplesoftwareio/simple-qrcode": "^4.2",
+        "spatie/image": "^3.9",
         "spatie/laravel-backup": "^9.3",
         "vinkla/hashids": "^13.0"
     },
