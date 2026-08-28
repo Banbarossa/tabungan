@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Facades\Excel;
 
-// Route::domain('tabsis.pis.sch.id')->group(function () {
+Route::domain('tabsis.pis.sch.id')->group(function () {
 
     Route::middleware('guest')->group(function () {
 
@@ -42,6 +42,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
     Route::post('logout', App\Livewire\Actions\Logout::class)
         ->name('logout');
-// });
+});
 
 
