@@ -69,6 +69,18 @@ class CashierTransaction extends Component
     public function getData($value)
     {
         $student = Student::where('nisn', $value)->first();
+
+        if ($student && !$student->can_transaction) {
+            LivewireAlert::title('Gagal!')
+                ->text('Akun siswa ini dibekukan admin. Silakan hubungi admin.')
+                ->position(Position::Center)
+                ->timer(3000)
+                ->error()
+                ->show();
+
+            $this->student = null;
+            return;
+        }
         $this->student = $student;
         if ($this->limitBy === 'student') {
             $this->limitToday = $student?->daily_limit;
@@ -123,7 +135,7 @@ class CashierTransaction extends Component
             description: $description
         );
 
-        $this->student->notify(new NewAnnouncementNotification('Penarikan Jajan',$this->student->name.' baru melakukan penarikan jajan'));
+        $this->student->notify(new NewAnnouncementNotification('Penarikan Jajan', $this->student->name . ' baru melakukan penarikan jajan'));
 
         $this->dispatch('transaction_updated');
     }

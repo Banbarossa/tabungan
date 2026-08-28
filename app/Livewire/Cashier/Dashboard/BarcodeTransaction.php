@@ -3,16 +3,18 @@
 namespace App\Livewire\Cashier\Dashboard;
 
 use App\Models\MetaSetting;
-use App\Models\Student;
-use App\Models\UserOverrideLimit;
-use Carbon\Carbon;
-use Livewire\Component;
 use App\Models\Savinglimit;
+use App\Models\Student;
 use App\Models\Transaction;
+use App\Models\UserOverrideLimit;
 use App\Notifications\NewAnnouncementNotification;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Layout;
 use App\Services\TransactionService;
+use Carbon\Carbon;
+use Jantinnerezo\LivewireAlert\Enums\Position;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
 class BarcodeTransaction extends Component
 {
@@ -70,6 +72,17 @@ class BarcodeTransaction extends Component
     {
 
         $student = Student::where('nisn', $this->search)->first();
+        if($student && !$student->can_transaction){
+            LivewireAlert::title('Gagal!')
+            ->text('Akun siswa ini di bekukan admin. silahkan hubungi admin')
+            ->position(Position::Center)
+            ->timer(3000)
+            ->error()
+            ->show();
+            $this->student =null;
+            return;
+        }
+
         $this->student = $student;
         if($this->limitBy ==='student'){
             $this->limitToday = $student?->daily_limit;

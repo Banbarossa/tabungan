@@ -21,6 +21,9 @@
                     <x-table.column>
                         Nama
                     </x-table.column>
+                    <x-table.column>
+                        Keaktifan akun
+                    </x-table.column>
 
                     <x-table.column>
                         Saldo
@@ -37,7 +40,7 @@
                             <x-table.cell>
                                 <a href="{{ route('account.photo', ['student' => $student->id]) }}">
                                     <div>
-                                        <img src=" {{ $student->photo}}" alt="{{ $student->name }}"
+                                        <img src=" {{ $student->photo }}" alt="{{ $student->name }}"
                                             class="w-10 h-10 object-cover">
                                     </div>
                                 </a>
@@ -48,6 +51,50 @@
                                 </div>
                                 <div class="text-xs tex-gray-500">{{ $student->nisn }}</div>
 
+                            </x-table.cell>
+                            <x-table.cell>
+                                <div class="flex items-center  gap-3">
+                                    <!-- Badge Status -->
+                                    @if ($student->status)
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                                            <span class="w-1.5 h-1.5 mr-1.5 bg-emerald-500 rounded-full"></span>
+                                            Aktif
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                                            <span
+                                                class="w-1.5 h-1.5 mr-1.5 bg-red-500 rounded-full animate-pulse"></span>
+                                            Dibekukan
+                                        </span>
+                                    @endif
+
+                                    <!-- Action Button dengan Loading State & Konfirmasi -->
+                                    <button type="button" wire:click="toggleFreeze({{ $student->id }})"
+                                        wire:confirm="Apakah Anda yakin ingin {{ $student->status ? 'membuka pembekuan' : 'membekukan' }} akun transaksi siswa ini?"
+                                        wire:loading.attr="disabled"
+                                        class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded border transition-colors duration-150 {{ $student->status ?  'border-red-500 text-red-600 hover:bg-red-50 ' : 'border-emerald-500 text-emerald-600 hover:bg-emerald-50' }}">
+
+                                        <!-- Indikator Loading khusus baris ini -->
+                                        <svg wire:loading wire:target="toggleFreeze({{ $student->id }})"
+                                            class="animate-spin -ml-1 mr-1 h-3 w-3 text-current"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                            </path>
+                                        </svg>
+
+                                        <span wire:loading.remove wire:target="toggleFreeze({{ $student->id }})">
+                                            {{ $student->status ? 'Bekukan' : 'Buka Pembekuan' }}
+                                        </span>
+                                        <span wire:loading wire:target="toggleFreeze({{ $student->id }})">
+                                            Memproses...
+                                        </span>
+                                    </button>
+                                </div>
                             </x-table.cell>
                             <x-table.cell>
                                 <div class="flex flex-col">
@@ -83,7 +130,9 @@
                             </x-table.cell>
                             <x-table.cell class="text-end">
                                 <div>
-                                    <flux:button  icon:trailing="chevron-right" href="{{ route('transaction.setor',vinclaEncode($student->id)) }}" variant="primary"></flux:button>
+                                    <flux:button icon:trailing="chevron-right"
+                                        href="{{ route('transaction.setor', vinclaEncode($student->id)) }}"
+                                        variant="primary"></flux:button>
                                 </div>
                             </x-table.cell>
                         </x-table.row>

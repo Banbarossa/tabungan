@@ -12,10 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->string('nama_ayah')->nullable()->after('nis');
-            $table->string("no_hp_ayah")->nullable()->after('nama_ayah');
-            $table->string("no_hp_ibu")->nullable()->after('nama_ibu');
-
+            $table->boolean('can_transaction')->default(true);
+            $table->text('alasan_bekukan_akun')->nullable();
         });
     }
 
@@ -25,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->dropColumn(['nama_ayah','no_hp_ayah','no_hp_ibu']);
+            $table->dropColumn(['can_transaction','alasan_bekukan_akun']);
         });
     }
 };
