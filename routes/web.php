@@ -9,8 +9,12 @@ use Livewire\Volt\Volt;
 
 Route::domain('tabsis.pis.sch.id')->group(function () {
 
+    Route::group(['middleware' => ['auth:web']], function () {
+
+        Route::get('dashboard', \App\Livewire\Layouts\AppDashboard::class)->name('dashboard');
+    });
+
     Route::group(['middleware' => ['auth:web', 'can:admin']], function () {
-        Route::get('dashboard', \App\Livewire\Admin\Dashboard\MasterDasboard::class)->name('dashboard');
         Route::get('topup-jajan/{status?}', \App\Livewire\Admin\TopupJajan\ListTopupRequest::class)->name('riwayat-topup-jajan');
         Route::get('verification/topup-jajan/{encripted_id}', \App\Livewire\Admin\TopupJajan\VerificaionPage::class)->name('verification-topup-jajan');
     });
@@ -19,6 +23,12 @@ Route::domain('tabsis.pis.sch.id')->group(function () {
         Route::get('home', \App\Livewire\Cashier\CashierDashboard::class)->name('home');
         Route::get('cashier-transaction', \App\Livewire\Cashier\CashierTransaction::class)->name('transaction');
         Route::get('foto/{student}', \App\Livewire\Cashier\FotoSiswa::class)->name('foto');
+        Route::get('mobile-scan', \App\Livewire\Cashier\QrCodeScanner::class)->name('mobile-scan');
+        Route::get('tarik-tunai/{token}', \App\Livewire\Cashier\WithdrawalPage::class)->name('tarik-tunai');
+        Route::get('riwayat', \App\Livewire\Cashier\RiwayatTransaksi::class)->name('riwayat');
+        Route::get('batal-transaksi', \App\Livewire\Cashier\CancelledTransaksi::class)->name('batal-transaksi');
+        Route::get('cek-saldo', \App\Livewire\Cashier\CekSaldo::class)->name('cek-saldo');
+        Route::get('laporan', \App\Livewire\Cashier\LaporanPage::class)->name('laporan');
     });
 
 

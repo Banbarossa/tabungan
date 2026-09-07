@@ -62,15 +62,15 @@ new #[Layout('components.layouts.auth')] class extends Component {
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        if($user->role == 'admin'){
+        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        // if($user->role == 'admin'){
 
-            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
 
-        }elseif($user->role == 'cashier'){
+        // }elseif($user->role == 'cashier'){
 
-            $this->redirectIntended(default: route('cashier.home', absolute: false), navigate: true);
+        //     $this->redirectIntended(default: route('cashier.home', absolute: false), navigate: true);
 
-        }
+        // }
 
     }
 

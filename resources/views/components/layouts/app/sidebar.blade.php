@@ -19,6 +19,7 @@
 </head>
 
 <body class="min-h-screen bg-slate-100 dark:bg-zinc-800">
+
     <div>
         <x-layouts.partials.admin-sidebar />
     </div>

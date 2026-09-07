@@ -29,12 +29,13 @@ return Application::configure(basePath: dirname(__DIR__))
 
             if (Auth::guard('web')->check()) {
                 $user = Auth::guard('web')->user();
+                return route('dashboard');
 
-                return match ($user->role) {
-                    'admin'   => route('dashboard'),
-                    'cashier' => route('home'),
-                    default   => route('dashboard'),
-                };
+                // return match ($user->role) {
+                //     'admin'   => route('dashboard'),
+                //     'cashier' => route('home'),
+                //     default   => route('dashboard'),
+                // };
             }
 
             return route('home');

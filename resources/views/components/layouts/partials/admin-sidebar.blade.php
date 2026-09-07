@@ -1,9 +1,11 @@
-<flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 ">
+<flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 h-screen overflow-y-scroll">
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
     <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
         <x-app-logo />
     </a>
+
+    @can('admin')
 
     <flux:navlist variant="outline" class="mt-4">
         <flux:navlist.group class="grid">
@@ -95,6 +97,7 @@
                 </flux:navlist.item>
             </flux:navlist.group>
     </flux:navlist>
+    @endcan
 
     <!-- Desktop User Menu -->
 </flux:sidebar>

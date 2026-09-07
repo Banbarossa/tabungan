@@ -44,9 +44,9 @@ class TransactionService
         }
         $invoice_number = Carbon::now()->format('Ymd') . '-' . $jumlah + 1;
 
-        DB::transaction(function () use ($amount, $latest_saldo, $operator, $type, $date, $description, $invoice_number, $jenis_transaksi_id) {
+        return DB::transaction(function () use ($amount, $latest_saldo, $operator, $type, $date, $description, $invoice_number, $jenis_transaksi_id) {
 
-            Transaction::create([
+            $transaction = Transaction::create([
                 'invoice_number' => $invoice_number,
                 'student_id' => $this->student->id,
                 'amount' => $amount,
@@ -70,6 +70,7 @@ class TransactionService
                 }
 
             });
+            return $transaction;
 
         });
 
