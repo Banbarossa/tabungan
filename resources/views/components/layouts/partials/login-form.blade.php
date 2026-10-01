@@ -30,7 +30,7 @@
             <p class="text-xs leading-relaxed" style="color:#78350f;">
                 Silakan hubungi admin pesantren untuk mendapatkan bantuan reset password.
             </p>
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/08216765502" target="_blank" rel="noopener noreferrer"
                 class="inline-flex items-center gap-1.5 mt-3 px-4 py-2 rounded-xl text-xs font-semibold transition-smooth focus-ring"
                 style="background:#25D366; color:#fff; box-shadow: 0 2px 8px rgba(37,211,102,0.3); text-decoration:none;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
