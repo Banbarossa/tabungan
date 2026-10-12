@@ -36,7 +36,7 @@
                 </div>
 
                 <!-- Fallback / Input Manual NISN -->
-                <form action="" wire:submit.prevent="nisnManual" autocomplete="off">
+                {{-- <form action="" wire:submit.prevent="nisnManual" autocomplete="off">
                     <div class="pt-3 border-t border-slate-100 space-y-3">
                         <flux:label for="nisn">Scan barcode/Input NISN</flux:label>
                         <div class="flex gap-2">
@@ -47,7 +47,7 @@
                             </flux:button>
                         </div>
                     </div>
-                </form>
+                </form> --}}
             </div>
         </div>
 
