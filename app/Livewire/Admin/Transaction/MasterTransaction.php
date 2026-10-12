@@ -36,7 +36,7 @@ class MasterTransaction extends Component
     {
         $students = Student::orderBy('name')
             ->when($this->search, function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%');
+                $query->whereAny(['name','nisn'], 'like', '%' . $this->search . '%');
             })
             ->paginate(100)->through(function ($item) {
                 return (object) [
