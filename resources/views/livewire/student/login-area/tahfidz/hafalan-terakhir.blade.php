@@ -12,6 +12,18 @@
         $typeDotBg = $isZiyadah ? 'bg-emerald-500' : 'bg-blue-500';
     @endphp
 
+    @if ($isEmpty)
+        <div
+            class="bg-white rounded-2xl p-6 border border-dashed border-gray-200 shadow-sm max-w-2xl mx-auto text-center">
+            <div class="w-11 h-11 mx-auto rounded-full bg-gray-50 text-gray-400 flex items-center justify-center">
+                <x-icon name="book-open" class="w-5 h-5" />
+            </div>
+            <p class="mt-3 text-sm font-semibold text-gray-700">Belum Ada Setoran Hafalan</p>
+            <p class="text-xs text-gray-400 mt-1">
+                Ananda belum memiliki catatan setoran hafalan terakhir. Yuk mulai setorkan hafalanmu kepada musyrif.
+            </p>
+        </div>
+    @else
     <div
         class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3.5 max-w-2xl mx-auto">
 
@@ -83,4 +95,5 @@
         @endif
 
     </div>
+    @endif
 </div>

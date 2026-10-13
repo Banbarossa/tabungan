@@ -36,11 +36,11 @@ class TahfidzHeader extends Component
 
         $serv = $service->getData(endpoint: $endpoint, filter: $filter);
         if (!$serv['success']) {
-            LivewireAlert::title('error')
-                ->text($serv['message'])
-                ->error()
-                ->position(Position::Center)
-                ->show();
+            // LivewireAlert::title('error')
+            //     ->text($serv['message'])
+            //     ->error()
+            //     ->position(Position::Center)
+            //     ->show();
             return;
         }
 
@@ -56,11 +56,11 @@ class TahfidzHeader extends Component
 
         $serv = $service->getData(endpoint: $endpoint, filter: $filter);
         if (!$serv['success']) {
-            LivewireAlert::title('error')
-                ->text($serv['message'])
-                ->error()
-                ->position(Position::Center)
-                ->show();
+            // LivewireAlert::title('error')
+            //     ->text($serv['message'])
+            //     ->error()
+            //     ->position(Position::Center)
+            //     ->show();
             return;
         }
 
